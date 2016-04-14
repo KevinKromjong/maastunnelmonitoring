@@ -1,0 +1,183 @@
+/******************
+ *    Algemeen    *
+******************/
+
+html, body {margin: 0; padding: 0; font-family: 'Raleway', sans-serif; }
+body a:hover { text-decoration: none;}
+body .container { padding-bottom: 50px; }
+
+*[class^='col-'] { padding-left: 0; padding-right: 0;}
+
+/*.container { padding-bottom: 100px;}*/
+
+#main-container { height: 100%; position: relative}
+
+/*****************
+ *    Helpers    *
+*****************/
+/*.red { color: #CC0000}*/
+.red { color: darkgrey;}
+.green { color: green}
+
+/*************
+ *  Includes *
+ *************/
+.fan-count { border: 20px solid grey; }
+.fan-order { width: 15px; height: 15px; background: white; float: left; margin-right: 10px; margin-top: -5px; }
+.colored { background: #444;}
+
+
+/*********************
+ *  Header en Footer *
+ *********************/
+
+header { width: 100%; height: 75px; background: #f8f8f8; margin-bottom: 50px; border-bottom: 5px solid #18933C;}
+header .back-button { float: left; width: 30px; padding-top: 25px; }
+header .back-button img { height: 18px; }
+header #logo { margin-left: 60px; }
+header #logo h1 { font-variant: small-caps; color: #777; font-size: 25px;}
+
+footer { width: 100%; height: 50px; background: #f8f8f8; position: fixed; bottom: 0; margin-top: 50px; border-top: 5px solid #18933C }
+footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 10px;}
+
+
+
+/*******************
+ *    Homepage     *
+ *******************/
+.dataset-block { width: 360px; height: 180px; background: lightgrey; margin: 20px 20px 20px 20px; transition: background 0.5s ease; overflow: hidden}
+.dataset-block a { text-decoration: none; color: black}
+.dataset-block-image { margin: 60px 0 0 -60px;}
+.dataset-block-image img { width: 175px; height: 175px; opacity: 0.3; transition: height 0.5s ease, width 0.5s ease;}
+.dataset-block-name { padding-top: 55px;}
+.dataset-block-name h3 { margin-left: 40px; transition: font-size 0.5s ease;}
+
+.dataset-block:hover { cursor: pointer; background: #e2e2e2 }
+.dataset-block:hover .dataset-block-image img { width: 180px; height: 180px; }
+.dataset-block:hover h3 { font-size: 26px; }
+
+
+/*12:47*/
+/*Detailpagina cluster maken: 13:50 begonnen*/
+
+/************************************
+ *    Ventilator - Tunnelbuizen     *
+ ************************************/
+.tunnel_tubes h1{ text-align: center; padding-bottom: 20px;}
+
+.tunnel_tube { height: 700px; width: 50%; background: lightgray; margin: 0 auto; border-top: 100px solid darkgrey; border-bottom: 100px solid darkgrey;}
+.tunnel_tube a { text-decoration: none; color: black}
+
+.tunnel_tube h3 { font-size: 24px;}
+.tunnel_tube a:first-child h3 { margin-top: -60px; text-align: center;}
+.tunnel_tube a:last-child h3  { margin-top: 570px; text-align: center;}
+
+.tunnel_tube p { font-size: 16px; text-align: center; line-height: 0;}
+
+
+/************************************
+ *    Ventilator - Detailpagina     *
+ ************************************/
+#segment h1, #segment h3 {  text-align: center}
+#segment h1 { font-size: 50px;}
+
+/*background: #cecece;*/
+
+.fan-information-basic { height: 360px; margin: 50px 50px 0 50px; background: linear-gradient(to bottom ,#f7f7f7, #dfdfdf); }
+.fan-information-basic:hover { cursor: pointer;}
+.fan-information-basic h2 { text-align: center; font-size: 20px;  padding-top: 20px; font-variant: small-caps;}
+
+.fan h1, .fan p { text-align: center;}
+.fan h1 { padding-top: 20px;}
+
+.fan p { font-size: 20px}
+.fan h1.fan-name { font-variant: small-caps;}
+.fan p.fan-status { padding-top: 12px; font-size: 36px; line-height: 0; margin-bottom: 30px;}
+.fan p.fan-time-on { font-family: Hind, sans-serif; padding-top: 15px; font-size: 30px; line-height: 0;}
+
+.fan-information-technical { background: #f7f7f7; height: 120px; padding: 20px; margin: 0 50px; display: none;}
+.fan-power-usage p:first-child, .fan-life-expectancy p:first-child{ font-size: 15px;}
+.fan-power-usage p:last-child, .fan-life-expectancy p:last-child { font-size: 21px;}
+
+.fan-blowing-direction { text-align: center;}
+.fan-blowing-direction i { font-size: 25px;}
+
+#fan-graph-container { top: 100px; position:relative; clear:both; }
+#fan-graph {height: 500px; clear:both; margin-bottom: 100px;}
+
+#fan-graph-legend { clear: both; padding: 20px; background: #f7f7f7;}
+
+#fan-graph-legend .legendColorBox > div { border: none !important;}
+#fan-graph-legend .legendColorBox > div div { border-width: 8px !important;}
+#fan-graph-legend .legendLabel { text-decoration: none; padding: 0 20px 0 5px;}
+#fan-graph-legend .legendLabel:nth-child(1) { padding-left: 20px;}
+#fan-graph-legend .legendLabel a { color: black;}
+#fan-graph-legend .legendLabel:hover a { color: darkgrey;}
+/*.checkbox-legend { width: 20px; position: absolute; z-index: 1;}*/
+
+
+
+/************************************
+ *    Media queries - Detailpagina     *
+ ************************************/
+
+/*iPad*/
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)  {
+
+    header .back-button { padding-top: 5px; padding-left: 20px;}
+
+}
+
+/*iPhone */
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 640px)
+and (-webkit-min-device-pixel-ratio: 2) {
+
+    header .back-button { padding-top: 5px; padding-left: 20px;}
+
+    .dataset-block { width: 320px;}
+
+    .tunnel_tubes .tunnel_tube { height: 400px;}
+    .tunnel_tube a:last-child h3 { margin-top: 275px;}
+
+    .fan-information-technical { height: 100px;}
+
+    .fan-power-usage p:first-child, .fan-life-expectancy p:first-child{ font-size: 11px;}
+    .fan-power-usage p:last-child, .fan-life-expectancy p:last-child { font-size: 16px;}
+
+    #fan-graph { height: 200px;}
+
+    #footer p { margin-left: 20px;}
+
+}
+
+
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 640px)
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: landscape) {
+
+    header .back-button { padding-top: 5px; padding-left: 20px;}
+
+    .col-xs-12 { width: 50%; }
+    .col-xs-6 { width: 100%; }
+
+    .fan-information-basic .col-xs-12 { width: 100%; }
+    .fan-information-basic { height: 370px; }
+    .fan-information-basic .fan-name { padding-top: 0;}
+    .fan-information-basic h2 { padding-top: 0;}
+    .fan-information-basic h1 { padding-top: 0;}
+
+    .fan-information-technical .col-xs-6 { width: 50%; }
+    .fan-information-technical { height: 100px;}
+
+    .fan-power-usage p:first-child, .fan-life-expectancy p:first-child{ font-size: 11px;}
+    .fan-power-usage p:last-child, .fan-life-expectancy p:last-child { font-size: 13px;}
+
+    #fan-graph { height: 250px;}
+
+}
