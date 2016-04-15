@@ -18,6 +18,8 @@ body .container { padding-bottom: 50px; }
 /*.red { color: #CC0000}*/
 .red { color: darkgrey;}
 .green { color: green}
+.five-fans { width: 20%;}
+.fan-off { font-size: 25px; text-align: center; margin-top: 150px; }
 
 /*************
  *  Includes *
@@ -65,12 +67,13 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
  ************************************/
 .tunnel_tubes h1{ text-align: center; padding-bottom: 20px;}
 
-.tunnel_tube { height: 700px; width: 50%; background: lightgray; margin: 0 auto; border-top: 100px solid darkgrey; border-bottom: 100px solid darkgrey;}
+.tunnel_tube { height: 200px; background: lightgray; margin: 0 auto; border-left: 150px solid darkgrey; border-right: 150px solid darkgrey; margin-bottom: 50px;}
 .tunnel_tube a { text-decoration: none; color: black}
 
+.tunnel_tube h1 { padding-top: 80px;}
 .tunnel_tube h3 { font-size: 24px;}
-.tunnel_tube a:first-child h3 { margin-top: -60px; text-align: center;}
-.tunnel_tube a:last-child h3  { margin-top: 570px; text-align: center;}
+.tunnel_tube a:first-child h3 { float: left; margin-left: -135px; margin-top: 90px;}
+.tunnel_tube a:last-child h3  { float: right; margin-right: -125px; margin-top: -60px; }
 
 .tunnel_tube p { font-size: 16px; text-align: center; line-height: 0;}
 
@@ -78,29 +81,47 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 /************************************
  *    Ventilator - Detailpagina     *
  ************************************/
+#segment { margin-bottom: 100px;}
 #segment h1, #segment h3 {  text-align: center}
 #segment h1 { font-size: 50px;}
 
-/*background: #cecece;*/
+.fan[data-index='4'] { border-right: 1px solid lightgray}
 
-.fan-information-basic { height: 360px; margin: 50px 50px 0 50px; background: linear-gradient(to bottom ,#f7f7f7, #dfdfdf); }
+.fan-information-basic { border-top: 1px solid lightgrey; border-left: 1px solid lightgrey; height: 380px; background: linear-gradient(to bottom ,#f7f7f7, #dfdfdf); }
 .fan-information-basic:hover { cursor: pointer;}
 .fan-information-basic h2 { text-align: center; font-size: 20px;  padding-top: 20px; font-variant: small-caps;}
 
 .fan h1, .fan p { text-align: center;}
-.fan h1 { padding-top: 20px;}
+/*.fan h1 { padding-top: 20px;}*/
 
 .fan p { font-size: 20px}
-.fan h1.fan-name { font-variant: small-caps;}
+.fan h1.fan-name { font-family: Rubik, sans-serif; font-variant: small-caps; font-size: 26px;}
 .fan p.fan-status { padding-top: 12px; font-size: 36px; line-height: 0; margin-bottom: 30px;}
 .fan p.fan-time-on { font-family: Hind, sans-serif; padding-top: 15px; font-size: 30px; line-height: 0;}
 
-.fan-information-technical { background: #f7f7f7; height: 120px; padding: 20px; margin: 0 50px; display: none;}
-.fan-power-usage p:first-child, .fan-life-expectancy p:first-child{ font-size: 15px;}
-.fan-power-usage p:last-child, .fan-life-expectancy p:last-child { font-size: 21px;}
+.fan .arrow-squiggly-down { transform: rotate(180deg); display: inline-block; font-size: 45px; margin: -10px 0 -10px 0; }
+.fan .arrow-squiggly-up { transform: rotate(90deg);display: inline-block; font-size: 55px; margin: -20px 0 -20px 0;}
 
-.fan-blowing-direction { text-align: center;}
+.fan hr { border-top: 1px solid lightgrey; margin: 10px 20px 0 20px;}
+
+.fan-information-technical { background: #f7f7f7; height: 620px; padding: 50px; display: none;}
+.fan-information-technical h1 { text-align: center}
+
+.fan-technical-keys { text-align: left}
+.fan-technical-values { text-align: right}
+.fan-technical-keys, .fan-technical-values { font-size: 16px;}
+/*.fan-technical-keys p, .fan-technical-values p { padding-bottom: 10px;}*/
+.fan-technical-keys p { font-weight: bold}
+
+
+#technical-graph { padding: 50px; float: right; width: 600px; height: 400px; margin-top: 110px;}
+
+/*.fan-power-usage p:first-child, .fan-life-expectancy p:first-child{ font-size: 15px;}*/
+/*.fan-power-usage p:last-child, .fan-life-expectancy p:last-child { font-size: 21px;}*/
+
+.fan .fan-blowing-direction { text-align: center;}
 .fan-blowing-direction i { font-size: 25px;}
+.fan-blowing-direction p { margin-top: 10px;}
 
 #fan-graph-container { top: 100px; position:relative; clear:both; }
 #fan-graph {height: 500px; clear:both; margin-bottom: 100px;}
@@ -145,8 +166,8 @@ and (-webkit-min-device-pixel-ratio: 2) {
 
     .fan-information-technical { height: 100px;}
 
-    .fan-power-usage p:first-child, .fan-life-expectancy p:first-child{ font-size: 11px;}
-    .fan-power-usage p:last-child, .fan-life-expectancy p:last-child { font-size: 16px;}
+    .fan-power-usage p:first-child, .fan-theoretical-life-expectancy p:first-child{ font-size: 11px;}
+    .fan-power-usage p:last-child, .fan-theoretical-life-expectancy p:last-child { font-size: 16px;}
 
     #fan-graph { height: 200px;}
 
@@ -175,8 +196,8 @@ and (orientation: landscape) {
     .fan-information-technical .col-xs-6 { width: 50%; }
     .fan-information-technical { height: 100px;}
 
-    .fan-power-usage p:first-child, .fan-life-expectancy p:first-child{ font-size: 11px;}
-    .fan-power-usage p:last-child, .fan-life-expectancy p:last-child { font-size: 13px;}
+    .fan-power-usage p:first-child, .fan-theoretical-life-expectancy p:first-child{ font-size: 11px;}
+    .fan-power-usage p:last-child, .fan-theoretical-life-expectancy p:last-child { font-size: 13px;}
 
     #fan-graph { height: 250px;}
 

@@ -25,6 +25,7 @@ class FanController extends Controller
                 ->where('direction', '=', $translate['direction'])
                 ->orderBy('created_at', 'desc')
                 ->take(5)
+                ->orderBy('created_at', 'asc')
                 ->get();
 
             $fansOverview = $fansOverview->sortBy('fan_number');
