@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6111bbae-d0d7-4885-acb1-c44a6f4c7c22" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/main.css" afterPath="$PROJECT_DIR$/public/css/main.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/main.js" afterPath="$PROJECT_DIR$/public/js/main.js" />
     </list>
     <ignored path="maastunnelmonitoring.iws" />
@@ -69,10 +68,9 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2265">
-              <caret line="226" column="50" selection-start-line="226" selection-start-column="50" selection-end-line="226" selection-end-column="50" />
+            <state relative-caret-position="375">
+              <caret line="144" column="79" selection-start-line="144" selection-start-column="79" selection-end-line="144" selection-end-column="79" />
               <folding>
-                <element signature="n#!!block;n#configureTooltip#0" expanded="false" />
                 <element signature="n#!!block;n#togglePlot#0" expanded="false" />
                 <element signature="n#!!block;n#showTooltip#0" expanded="false" />
                 <element signature="n#!!block;n#calculateAveragePowerUsageTechnicalGraph#0" expanded="false" />
@@ -618,12 +616,12 @@
       <workItem from="1460621046685" duration="6903000" />
       <workItem from="1460631557066" duration="10471000" />
       <workItem from="1460705881762" duration="59000" />
-      <workItem from="1460712988191" duration="4875000" />
+      <workItem from="1460712988191" duration="5095000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="174185000" />
+    <option name="totallyTimeSpent" value="174405000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -960,10 +958,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2265">
-          <caret line="226" column="50" selection-start-line="226" selection-start-column="50" selection-end-line="226" selection-end-column="50" />
+        <state relative-caret-position="375">
+          <caret line="144" column="79" selection-start-line="144" selection-start-column="79" selection-end-line="144" selection-end-column="79" />
           <folding>
-            <element signature="n#!!block;n#configureTooltip#0" expanded="false" />
             <element signature="n#!!block;n#togglePlot#0" expanded="false" />
             <element signature="n#!!block;n#showTooltip#0" expanded="false" />
             <element signature="n#!!block;n#calculateAveragePowerUsageTechnicalGraph#0" expanded="false" />

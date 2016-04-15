@@ -14,7 +14,6 @@ $(document).ready(function () {
 
 });
 
-
 function connectToWebSocket() {
 
     var baseURL = getBaseURL(); // Call function to determine it
@@ -135,7 +134,7 @@ function toggleFanTechnicalInformation() {
 
 function configureTooltip() {
     var previousPoint = null;
-    $("#fan-graph").bind("plothover", function (event, pos, item) {
+    $("#technical-graph").bind("plothover", function (event, pos, item) {
         if (item) {
             if (previousPoint != item.datapoint) {
                 previousPoint = item.datapoint;
@@ -143,8 +142,7 @@ function configureTooltip() {
 
                 time = new Date(item.datapoint[0]);
 
-
-                showTooltip(item.pageX, item.pageY, item.datapoint[1] + ' Kilowatt (' + (time.getHours() < 10 ? '0' : '') + time.getHours() + ':' + (time.getMinutes() < 10 ? '0' : '') + time.getMinutes() + ')');
+                showTooltip(item.pageX, item.pageY, item.datapoint[1].toFixed(2) + ' Kilowatt (' + (time.getHours() < 10 ? '0' : '') + time.getHours() + ':' + (time.getMinutes() < 10 ? '0' : '') + time.getMinutes() + ')');
             }
         } else {
             $("#tooltip").remove();
