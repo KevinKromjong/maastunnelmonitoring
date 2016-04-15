@@ -69,10 +69,6 @@ function toggleFanTechnicalInformation() {
             min: epochT - 10800000, //3 uur
             max: epochT
         },
-        yaxis : {
-            min: 230,
-            max: 270
-        },
         axisLabels: {
             show: true
         },
