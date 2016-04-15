@@ -100,7 +100,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .fan p.fan-time-on { font-family: Hind, sans-serif; padding-top: 15px; font-size: 30px; line-height: 0;}
 
 .fan .arrow-squiggly-down { transform: rotate(180deg); display: inline-block; font-size: 45px; margin: -10px 0 -10px 0; }
-.fan .arrow-squiggly-up { transform: rotate(90deg);display: inline-block; font-size: 55px; margin: -20px 0 -20px 0;}
+.fan .arrow-squiggly-up { transform: rotate(90deg);display: inline-block; font-size: 55px; margin: -15px -5px -15px -5px;}
 
 .fan hr { border-top: 1px solid lightgrey; margin: 10px 20px 0 20px;}
 
