@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    // connectToWebSocket();
+    connectToWebSocket();
 
     //Initialize de fanvariabelen
     fan1 = [];
@@ -31,19 +31,16 @@ function connectToWebSocket() {
     socket.on('date', function (data) {
         var tijd = new Date(data.date);
 
-        $.each($('.fan'), function () {
-
-            if ($('.fan-status', this).attr('class') == 'fan-status red') {
-                $('.fan-time-on', this).text('0');
-            } else {
-                $('.fan-time-on', this).text(
-                    (tijd.getHours() < 10 ? '0' : '') + tijd.getHours() + ':' +
-                    (tijd.getMinutes() < 10 ? '0' : '') + tijd.getMinutes() + ':' +
-                    (tijd.getSeconds() < 10 ? '0' : '') + tijd.getSeconds()
-                );
-            }
-        })
-    })
+        if ($('.fan-information-technical .fan-status').attr('class') == 'fan-status red') {
+            $('.fan-information-technical .fan-time-on').text('0');
+        } else {
+            $('.fan-information-technical .fan-time-on').text(
+                (tijd.getHours() < 10 ? '0' : '') + tijd.getHours() + ':' +
+                (tijd.getMinutes() < 10 ? '0' : '') + tijd.getMinutes() + ':' +
+                (tijd.getSeconds() < 10 ? '0' : '') + tijd.getSeconds()
+            );
+        }
+    });
 }
 
 function toggleFanTechnicalInformation() {
@@ -84,9 +81,9 @@ function toggleFanTechnicalInformation() {
             axisLabel: 'Stroomverbruik in Kilowatt',
         }]
     };
-
-
+    
     $('.fan').on('click', function () {
+
         var dataAttributeIndex = ($(this).attr('data-index'));
 
         $('.fan').parent().parent().find('.fan-information-technical').show('slow');
@@ -110,7 +107,7 @@ function toggleFanTechnicalInformation() {
 
             if (fansOverview[index]['fan_number'] - 1 == dataAttributeIndex) {
 
-                $('.fan-information-technical h1').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']).css('font-family', 'Rubik').css('font-variant', 'small-caps');
+                $('.fan-information-technical h1').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']);
 
                 if (fansOverview[index]['blow_direction'] == 'north') {
                     $('.fan-information-technical .fan-blowing-direction').html('Noord');
@@ -124,7 +121,7 @@ function toggleFanTechnicalInformation() {
                     $('.fan-information-technical .fan-status').html('UIT').addClass('red').removeClass('green');
                 }
 
-                if(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) == 0) {
+                if (calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) == 0) {
                     $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 0 uur geleden)");
 
                 } else {
@@ -293,7 +290,6 @@ function plotGraphData() {
     somePlot = $.plot($('#fan-graph'), data, options);
 
 }
-
 
 
 //Blaasrichting inbouwen
