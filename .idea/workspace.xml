@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6111bbae-d0d7-4885-acb1-c44a6f4c7c22" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/main.js" afterPath="$PROJECT_DIR$/public/js/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="maastunnelmonitoring.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,7 +64,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="375">
@@ -76,6 +75,16 @@
                 <element signature="n#!!block;n#calculateAveragePowerUsageTechnicalGraph#0" expanded="false" />
                 <element signature="n#!!block;n#fillDataVariables#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -91,7 +100,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/public/index.php" />
         <option value="$PROJECT_DIR$/app/Fan.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_03_18_083047_add_fan_table.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Sensors/FanController.php" />
@@ -142,6 +150,7 @@
         <option value="$PROJECT_DIR$/public/css/main.css" />
         <option value="$PROJECT_DIR$/public/js/server.js" />
         <option value="$PROJECT_DIR$/public/js/main.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -616,12 +625,12 @@
       <workItem from="1460621046685" duration="6903000" />
       <workItem from="1460631557066" duration="10471000" />
       <workItem from="1460705881762" duration="59000" />
-      <workItem from="1460712988191" duration="5095000" />
+      <workItem from="1460712988191" duration="5454000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="174405000" />
+    <option name="totallyTimeSpent" value="174764000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -669,7 +678,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/crontab" />
     <entry file="file://$PROJECT_DIR$/redis.sh" />
     <entry file="file://$PROJECT_DIR$/app/profiles_settings.xml" />
     <entry file="file://$PROJECT_DIR$/public/robots.txt">
@@ -966,6 +974,14 @@
             <element signature="n#!!block;n#calculateAveragePowerUsageTechnicalGraph#0" expanded="false" />
             <element signature="n#!!block;n#fillDataVariables#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
