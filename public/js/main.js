@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    // connectToWebSocket();
+    connectToWebSocket();
 
     //Initialize de fanvariabelen
     fan1 = [];
@@ -14,6 +14,9 @@ $(document).ready(function () {
 
 });
 
+/****************
+ ***** Main *****
+ ****************/
 function connectToWebSocket() {
 
     var baseURL = getBaseURL(); // Call function to determine it
@@ -42,11 +45,113 @@ function connectToWebSocket() {
     });
 }
 
+function fillDataVariables() {
+
+    $.each(fansGraph, function (key, value) {
+
+        var date = new Date(value['created_at']);
+
+        if (value['is_on'] === true) {
+            switch (value['fan_number']) {
+                case 1 :
+                    fan1.push([date.getTime(), value['power_usage'], 1]);
+                    break;
+                case 2 :
+                    fan2.push([date.getTime(), value['power_usage'], 2]);
+                    break;
+                case 3 :
+                    fan3.push([date.getTime(), value['power_usage'], 3]);
+                    break;
+                case 4 :
+                    fan4.push([date.getTime(), value['power_usage'], 4]);
+                    break;
+                case 5 :
+                    fan5.push([date.getTime(), value['power_usage'], 5]);
+                    break;
+            }
+        }
+    });
+}
+
+function plotGraphData() {
+
+    configureTooltip();
+    fillDataVariables();
+
+    var CRITICAL_VALUE = 227;
+    var fansToCheck = [fan1, fan2, fan3, fan4, fan5];
+    var data = [];
+    var epochT = (new Date).getTime(); // time right now in js epoch
+    var i = 0;
+    var colors = ['#9BC2DB', '#DBEDF3', '#A3DFFB', '#C4E3FC', '#A4D4FA'];
+
+
+    $.each(fansToCheck, function (index, value) {
+        if (!0 < value.length) {
+
+            if (fanDirection == 'noordzijde') {
+                label = 'Ventilator N-0' + parseInt(index + 1);
+            } else {
+                label = 'Ventilator Z-0' + parseInt(index + 1);
+            }
+
+            if (value[0][1] > CRITICAL_VALUE) {
+                fansToCheck[index]['color'] = '#DD2C00';
+            } else {
+                fansToCheck[index]['color'] = colors[index];
+            }
+
+            data.push({
+                idx: i,
+                label: label,
+                data: fansToCheck[index],
+                color: fansToCheck[index]['color']
+            });
+
+            i++;
+        }
+    });
+
+    var options = {
+        grid: {
+            hoverable: true,
+            tooltip: true
+        },
+        series: {
+            lines: {
+                show: true
+            }
+        },
+        legend: {
+            container: $('#fan-graph-legend'), noColumns: 3, labelFormatter: function (label, series) {
+                return '<a href="#" onClick="togglePlot(' + series.idx + '); return false;">' + label + '</a>';
+            }
+        },
+        xaxis: {
+            mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser",
+            min: epochT - 10800000, //3 uur
+            max: epochT
+        },
+        axisLabels: {
+            show: true
+        },
+        xaxes: [{
+            axisLabel: 'Tijd in hele uren'
+        }],
+        yaxes: [{
+            position: 'left',
+            axisLabel: 'Stroomverbruik in Kilowatt'
+        }]
+    };
+
+    //Teken de plot
+    somePlot = $.plot($('#fan-graph'), data, options);
+}
+
 function toggleFanTechnicalInformation() {
     var epochT = (new Date).getTime(); // time right now in js epoch
     var fansToCheck = [fan1, fan2, fan3, fan4, fan5];
-
-    var options = {
+    var technicalFanOptions = {
         grid: {
             hoverable: true,
             tooltip: true
@@ -65,27 +170,23 @@ function toggleFanTechnicalInformation() {
             show: true
         },
         xaxes: [{
-            axisLabel: 'Tijd in hele uren',
+            axisLabel: 'Tijd in hele uren'
         }],
         yaxes: [{
             position: 'left',
-            axisLabel: 'Stroomverbruik in Kilowatt',
+            axisLabel: 'Stroomverbruik in Kilowatt'
         }]
     };
 
     $('.fan').on('click', function () {
-
         var dataAttributeIndex = ($(this).attr('data-index'));
-
         $('.fan').parent().parent().find('.fan-information-technical').show('slow');
 
         $.each(fansToCheck, function (index, value) {
-
             if (index == dataAttributeIndex) {
-
                 if (fansOverview[index]['is_on'] == true) {
                     $('#technical-graph').html('').removeClass('fan-off');
-                    plotTechnicalGraph = $.plot('#technical-graph', [fansToCheck[index]], options);
+                    plotTechnicalGraph = $.plot('#technical-graph', [fansToCheck[index]], technicalFanOptions);
                     plotTechnicalGraph.setupGrid(); //only necessary if your new data will change the axes or grid
                     plotTechnicalGraph.draw();
                 } else {
@@ -95,15 +196,14 @@ function toggleFanTechnicalInformation() {
         });
 
         $.each(fansOverview, function (index, value) {
-
                 if (fansOverview[index]['fan_number'] - 1 == dataAttributeIndex) {
 
                     if (fansOverview[index]['direction'] == 'north') {
                         $('.fan-information-technical h1').html('ventilator <br/> N-0' + fansOverview[index]['fan_number'])
                     } else {
                         $('.fan-information-technical h1').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']);
-
                     }
+
                     if (fansOverview[index]['blow_direction'] == 'north') {
                         $('.fan-information-technical .fan-blowing-direction').html('Noord');
                     } else {
@@ -118,17 +218,19 @@ function toggleFanTechnicalInformation() {
 
                     if (calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) == 0) {
                         $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 0 uur geleden)");
-
                     } else {
                         $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 6 uur geleden)");
                     }
                 }
             }
         );
-
     });
 }
 
+
+/*******************
+ ***** Helpers *****
+ *******************/
 function configureTooltip() {
     var previousPoint = null;
     $("#technical-graph, #fan-graph").bind("plothover", function (event, pos, item) {
@@ -184,109 +286,6 @@ function calculateAveragePowerUsageTechnicalGraph(dataArray) {
     }
 }
 
-function fillDataVariables() {
-
-    $.each(fansGraph, function (key, value) {
-
-        var date = new Date(value['created_at']);
-
-        if (value['is_on'] === true) {
-            switch (value['fan_number']) {
-                case 1 :
-                    fan1.push([date.getTime(), value['power_usage'], 1]);
-                    break;
-                case 2 :
-                    fan2.push([date.getTime(), value['power_usage'], 2]);
-                    break;
-                case 3 :
-                    fan3.push([date.getTime(), value['power_usage'], 3]);
-                    break;
-                case 4 :
-                    fan4.push([date.getTime(), value['power_usage'], 4]);
-                    break;
-                case 5 :
-                    fan5.push([date.getTime(), value['power_usage'], 5]);
-                    break;
-            }
-        }
-    });
-}
-
-function plotGraphData() {
-
-    configureTooltip();
-    fillDataVariables();
-
-    var CRITICAL_VALUE = 227;
-    var fansToCheck = [fan1, fan2, fan3, fan4, fan5];
-    var data = [];
-    var epochT = (new Date).getTime(); // time right now in js epoch
-    var i = 0;
-    var colors = ['#9BC2DB', '#DBEDF3', '#A3DFFB', '#C4E3FC', '#A4D4FA'];
-
-
-    $.each(fansToCheck, function (index, value) {
-        if (!0 < value.length) {
-
-            if (fanDirection == 'noordzijde') {
-                label = 'Ventilator N-0' +  parseInt(index + 1);
-            } else {
-                label = 'Ventilator Z-0' +  parseInt(index + 1);
-            }
-
-            if (value[0][1] > CRITICAL_VALUE) {
-                fansToCheck[index]['color'] = '#DD2C00';
-            } else {
-                fansToCheck[index]['color'] = colors[index];
-            }
-
-            data.push({
-                idx: i,
-                label: label,
-                data: fansToCheck[index],
-                color: fansToCheck[index]['color']
-            });
-
-            i++;
-        }
-    });
-
-    var options = {
-        grid: {
-            hoverable: true,
-            tooltip: true
-        },
-        series: {
-            lines: {
-                show: true
-            }
-        },
-        legend: {
-            container: $('#fan-graph-legend'), noColumns: 0, labelFormatter: function (label, series) {
-                return '<a href="#" onClick="togglePlot(' + series.idx + '); return false;">' + label + '</a>';
-            }
-        },
-        xaxis: {
-            mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser",
-            min: epochT - 10800000, //3 uur
-            max: epochT
-        },
-        axisLabels: {
-            show: true
-        },
-        xaxes: [{
-            axisLabel: 'Tijd in hele uren',
-        }],
-        yaxes: [{
-            position: 'left',
-            axisLabel: 'Stroomverbruik in Kilowatt',
-        }]
-    };
-
-//Teken de plot
-    somePlot = $.plot($('#fan-graph'), data, options);
-
-}
 
 
 //Blaasrichting inbouwen

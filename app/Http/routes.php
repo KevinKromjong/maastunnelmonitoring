@@ -19,6 +19,15 @@ Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 Route::get('/sensor/ventilatoren', ['as' => 'ventilatoren', 'uses' => 'Sensors\Fans\TubeController@index']);
 Route::get('/sensor/ventilatoren/{buis}/{zijde}', ['as' => 'tunnelbuis', 'uses' => 'Sensors\Fans\FanController@index']);
 
+
+Route::group(array('prefix' => 'api/v1'), function()
+{
+    Route::get('fans', 'APIController@index');
+});
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
