@@ -11,7 +11,7 @@
                             <a href="{{route('ventilatoren')}}">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <div class="dataset-block-image">
-                                        <img alt="Afbeelding van ventilator" src="/images/icon-fan.png"/>
+                                        <img alt="Afbeelding van ventilator" src="{{asset('/images/icon-fan.png')}}"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
