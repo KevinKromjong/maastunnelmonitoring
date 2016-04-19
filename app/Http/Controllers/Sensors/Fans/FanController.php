@@ -58,7 +58,8 @@ class FanController extends Controller
 
         Javascript::put([
             'fansOverview' => $fansOverview->sortBy('fan_number'),
-            'fansGraph' => $fansGraph
+            'fansGraph' => $fansGraph,
+            'fanDirection' => $this->direction
         ]);
 
         return view('sensors.fans.fan')

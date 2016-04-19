@@ -130,7 +130,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 
 #fan-graph-legend .legendColorBox > div { border: none !important;}
 #fan-graph-legend .legendColorBox > div div { border-width: 8px !important;}
-#fan-graph-legend .legendLabel { text-decoration: none; padding: 0 20px 0 5px;}
+#fan-graph-legend .legendLabel { text-decoration: none; padding: 0 20px 0 5px; font-family: Rubik, sans-serif}
 #fan-graph-legend .legendLabel:nth-child(1) { padding-left: 20px;}
 #fan-graph-legend .legendLabel a { color: black;}
 #fan-graph-legend .legendLabel:hover a { color: darkgrey;}
