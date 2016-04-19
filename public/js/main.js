@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    connectToWebSocket();
+    // connectToWebSocket();
 
     //Initialize de fanvariabelen
     fan1 = [];
@@ -49,19 +49,11 @@ function toggleFanTechnicalInformation() {
     var options = {
         grid: {
             hoverable: true,
-            tooltip: true,
-            // markings: [
-            //     { color: '#000', lineWidth: 1, yaxis: { from: 180.5, to: 180.5 } },
-            // ]
+            tooltip: true
         },
         series: {
             lines: {
                 show: true
-            }
-        },
-        legend: {
-            container: $('#fan-graph-legend'), noColumns: 0, labelFormatter: function (label, series) {
-                return '<a href="#" onClick="togglePlot(' + series.idx + '); return false;">' + label + '</a>';
             }
         },
         xaxis: {
@@ -80,7 +72,7 @@ function toggleFanTechnicalInformation() {
             axisLabel: 'Stroomverbruik in Kilowatt',
         }]
     };
-    
+
     $('.fan').on('click', function () {
 
         var dataAttributeIndex = ($(this).attr('data-index'));
@@ -104,37 +96,42 @@ function toggleFanTechnicalInformation() {
 
         $.each(fansOverview, function (index, value) {
 
-            if (fansOverview[index]['fan_number'] - 1 == dataAttributeIndex) {
+                if (fansOverview[index]['fan_number'] - 1 == dataAttributeIndex) {
 
-                $('.fan-information-technical h1').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']);
+                    if (fansOverview[index]['direction'] == 'north') {
+                        $('.fan-information-technical h1').html('ventilator <br/> N-0' + fansOverview[index]['fan_number'])
+                    } else {
+                        $('.fan-information-technical h1').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']);
 
-                if (fansOverview[index]['blow_direction'] == 'north') {
-                    $('.fan-information-technical .fan-blowing-direction').html('Noord');
-                } else {
-                    $('.fan-information-technical .fan-blowing-direction').html('Zuid');
-                }
+                    }
+                    if (fansOverview[index]['blow_direction'] == 'north') {
+                        $('.fan-information-technical .fan-blowing-direction').html('Noord');
+                    } else {
+                        $('.fan-information-technical .fan-blowing-direction').html('Zuid');
+                    }
 
-                if (fansOverview[index]['is_on'] == true) {
-                    $('.fan-information-technical .fan-status').html('AAN').addClass('green').removeClass('red');
-                } else {
-                    $('.fan-information-technical .fan-status').html('UIT').addClass('red').removeClass('green');
-                }
+                    if (fansOverview[index]['is_on'] == true) {
+                        $('.fan-information-technical .fan-status').html('AAN').addClass('green').removeClass('red');
+                    } else {
+                        $('.fan-information-technical .fan-status').html('UIT').addClass('red').removeClass('green');
+                    }
 
-                if (calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) == 0) {
-                    $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 0 uur geleden)");
+                    if (calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) == 0) {
+                        $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 0 uur geleden)");
 
-                } else {
-                    $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 6 uur geleden)");
+                    } else {
+                        $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 6 uur geleden)");
+                    }
                 }
             }
-        });
+        );
 
     });
 }
 
 function configureTooltip() {
     var previousPoint = null;
-    $("#technical-graph").bind("plothover", function (event, pos, item) {
+    $("#technical-graph, #fan-graph").bind("plothover", function (event, pos, item) {
         if (item) {
             if (previousPoint != item.datapoint) {
                 previousPoint = item.datapoint;
@@ -154,7 +151,6 @@ function configureTooltip() {
 function togglePlot(seriesIdx) {
     var someData = somePlot.getData();
     someData[seriesIdx].lines.show = !someData[seriesIdx].lines.show;
-    // someData[seriesIdx].points.show = !someData[seriesIdx].points.show;
     somePlot.setData(someData);
     somePlot.draw();
 }
@@ -223,8 +219,6 @@ function plotGraphData() {
 
     var CRITICAL_VALUE = 227;
     var fansToCheck = [fan1, fan2, fan3, fan4, fan5];
-    var averagePowerUsageLoop = 0;
-    var averagePowerUsage = [];
     var data = [];
     var epochT = (new Date).getTime(); // time right now in js epoch
     var i = 0;
@@ -234,6 +228,12 @@ function plotGraphData() {
     $.each(fansToCheck, function (index, value) {
         if (!0 < value.length) {
 
+            if (fanDirection == 'noordzijde') {
+                label = 'Ventilator N-0' +  parseInt(index + 1);
+            } else {
+                label = 'Ventilator Z-0' +  parseInt(index + 1);
+            }
+
             if (value[0][1] > CRITICAL_VALUE) {
                 fansToCheck[index]['color'] = '#DD2C00';
             } else {
@@ -242,20 +242,19 @@ function plotGraphData() {
 
             data.push({
                 idx: i,
-                label: 'Ventilator ' + parseInt(index + 1),
+                label: label,
                 data: fansToCheck[index],
                 color: fansToCheck[index]['color']
             });
+
+            i++;
         }
     });
 
     var options = {
         grid: {
             hoverable: true,
-            tooltip: true,
-            // markings: [
-            //     { color: '#000', lineWidth: 1, yaxis: { from: 180.5, to: 180.5 } },
-            // ]
+            tooltip: true
         },
         series: {
             lines: {

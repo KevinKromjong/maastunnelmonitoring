@@ -24,7 +24,11 @@
 
                                         <article class="fan" data-index="{{$fan->fan_number -1}}">
                                             <div class="fan-information-basic">
-                                                <h1 class="fan-name">ventilator <br/> Z-0{{$fan->fan_number}}</h1>
+                                                @if($direction == 'noordzijde')
+                                                    <h1 class="fan-name">ventilator <br/> N-0{{$fan->fan_number}}</h1>
+                                                @else
+                                                    <h1 class="fan-name">ventilator <br/> Z-0{{$fan->fan_number}}</h1>
+                                                @endif
 
                                                 <hr/>
 
@@ -69,8 +73,11 @@
                                     <div class="col-lg-12">
                                         <div class="fan-information-technical">
                                             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                <h1>Ventilator Z-0{{$fan->fan_number}}</h1>
-
+                                                @if($direction == 'noordzijde')
+                                                    <h1 class="fan-name">ventilator <br/> N-0{{$fan->fan_number}}</h1>
+                                                @else
+                                                    <h1 class="fan-name">ventilator <br/> Z-0{{$fan->fan_number}}</h1>
+                                                @endif
 
                                                 <hr/>
 
@@ -121,11 +128,13 @@
 
                                                         <hr/>
 
-                                                        <p class="fan-technical-life-expectancy">Nog {{ rand(2,5)}} jaar</p>
+                                                        <p class="fan-technical-life-expectancy">Nog {{ rand(2,5)}}
+                                                            jaar</p>
 
                                                         <hr/>
 
-                                                        <p class="fan-theoretical-life-expectancy">{{ rand(4,6) }} jaar</p>
+                                                        <p class="fan-theoretical-life-expectancy">{{ rand(4,6) }}
+                                                            jaar</p>
 
                                                     </div>
                                                 </div>
