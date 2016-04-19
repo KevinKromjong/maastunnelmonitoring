@@ -179,26 +179,29 @@ and (-webkit-min-device-pixel-ratio: 2) {
 @media only screen
 and (min-device-width: 320px)
 and (max-device-width: 640px)
-and (-webkit-min-device-pixel-ratio: 2)
-and (orientation: landscape) {
+and (-webkit-min-device-pixel-ratio: 2) {
 
     header .back-button { padding-top: 5px; padding-left: 20px;}
 
-    .col-xs-12 { width: 50%; }
-    .col-xs-6 { width: 100%; }
 
-    .fan-information-basic .col-xs-12 { width: 100%; }
-    .fan-information-basic { height: 370px; }
-    .fan-information-basic .fan-name { padding-top: 0;}
-    .fan-information-basic h2 { padding-top: 0;}
-    .fan-information-basic h1 { padding-top: 0;}
+    .tunnel_tubes .tunnel_tube { height: 150px; border-left: 100px solid darkgrey; border-right: 100px solid darkgrey; }
+    .tunnel_tube a:first-child h3 { margin-left: -92px; margin-top: 70px; }
+    .tunnel_tube a:last-child h3 { margin-right: -85px; margin-top: -40px;}
+    .tunnel_tube h3 { font-size: 16px; }
+    .tunnel_tube h1 { font-size: 20px; padding-top: 60px;}
 
-    .fan-information-technical .col-xs-6 { width: 50%; }
-    .fan-information-technical { height: 100px;}
+    /*.fan-information-basic .col-xs-12 { width: 100%; }*/
+    /*.fan-information-basic { height: 370px; }*/
+    /*.fan-information-basic .fan-name { padding-top: 0;}*/
+    /*.fan-information-basic h2 { padding-top: 0;}*/
+    /*.fan-information-basic h1 { padding-top: 0;}*/
 
-    .fan-power-usage p:first-child, .fan-theoretical-life-expectancy p:first-child{ font-size: 11px;}
-    .fan-power-usage p:last-child, .fan-theoretical-life-expectancy p:last-child { font-size: 13px;}
+    /*.fan-information-technical .col-xs-6 { width: 50%; }*/
+    /*.fan-information-technical { height: 100px;}*/
 
-    #fan-graph { height: 250px;}
+    /*.fan-power-usage p:first-child, .fan-theoretical-life-expectancy p:first-child{ font-size: 11px;}*/
+    /*.fan-power-usage p:last-child, .fan-theoretical-life-expectancy p:last-child { font-size: 13px;}*/
+
+    /*#fan-graph { height: 250px;}*/
 
 }
