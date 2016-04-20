@@ -104,7 +104,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 
 .fan hr { border-top: 1px solid lightgrey; margin: 10px 20px 0 20px;}
 
-.fan-information-technical { background: #f7f7f7; height: 650px; padding: 50px; display: none;}
+.fan-information-technical { background: #f7f7f7; height: 650px; width: 100%; padding: 50px; display: none; float:left; clear:both;}
 .fan-information-technical h1 { text-align: center; font-family: Rubik, sans-serif; font-variant: small-caps}
 
 .fan-technical-keys { text-align: left}
@@ -141,12 +141,28 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
  *    Media queries - Detailpagina     *
  ************************************/
 
-/*iPad*/
+/*iPad -- Landscape*/
 @media only screen
 and (min-device-width : 768px)
-and (max-device-width : 1024px)  {
+and (max-device-width : 1024px)
+and (orientation : landscape) {
 
     header .back-button { padding-top: 5px; padding-left: 20px;}
+
+    #technical-graph { width: 500px; }
+    .fan-information-technical h1 { margin-right: 125px; padding-bottom: 25px;}
+
+    #fan-graph {width: 800px;}
+    #fan-graph-legend { width: 140px;}
+
+
+}
+
+/*iPad -- Portrait*/
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
 
 }
 

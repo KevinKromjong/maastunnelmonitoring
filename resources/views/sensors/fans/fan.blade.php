@@ -42,7 +42,7 @@
 
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                                                    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6">
                                                         <h2>blaasrichting</h2>
 
                                                         <div class="fan-blowing-direction">
@@ -79,9 +79,7 @@
                                                     <h1 class="fan-name">ventilator <br/> Z-0{{$fan->fan_number}}</h1>
                                                 @endif
 
-                                                <hr/>
-
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-6 col-md-4">
                                                     <div class="fan-technical-keys">
                                                         <p>Status</p>
                                                         <hr/>
@@ -97,7 +95,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-6 col-md-4">
                                                     <div class="fan-technical-values">
                                                         @if($fan->is_on === true)
                                                             <p class="fan-status green">AAN</p>
@@ -146,21 +144,25 @@
 
                                                 <div class="col-lg-10 col-lg-push-2">
                                                     <div class="filter-buttons">
-                                                        <div class="filter filter-six-hours" data-filter="6" data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
+                                                        <div class="filter filter-six-hours" data-filter="6"
+                                                             data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
                                                             <p>
                                                                 6 <br/> uur
                                                             </p>
                                                         </div>
-                                                        <div class="filter filter-twelve-hours" data-filter="12" data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
+                                                        <div class="filter filter-twelve-hours" data-filter="12"
+                                                             data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
                                                             <p>
                                                                 12 <br/> uur</p>
                                                         </div>
-                                                        <div class="filter filter-one-day" data-filter="1" data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
+                                                        <div class="filter filter-one-day" data-filter="1"
+                                                             data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
                                                             <p>
                                                                 1 <br/> dag
                                                             </p>
                                                         </div>
-                                                        <div class="filter filter-two-days" data-filter="2" data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
+                                                        <div class="filter filter-two-days" data-filter="2"
+                                                             data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
                                                             <p>
                                                                 2 <br/> dagen
                                                             </p>
