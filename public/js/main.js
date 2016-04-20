@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    connectToWebSocket();
+    // connectToWebSocket();
 
     //Initialize de fanvariabelen
     fan1 = [];
@@ -123,7 +123,7 @@ function plotGraphData() {
             }
         },
         legend: {
-            container: $('#fan-graph-legend'), noColumns: 3, labelFormatter: function (label, series) {
+            container: $('#fan-graph-legend'), noColumns: 1, labelFormatter: function (label, series) {
                 return '<a href="#" onClick="togglePlot(' + series.idx + '); return false;">' + label + '</a>';
             }
         },
@@ -149,6 +149,7 @@ function plotGraphData() {
 }
 
 function toggleFanTechnicalInformation() {
+
     var epochT = (new Date).getTime(); // time right now in js epoch
     var fansToCheck = [fan1, fan2, fan3, fan4, fan5];
     var technicalFanOptions = {
@@ -178,11 +179,15 @@ function toggleFanTechnicalInformation() {
         }]
     };
 
+    filterTechnicalInformation(technicalFanOptions);
+
+
     $('.fan').on('click', function () {
         var dataAttributeIndex = ($(this).attr('data-index'));
         $('.fan').parent().parent().find('.fan-information-technical').show('slow');
 
         $.each(fansToCheck, function (index, value) {
+
             if (index == dataAttributeIndex) {
                 if (fansOverview[index]['is_on'] == true) {
                     $('#technical-graph').html('').removeClass('fan-off');
@@ -221,12 +226,48 @@ function toggleFanTechnicalInformation() {
                     } else {
                         $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 6 uur geleden)");
                     }
+
+                    $('.filter').attr('data-fan-number', fansOverview[index]['fan_number']);
                 }
             }
         );
     });
 }
 
+function filterTechnicalInformation(options) {
+    $('.filter-buttons > div').on('click', function () {
+        var timeBack = $(this).attr('data-filter');
+        var fanNumber = $(this).attr('data-fan-number');
+        var tunnel = $(this).attr('data-tunnel');
+        var direction = $(this).attr('data-direction');
+
+
+        $.ajax({
+            url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            format: 'json',
+            success: function (data) {
+                console.log(data);
+
+
+                var data2 = [];
+
+                $.each(data['fans'], function (index, value) {
+                    var date = new Date(value['created_at']);
+                    data2.push([date.getTime(), value['power_usage'], parseInt(fanNumber)])
+                });
+
+                // console.log(data2);
+
+                plotTechnicalGraph = $.plot('#technical-graph', [data2], options);
+                plotTechnicalGraph.setupGrid(); //only necessary if your new data will change the axes or grid
+                plotTechnicalGraph.draw();
+
+            }
+
+        });
+
+    });
+}
 
 /*******************
  ***** Helpers *****
@@ -285,7 +326,6 @@ function calculateAveragePowerUsageTechnicalGraph(dataArray) {
         return Math.round((averagePowerUsage / i) * 100) / 100
     }
 }
-
 
 
 //Blaasrichting inbouwen

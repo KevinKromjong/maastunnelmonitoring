@@ -15,7 +15,8 @@
     "laravelcollective/html": "^5.2",
     "laracasts/utilities": "^2.1",
     "cboden/ratchet": "^0.3.4",
-    "react/zmq": "0.2.*|0.3.*"
+    "react/zmq": "0.2.*|0.3.*",
+    "barryvdh/laravel-debugbar": "^2.2"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

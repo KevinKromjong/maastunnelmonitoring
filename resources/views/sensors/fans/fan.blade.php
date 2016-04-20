@@ -143,9 +143,37 @@
                                                 <section id="technical-graph">
 
                                                 </section>
+
+                                                <div class="col-lg-10 col-lg-push-2">
+                                                    <div class="filter-buttons">
+                                                        <div class="filter filter-six-hours" data-filter="6" data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
+                                                            <p>
+                                                                6 <br/> uur
+                                                            </p>
+                                                        </div>
+                                                        <div class="filter filter-twelve-hours" data-filter="12" data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
+                                                            <p>
+                                                                12 <br/> uur</p>
+                                                        </div>
+                                                        <div class="filter filter-one-day" data-filter="1" data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
+                                                            <p>
+                                                                1 <br/> dag
+                                                            </p>
+                                                        </div>
+                                                        <div class="filter filter-two-days" data-filter="2" data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
+                                                            <p>
+                                                                2 <br/> dagen
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
                                             </div>
+
                                         </div>
                                     </div>
+                            </div>
                 </section>
             </div>
 

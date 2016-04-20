@@ -160,6 +160,7 @@ return [
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
 
     ],
@@ -212,6 +213,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Javascript' => Laracasts\Utilities\JavaScript\JavaScriptFacade::class,
 
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
 
     ],
