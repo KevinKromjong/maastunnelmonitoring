@@ -89,7 +89,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .fan[data-index='4'] { border-right: 1px solid lightgray}
 
 .fan-information-basic { border-top: 1px solid lightgrey; border-left: 1px solid lightgrey; height: 380px; background: linear-gradient(to bottom ,#f7f7f7, #dfdfdf); }
-.fan-information-basic:hover { cursor: pointer;}
+.fan-information-basic:hover { cursor: pointer; background: rgba(0,0,0,0.06)}
 .fan-information-basic h2 { text-align: center; font-size: 20px;  padding-top: 20px; font-variant: small-caps;}
 
 .fan h1, .fan p { text-align: center;}

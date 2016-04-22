@@ -62,7 +62,9 @@
                                                             @endif
                                                         </div>
 
-
+                                                        <div class="expand-fan-button" style="float: right; margin-right: 20px; margin-top: -20px; font-size: 20px">
+                                                            <i style="color: grey" class="fa fa-plus-square-o" aria-hidden="true"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

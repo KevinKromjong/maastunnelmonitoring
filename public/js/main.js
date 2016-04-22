@@ -123,8 +123,6 @@ function plotGraphData(criticalValue) {
 
     data.unshift(criticalLine);
 
-    console.log(data);
-
     var options = {
         grid: {
             hoverable: true,
@@ -137,7 +135,7 @@ function plotGraphData(criticalValue) {
         },
         legend: {
             container: $('#fan-graph-legend'), noColumns: 1, labelFormatter: function (label, series) {
-                return '<a href="#" onClick="togglePlot(' + series.idx + '); return false;">' + label + '</a>';
+                return '<a id="toggle-legend' + series.idx + '" href="#" onClick="togglePlot(' + series.idx + ', event); return false;">' + label + '</a>';
             }
         },
         xaxis: {
@@ -229,9 +227,11 @@ function toggleFanTechnicalInformation() {
     $('.fan').on('click', function () {
         if(this == previousTarget) {
             $('.fan').parent().parent().find('.fan-information-technical').hide('slow');
+            $('.expand-fan-button').html('<i style="color: grey" class="fa fa-plus-square-o" aria-hidden="true"></i>');
             previousTarget = null;
         } else {
 
+            $('.expand-fan-button').html('<i style="color: grey" class="fa fa-minus-square-o" aria-hidden="true"></i>');
             previousTarget = this;
 
             var dataAttributeIndex = ($(this).attr('data-index'));
@@ -346,7 +346,8 @@ function configureTooltip() {
     });
 }
 
-function togglePlot(seriesIdx) {
+function togglePlot(seriesIdx, event) {
+
     if (seriesIdx != 0) {
         var someData = somePlot.getData();
         someData[seriesIdx].lines.show = !someData[seriesIdx].lines.show;
