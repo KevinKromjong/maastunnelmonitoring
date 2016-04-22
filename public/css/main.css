@@ -124,9 +124,9 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .fan-blowing-direction p { margin-top: 10px;}
 
 #fan-graph-container { top: 100px; position:relative; clear:both; }
-#fan-graph {height: 500px; margin-bottom: 100px; float:left; width: 90%;}
+#fan-graph {height: 500px; margin-bottom: 100px; float:left; width: 1000px;}
 
-#fan-graph-legend { clear: both; margin-top: 15px; padding: 20px; background: #f7f7f7; float:right; width: 10%; height: 452px;}
+#fan-graph-legend { clear: both; margin-top: 15px; padding: 20px; background: #f7f7f7; float:right; width: 125px; height: 452px;}
 
 #fan-graph-legend .legendColorBox > div { border: none !important; margin-top: 20px;}
 #fan-graph-legend .legendColorBox > div div { border-width: 8px !important;}
@@ -163,6 +163,28 @@ and (orientation : landscape) {
 and (min-device-width : 768px)
 and (max-device-width : 1024px)
 and (orientation : portrait) {
+
+    .fan-information-basic { height: 320px;}
+    .fan-information-basic h1.fan-name { font-size: 20px;}
+    .fan-information-basic h2 { margin-top: 0;}
+    .fan-information-technical { padding: 50px 20px 50px 20px; }
+    .fan-information-technical h1 { padding-bottom: 25px;}
+
+    .five-fans { margin: 0 auto;}
+
+    .fan-status { margin-bottom: 0;}
+
+    .fan .arrow-squiggly-down { margin: -5px; font-size: 30px;}
+
+    #fan-graph {width: 580px;}
+    #technical-graph { width: 400px; }
+
+    .fan-technical-keys, .fan-technical-values { font-size: 15px;}
+
+    .axisLabels { display: none;}
+    #technical-graph.fan-off { font-size: 18px;}
+
+
 
 }
 
@@ -205,18 +227,5 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .tunnel_tube h3 { font-size: 16px; }
     .tunnel_tube h1 { font-size: 20px; padding-top: 60px;}
 
-    /*.fan-information-basic .col-xs-12 { width: 100%; }*/
-    /*.fan-information-basic { height: 370px; }*/
-    /*.fan-information-basic .fan-name { padding-top: 0;}*/
-    /*.fan-information-basic h2 { padding-top: 0;}*/
-    /*.fan-information-basic h1 { padding-top: 0;}*/
-
-    /*.fan-information-technical .col-xs-6 { width: 50%; }*/
-    /*.fan-information-technical { height: 100px;}*/
-
-    /*.fan-power-usage p:first-child, .fan-theoretical-life-expectancy p:first-child{ font-size: 11px;}*/
-    /*.fan-power-usage p:last-child, .fan-theoretical-life-expectancy p:last-child { font-size: 13px;}*/
-
-    /*#fan-graph { height: 250px;}*/
 
 }

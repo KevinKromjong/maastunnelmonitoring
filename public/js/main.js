@@ -49,7 +49,7 @@ function fillDataVariables() {
 
     $.each(fansGraph, function (key, value) {
 
-        var date = new Date(value['created_at']);
+        var date = new Date(value['created_at'].replace(/-/g, "/"));
 
         if (value['is_on'] === true) {
             switch (value['fan_number']) {
@@ -129,7 +129,7 @@ function plotGraphData() {
         },
         xaxis: {
             mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser",
-            min: epochT - 10800000, //3 uur
+            min: epochT - 43200000, //3 uur
             max: epochT
         },
         axisLabels: {
@@ -178,11 +178,36 @@ function toggleFanTechnicalInformation() {
             axisLabel: 'Stroomverbruik in Kilowatt'
         }]
     };
+    var technicalFanOptionsFilter = {
+        grid: {
+            hoverable: true,
+            tooltip: true
+        },
+        series: {
+            lines: {
+                show: true
+            }
+        },
+        xaxis: {
+            mode: "time", timeformat: "%H:%M", tickSize: [4, "hour"], timezone: "browser"
+        },
+        axisLabels: {
+            show: true
+        },
+        xaxes: [{
+            axisLabel: 'Tijd in hele uren'
+        }],
+        yaxes: [{
+            position: 'left',
+            axisLabel: 'Stroomverbruik in Kilowatt'
+        }]
+    };
 
-    filterTechnicalInformation(technicalFanOptions);
+    filterTechnicalInformation(technicalFanOptionsFilter);
 
 
     $('.fan').on('click', function () {
+
         var dataAttributeIndex = ($(this).attr('data-index'));
         $('.fan').parent().parent().find('.fan-information-technical').show('slow');
 
@@ -246,22 +271,29 @@ function filterTechnicalInformation(options) {
             url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             format: 'json',
             success: function (data) {
-                console.log(data);
-
-
                 var data2 = [];
 
                 $.each(data['fans'], function (index, value) {
-                    var date = new Date(value['created_at']);
-                    data2.push([date.getTime(), value['power_usage'], parseInt(fanNumber)])
+                    var date = new Date(value['created_at'].replace(/-/g, "/"));
+                    // var dateSafari = new Date(
+                    //     date.getFullYear() + ' ' +
+                    //     (date.getMonth() < 10 ? '0' : '') + date.getMonth() + ' ' +
+                    //     (date.getDay() < 10 ? '0' : '')+ date.getDay() + ' '+
+                    //     (date.getHours() < 10 ? '0' : '') + date.getHours() + ' ' +
+                    //     (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ' ' +
+                    //     (date.getSeconds() < 10 ? '0' : '') + date.getSeconds())
+
+                    data2.push([date, value['power_usage'], parseInt(fanNumber)])
                 });
 
-                // console.log(data2);
+                console.log(data2);
 
                 plotTechnicalGraph = $.plot('#technical-graph', [data2], options);
                 plotTechnicalGraph.setupGrid(); //only necessary if your new data will change the axes or grid
                 plotTechnicalGraph.draw();
-
+            },
+            error : function (data) {
+                console.log(data);
             }
 
         });
