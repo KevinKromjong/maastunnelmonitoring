@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    var criticalValue = 128;
+
     // connectToWebSocket();
 
     //Initialize de fanvariabelen
@@ -9,9 +11,8 @@ $(document).ready(function () {
     fan4 = [];
     fan5 = [];
 
-    plotGraphData();
+    plotGraphData(criticalValue);
     toggleFanTechnicalInformation();
-
 });
 
 /****************
@@ -50,7 +51,6 @@ function fillDataVariables() {
     $.each(fansGraph, function (key, value) {
 
         var date = new Date(value['created_at'].replace(/-/g, "/"));
-
         if (value['is_on'] === true) {
             switch (value['fan_number']) {
                 case 1 :
@@ -73,12 +73,11 @@ function fillDataVariables() {
     });
 }
 
-function plotGraphData() {
+function plotGraphData(criticalValue) {
 
     configureTooltip();
     fillDataVariables();
 
-    var CRITICAL_VALUE = 227;
     var fansToCheck = [fan1, fan2, fan3, fan4, fan5];
     var data = [];
     var epochT = (new Date).getTime(); // time right now in js epoch
@@ -95,14 +94,14 @@ function plotGraphData() {
                 label = 'Ventilator Z-0' + parseInt(index + 1);
             }
 
-            if (value[0][1] > CRITICAL_VALUE) {
+            if (value[0][1] > criticalValue) {
                 fansToCheck[index]['color'] = '#DD2C00';
             } else {
                 fansToCheck[index]['color'] = colors[index];
             }
 
             data.push({
-                idx: i,
+                idx: i + 1,
                 label: label,
                 data: fansToCheck[index],
                 color: fansToCheck[index]['color']
@@ -111,6 +110,20 @@ function plotGraphData() {
             i++;
         }
     });
+
+    criticalLine = {
+        idx: 0,
+        color: '#DD2C00',
+        label: 'Kritieke waarde',
+        data: [
+            [0000000000000, criticalValue],
+            [9999999999999, criticalValue]
+        ]
+    };
+
+    data.unshift(criticalLine);
+
+    console.log(data);
 
     var options = {
         grid: {
@@ -144,8 +157,15 @@ function plotGraphData() {
         }]
     };
 
+    var date2 = new Date('2016-01-01 00:00:00');
+
     //Teken de plot
-    somePlot = $.plot($('#fan-graph'), data, options);
+    function update() {
+        somePlot = $.plot($('#fan-graph'), data, options);
+        setTimeout(update, 30000);
+    }
+
+    update();
 }
 
 function toggleFanTechnicalInformation() {
@@ -189,7 +209,7 @@ function toggleFanTechnicalInformation() {
             }
         },
         xaxis: {
-            mode: "time", timeformat: "%H:%M", tickSize: [4, "hour"], timezone: "browser"
+            mode: "time", timeformat: "%H:%M", tickSize: [3, "hour"], timezone: "browser"
         },
         axisLabels: {
             show: true
@@ -205,57 +225,64 @@ function toggleFanTechnicalInformation() {
 
     filterTechnicalInformation(technicalFanOptionsFilter);
 
-
+    var previousTarget = null;
     $('.fan').on('click', function () {
+        if(this == previousTarget) {
+            $('.fan').parent().parent().find('.fan-information-technical').hide('slow');
+            previousTarget = null;
+        } else {
 
-        var dataAttributeIndex = ($(this).attr('data-index'));
-        $('.fan').parent().parent().find('.fan-information-technical').show('slow');
+            previousTarget = this;
 
-        $.each(fansToCheck, function (index, value) {
+            var dataAttributeIndex = ($(this).attr('data-index'));
+            $('.fan').parent().parent().find('.fan-information-technical').show('slow');
 
-            if (index == dataAttributeIndex) {
-                if (fansOverview[index]['is_on'] == true) {
-                    $('#technical-graph').html('').removeClass('fan-off');
-                    plotTechnicalGraph = $.plot('#technical-graph', [fansToCheck[index]], technicalFanOptions);
-                    plotTechnicalGraph.setupGrid(); //only necessary if your new data will change the axes or grid
-                    plotTechnicalGraph.draw();
-                } else {
-                    $('#technical-graph').html('<p class="fan-off">Deze ventilator staat uit en kan dus geen data weergeven</p>')
-                }
-            }
-        });
+            $.each(fansToCheck, function (index, value) {
 
-        $.each(fansOverview, function (index, value) {
-                if (fansOverview[index]['fan_number'] - 1 == dataAttributeIndex) {
-
-                    if (fansOverview[index]['direction'] == 'north') {
-                        $('.fan-information-technical h1').html('ventilator <br/> N-0' + fansOverview[index]['fan_number'])
-                    } else {
-                        $('.fan-information-technical h1').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']);
-                    }
-
-                    if (fansOverview[index]['blow_direction'] == 'north') {
-                        $('.fan-information-technical .fan-blowing-direction').html('Noord');
-                    } else {
-                        $('.fan-information-technical .fan-blowing-direction').html('Zuid');
-                    }
-
+                if (index == dataAttributeIndex) {
                     if (fansOverview[index]['is_on'] == true) {
-                        $('.fan-information-technical .fan-status').html('AAN').addClass('green').removeClass('red');
+                        $('#technical-graph').html('').removeClass('fan-off');
+                        plotTechnicalGraph = $.plot('#technical-graph', [fansToCheck[index]], technicalFanOptions);
+                        plotTechnicalGraph.setupGrid(); //only necessary if your new data will change the axes or grid
+                        plotTechnicalGraph.draw();
                     } else {
-                        $('.fan-information-technical .fan-status').html('UIT').addClass('red').removeClass('green');
+                        $('#technical-graph').html('<p class="fan-off">Deze ventilator staat uit en kan dus geen data weergeven</p>')
                     }
-
-                    if (calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) == 0) {
-                        $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 0 uur geleden)");
-                    } else {
-                        $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 6 uur geleden)");
-                    }
-
-                    $('.filter').attr('data-fan-number', fansOverview[index]['fan_number']);
                 }
-            }
-        );
+            });
+
+            $.each(fansOverview, function (index, value) {
+                    if (fansOverview[index]['fan_number'] - 1 == dataAttributeIndex) {
+
+                        if (fansOverview[index]['direction'] == 'north') {
+                            $('.fan-information-technical h1').html('ventilator <br/> N-0' + fansOverview[index]['fan_number'])
+                        } else {
+                            $('.fan-information-technical h1').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']);
+                        }
+
+                        if (fansOverview[index]['blow_direction'] == 'north') {
+                            $('.fan-information-technical .fan-blowing-direction').html('Noord');
+                        } else {
+                            $('.fan-information-technical .fan-blowing-direction').html('Zuid');
+                        }
+
+                        if (fansOverview[index]['is_on'] == true) {
+                            $('.fan-information-technical .fan-status').html('AAN').addClass('green').removeClass('red');
+                        } else {
+                            $('.fan-information-technical .fan-status').html('UIT').addClass('red').removeClass('green');
+                        }
+
+                        if (calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) == 0) {
+                            $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 0 uur geleden)");
+                        } else {
+                            $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 6 uur geleden)");
+                        }
+
+                        $('.filter').attr('data-fan-number', fansOverview[index]['fan_number']);
+                    }
+                }
+            );
+        }
     });
 }
 
@@ -269,31 +296,27 @@ function filterTechnicalInformation(options) {
 
         $.ajax({
             url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            // url: 'http://10.34.164.103/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             format: 'json',
+            async: true,
             success: function (data) {
                 var data2 = [];
 
                 $.each(data['fans'], function (index, value) {
                     var date = new Date(value['created_at'].replace(/-/g, "/"));
-                    // var dateSafari = new Date(
-                    //     date.getFullYear() + ' ' +
-                    //     (date.getMonth() < 10 ? '0' : '') + date.getMonth() + ' ' +
-                    //     (date.getDay() < 10 ? '0' : '')+ date.getDay() + ' '+
-                    //     (date.getHours() < 10 ? '0' : '') + date.getHours() + ' ' +
-                    //     (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ' ' +
-                    //     (date.getSeconds() < 10 ? '0' : '') + date.getSeconds())
-
                     data2.push([date, value['power_usage'], parseInt(fanNumber)])
                 });
-
-                console.log(data2);
 
                 plotTechnicalGraph = $.plot('#technical-graph', [data2], options);
                 plotTechnicalGraph.setupGrid(); //only necessary if your new data will change the axes or grid
                 plotTechnicalGraph.draw();
             },
-            error : function (data) {
-                console.log(data);
+            error: function (x, t, m) {
+                if (t === "timeout") {
+                    alert("got timeout");
+                } else {
+                    alert(t);
+                }
             }
 
         });
@@ -324,10 +347,12 @@ function configureTooltip() {
 }
 
 function togglePlot(seriesIdx) {
-    var someData = somePlot.getData();
-    someData[seriesIdx].lines.show = !someData[seriesIdx].lines.show;
-    somePlot.setData(someData);
-    somePlot.draw();
+    if (seriesIdx != 0) {
+        var someData = somePlot.getData();
+        someData[seriesIdx].lines.show = !someData[seriesIdx].lines.show;
+        somePlot.setData(someData);
+        somePlot.draw();
+    }
 }
 
 function showTooltip(x, y, contents) {
