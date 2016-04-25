@@ -135,7 +135,7 @@ function plotGraphData(criticalValue) {
         },
         legend: {
             container: $('#fan-graph-legend'), noColumns: 1, labelFormatter: function (label, series) {
-                return '<a id="toggle-legend' + series.idx + '" href="#" onClick="togglePlot(' + series.idx + ', event); return false;">' + label + '</a>';
+                return '<a id="toggle-legend" href="#" onClick="togglePlot(' + series.idx + ', event); return false;">' + label + '</a>';
             }
         },
         xaxis: {
@@ -225,7 +225,7 @@ function toggleFanTechnicalInformation() {
 
     var previousTarget = null;
     $('.fan').on('click', function () {
-        if(this == previousTarget) {
+        if (this == previousTarget) {
             $('.fan').parent().parent().find('.fan-information-technical').hide('slow');
             $('.expand-fan-button').html('<i style="color: grey" class="fa fa-plus-square-o" aria-hidden="true"></i>');
             previousTarget = null;
@@ -242,10 +242,12 @@ function toggleFanTechnicalInformation() {
                 if (index == dataAttributeIndex) {
                     if (fansOverview[index]['is_on'] == true) {
                         $('#technical-graph').html('').removeClass('fan-off');
+                        $('.filter-buttons').show();
                         plotTechnicalGraph = $.plot('#technical-graph', [fansToCheck[index]], technicalFanOptions);
                         plotTechnicalGraph.setupGrid(); //only necessary if your new data will change the axes or grid
                         plotTechnicalGraph.draw();
                     } else {
+                        $('.filter-buttons').hide();
                         $('#technical-graph').html('<p class="fan-off">Deze ventilator staat uit en kan dus geen data weergeven</p>')
                     }
                 }
@@ -273,9 +275,9 @@ function toggleFanTechnicalInformation() {
                         }
 
                         if (calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) == 0) {
-                            $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 0 uur geleden)");
+                            $('.fan-technical-values .fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> <span style='font-size: 12px''>(sinds 0 uur geleden)</span>");
                         } else {
-                            $('.fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> (sinds 6 uur geleden)");
+                            $('.fan-technical-values .fan-power-usage').html(calculateAveragePowerUsageTechnicalGraph(fansToCheck[index]) + " Kilowatt <br/> <span style='font-size: 12px''>(sinds 6 uur geleden)</span>");
                         }
 
                         $('.filter').attr('data-fan-number', fansOverview[index]['fan_number']);
@@ -295,11 +297,12 @@ function filterTechnicalInformation(options) {
 
 
         $.ajax({
-            url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            // url: 'http://10.34.164.103/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            // url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            url: 'http://10.34.165.54/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             format: 'json',
             async: true,
             success: function (data) {
+                console.log(data);
                 var data2 = [];
 
                 $.each(data['fans'], function (index, value) {
@@ -350,6 +353,9 @@ function togglePlot(seriesIdx, event) {
 
     if (seriesIdx != 0) {
         var someData = somePlot.getData();
+        $('#fan-graph-legend .legendLabel > a').on('click', function () {
+            $(this).css('display', 'none');
+        });
         someData[seriesIdx].lines.show = !someData[seriesIdx].lines.show;
         somePlot.setData(someData);
         somePlot.draw();
