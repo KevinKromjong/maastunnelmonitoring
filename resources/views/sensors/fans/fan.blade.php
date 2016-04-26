@@ -14,8 +14,7 @@
 
                 <section id="fans">
 
-                    @foreach($fansOverview as $index => $fan)
-
+                @foreach($fansOverview as $index => $fan)
                         @if(count($fansOverview) == 5)
                             <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12 five-fans">
                                 @else
@@ -124,8 +123,7 @@
 
                                                             <hr/>
 
-                                                            <p class="fan-power-usage"> 125.4 Watt <br/> (sinds 6 uur
-                                                                terug)
+                                                            <p class="fan-power-usage"> 125.4 Watt <br/> <span style="font-size: 12px">(sinds 6 uur terug)</span>
                                                             </p>
 
                                                             <hr/>
