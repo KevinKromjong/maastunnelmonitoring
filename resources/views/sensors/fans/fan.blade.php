@@ -128,8 +128,7 @@
 
                                                             <hr/>
 
-                                                            <p class="fan-technical-life-expectancy">Nog {{ rand(2,5)}}
-                                                                jaar <br/> <span style="font-size: 12px">(berekend vanaf {{ rand( 2012, 2015) }} )</span></p>
+                                                            <p class="fan-technical-life-expectancy">Nog {{ rand(2,5) }} jaar <br/> <span style="font-size: 12px">(berekend vanaf {{ rand( 2012, 2015) }} )</span></p>
 
                                                             <hr/>
 

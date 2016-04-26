@@ -1,13 +1,15 @@
 $(document).ready(function () {
 
     var criticalValue = 128;    // Set the critical value
-    fansToCheck = [];   // Initialize the fan variables
+    fansToCheck = [];   // Initialize the fan container
+    var colors = ['#DD2C00', '#9BC2DB', '#DBEDF3', '#A3DFFB', '#C4E3FC', '#A4D4FA']; // Set the colors of the lines in the graph
+
 
     //Execute the necessary functions
-    connectToWebSocket();
-    fillFanVariables();
-    plotMainGraph(criticalValue, fansToCheck);
-    toggleFanDropdown(fansToCheck);
+    // connectToWebSocket();
+    fillFanVariables(fansToCheck);
+    plotMainGraph(criticalValue, fansToCheck, colors);
+    toggleFanDropdown(fansToCheck, colors);
 });
 
 
@@ -94,9 +96,8 @@ function fillFanVariables() {
  * @param criticalValue: the critical value declared at the top of the page
  * @param fansToCheck: the list of fans to check. Normally, it contains all five fans
  */
-function plotMainGraph(criticalValue, fansToCheck) {
+function plotMainGraph(criticalValue, fansToCheck, colors) {
 
-    var colors = ['#9BC2DB', '#DBEDF3', '#A3DFFB', '#C4E3FC', '#A4D4FA'];
     var epochT = (new Date).getTime();
     var dataset = [];
     var i = 1;
@@ -155,7 +156,7 @@ function plotMainGraph(criticalValue, fansToCheck) {
                 data: value,
                 label: label,
                 idx: i,
-                color: colors[index]
+                color: colors[index + 1]
             });
 
             i++
@@ -165,8 +166,8 @@ function plotMainGraph(criticalValue, fansToCheck) {
     // Configure the critial line
     var criticalLine = {
         idx: 0,
-        color: '#DD2C00',
-        label: 'Kritieke waarde',
+        color: colors[0],
+        label: '<span style="text-decoration: underline">Gevarenzone</span> <br/>' + criticalValue + ' Kilowatt',
         data: [
             [0, criticalValue],
             [9999999999999, criticalValue]
@@ -189,8 +190,9 @@ function plotMainGraph(criticalValue, fansToCheck) {
  * Toggles the dropdown when clicked on a fan
  *
  * @param fansToCheck: the list of fans to check. Normally, it contains all five fans
+ * @param colors: an array of the colors the lines in the graph have
  */
-function toggleFanDropdown(fansToCheck) {
+function toggleFanDropdown(fansToCheck, colors) {
 
     var epochT = (new Date).getTime(); // time right now in js epoch
     var dataAttributeIndex;
@@ -280,15 +282,17 @@ function toggleFanDropdown(fansToCheck) {
                     // If the fan is off: show a message that the fan is off, so there is no data to fetch and display
                     if (fansOverview[index]['is_on'] == true) {
                         $('#technical-graph').html('').removeClass('fan-off');
-                        plotTechnicalGraph = $.plot('#technical-graph', [fansToCheck[index]], technicalFanOptions);
+                        $('.filter-buttons').show();
+                        plotTechnicalGraph = $.plot('#technical-graph', [{data : fansToCheck[index], color: colors[index + 1]}], technicalFanOptions);
                         plotTechnicalGraph.setupGrid(); //only necessary if your new data will change the axes or grid
                         plotTechnicalGraph.draw();
                     } else {
                         $('#technical-graph').html('<p class="fan-off">Deze ventilator staat uit en kan dus geen data weergeven</p>')
+                        $('.filter-buttons').hide();
                     }
 
                     //Enable the filter buttons below the graph in the dropdown
-                    filterDropdownGraph();
+                    filterFanDropdownGraph(colors);
 
                 }
             });
@@ -299,53 +303,81 @@ function toggleFanDropdown(fansToCheck) {
 
 /**
  * Filters the graph in the dropdown
+ *
+ * @param colors: an array of the colors the lines in the graph have
  */
-function filterDropdownGraph() {
-    $('.filter-buttons > div').on('click', function () {
+function filterFanDropdownGraph(colors) {
+
+    $('.filter-buttons > div').on('click', function (event) {
+
+        var previousTarget = null;
         var timeBack = $(this).attr('data-filter');
         var fanNumber = $(this).attr('data-fan-number');
         var tunnel = $(this).attr('data-tunnel');
         var direction = $(this).attr('data-direction');
-        var technicalFanOptionsFilter = {
-            grid: {
-                hoverable: true,
-                tooltip: true
-            },
-            series: {
-                lines: {
-                    show: true
-                }
-            },
-            xaxis: {
-                mode: "time", timeformat: "%H:%M", tickSize: [3, "hour"], timezone: "browser"
-            },
-            axisLabels: {
-                show: true
-            },
-            xaxes: [{
-                axisLabel: 'Tijd in hele uren'
-            }],
-            yaxes: [{
-                position: 'left',
-                axisLabel: 'Stroomverbruik in Kilowatt'
-            }]
-        };
+
+        // Change the color when clicked on a filter to a darker color
+        // Change the color of the other elements back to their normal color
+        var parent =  $(event.target).parent().parent().find('div');
+        $(parent).css('background', '#dfdfdf');
+
+        if(this != previousTarget) {
+            $(this).css('background', 'darkgrey');
+            previousTarget = null;
+        }
 
         // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
         $.ajax({
-            url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            // url: 'http://10.34.164.103/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            // url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            url: 'http://10.34.165.54/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             format: 'json',
             async: true,
             success: function (data) {
+
                 var filteredData = [];
+                var lowest = 1000;
+                var highest = 0;
 
                 $.each(data['fans'], function (index, value) {
+                    if(value['power_usage'] < lowest)
+                        lowest = value['power_usage'];
+
+                    if (value['power_usage'] > highest)
+                        highest = value['power_usage'];
+
                     var date = new Date(value['created_at'].replace(/-/g, "/"));
                     filteredData.push([date, value['power_usage'], parseInt(fanNumber)]);
                 });
 
-                plotTechnicalGraph = $.plot('#technical-graph', [filteredData], technicalFanOptionsFilter);
+                var technicalFanOptionsFilter = {
+                    grid: {
+                        hoverable: true,
+                        tooltip: true
+                    },
+                    series: {
+                        lines: {
+                            show: true
+                        }
+                    },
+                    xaxis: {
+                        mode: "time", timeformat: "%H:%M", tickSize: [3, "hour"], timezone: "browser"
+                    },
+                    xaxes: [{
+                        axisLabel: 'Tijd in hele uren'
+                    }],
+                    yaxis : {
+                        min: lowest - 10,
+                        max: highest + 10
+                    },
+                    yaxes: [{
+                        position: 'left',
+                        axisLabel: 'Stroomverbruik in Kilowatt'
+                    }],
+                    axisLabels: {
+                        show: true
+                    }
+                };
+                plotTechnicalGraph = $.plot('#technical-graph', [{data: filteredData, color: colors[fanNumber]}], technicalFanOptionsFilter);
                 plotTechnicalGraph.setupGrid();
                 plotTechnicalGraph.draw();
             },
@@ -354,7 +386,6 @@ function filterDropdownGraph() {
             }
 
         });
-
     });
 }
 
