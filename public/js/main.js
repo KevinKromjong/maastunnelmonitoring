@@ -12,7 +12,6 @@ $(document).ready(function () {
     toggleFanDropdown(fansToCheck, colors);
 });
 
-
 /**
  * Connects to the websocket via server.js
  * Uses the websocket to display the correct runtime of a fan
@@ -32,15 +31,15 @@ function connectToWebSocket() {
     }
 
     socket.on('date', function (data) {
-        var tijd = new Date(data.date);
+        var fantime = new Date(data.date);
 
         if ($('.fan-information-technical .fan-status').attr('class') == 'fan-status red') {
             $('.fan-information-technical .fan-time-on').text('0');
         } else {
             $('.fan-information-technical .fan-time-on').text(
-                (tijd.getHours() < 10 ? '0' : '') + tijd.getHours() + ':' +
-                (tijd.getMinutes() < 10 ? '0' : '') + tijd.getMinutes() + ':' +
-                (tijd.getSeconds() < 10 ? '0' : '') + tijd.getSeconds()
+                (fantime.getHours() < 10 ? '0' : '') + fantime.getHours() + ':' +
+                (fantime.getMinutes() < 10 ? '0' : '') + fantime.getMinutes() + ':' +
+                (fantime.getSeconds() < 10 ? '0' : '') + fantime.getSeconds()
             );
         }
     });
@@ -109,6 +108,9 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
         series: {
             lines: {
                 show: true
+            },
+            points : {
+                show : true
             }
         },
         legend: {
@@ -178,12 +180,26 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
     dataset.unshift(criticalLine);
 
     // Plot the plot and update it every 30 seconds
-    function update() {
+    if (window.matchMedia('(max-width: 640px)').matches) {
+        options.xaxis.tickSize = [2, 'hour'];
         mainGraph = $.plot($('#fan-graph'), dataset, options);
-        setTimeout(update, 30000);
+    } else {
+        mainGraph = $.plot($('#fan-graph'), dataset, options);
     }
 
-    update();
+    window.onresize = function() {
+        mainGraph.resize();
+        mainGraph.setupGrid();
+        mainGraph.draw();
+    };
+
+    // function update() {
+    //     mainGraph.setupGrid();
+    //     mainGraph.draw();
+    //     setTimeout(update, 10000);
+    // }
+    //
+    // update();
 }
 
 /**
@@ -204,10 +220,13 @@ function toggleFanDropdown(fansToCheck, colors) {
         series: {
             lines: {
                 show: true
+            },
+            points : {
+                show : true
             }
         },
         xaxis: {
-            mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser",
+            mode: "time", timeformat: "%H:%M", tickSize: [3, "hour"], timezone: "browser",
             min: epochT - 10800000, //3 uur
             max: epochT
         },
@@ -283,11 +302,17 @@ function toggleFanDropdown(fansToCheck, colors) {
                     if (fansOverview[index]['is_on'] == true) {
                         $('#technical-graph').html('').removeClass('fan-off');
                         $('.filter-buttons').show();
-                        plotTechnicalGraph = $.plot('#technical-graph', [{data : fansToCheck[index], color: colors[index + 1]}], technicalFanOptions);
-                        plotTechnicalGraph.setupGrid(); //only necessary if your new data will change the axes or grid
+                        plotTechnicalGraph = $.plot($('#technical-graph'), [{ data: fansToCheck[index], color: colors[index + 1]}], technicalFanOptions);
+                        plotTechnicalGraph.resize();
+                        plotTechnicalGraph.setupGrid();
                         plotTechnicalGraph.draw();
+
+                        // window.onresize = function() {
+                            // plotTechnicalGraph = $.plot($('#technical-graph'), [{ data: fansToCheck[index], color: colors[index + 1]}], technicalFanOptions);
+                        // };
+
                     } else {
-                        $('#technical-graph').html('<p class="fan-off">Deze ventilator staat uit en kan dus geen data weergeven</p>')
+                        $('#technical-graph').html('<p class="fan-off">Deze ventilator staat uit en kan dus geen data weergeven</p>');
                         $('.filter-buttons').hide();
                     }
 
@@ -318,10 +343,10 @@ function filterFanDropdownGraph(colors) {
 
         // Change the color when clicked on a filter to a darker color
         // Change the color of the other elements back to their normal color
-        var parent =  $(event.target).parent().parent().find('div');
+        var parent = $(event.target).parent().parent().find('div');
         $(parent).css('background', '#dfdfdf');
 
-        if(this != previousTarget) {
+        if (this != previousTarget) {
             $(this).css('background', 'darkgrey');
             previousTarget = null;
         }
@@ -329,7 +354,7 @@ function filterFanDropdownGraph(colors) {
         // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
         $.ajax({
             // url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            url: 'http://10.34.165.54/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            url: 'http://10.34.164.155/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             format: 'json',
             async: true,
             success: function (data) {
@@ -339,7 +364,7 @@ function filterFanDropdownGraph(colors) {
                 var highest = 0;
 
                 $.each(data['fans'], function (index, value) {
-                    if(value['power_usage'] < lowest)
+                    if (value['power_usage'] < lowest)
                         lowest = value['power_usage'];
 
                     if (value['power_usage'] > highest)
@@ -357,15 +382,18 @@ function filterFanDropdownGraph(colors) {
                     series: {
                         lines: {
                             show: true
+                        },
+                        points: {
+                            show: true
                         }
                     },
                     xaxis: {
-                        mode: "time", timeformat: "%H:%M", tickSize: [3, "hour"], timezone: "browser"
+                        mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser"
                     },
                     xaxes: [{
                         axisLabel: 'Tijd in hele uren'
                     }],
-                    yaxis : {
+                    yaxis: {
                         min: lowest - 10,
                         max: highest + 10
                     },
@@ -377,9 +405,30 @@ function filterFanDropdownGraph(colors) {
                         show: true
                     }
                 };
-                plotTechnicalGraph = $.plot('#technical-graph', [{data: filteredData, color: colors[fanNumber]}], technicalFanOptionsFilter);
+
+                switch (timeBack) {
+                    case '6' :
+                        technicalFanOptionsFilter.xaxis.tickSize = [1, 'hour'];
+                        break;
+                    case '12' :
+                        technicalFanOptionsFilter.xaxis.tickSize = [2, 'hour'];
+                        break;
+                    case '1' :
+                        technicalFanOptionsFilter.xaxis.tickSize = [3, 'hour'];
+                        break;
+                    case '2' :
+                        technicalFanOptionsFilter.xaxis.tickSize = [6, 'hour'];
+                        break;
+                }
+
+                plotTechnicalGraph = $.plot($('#technical-graph'), [{ data: filteredData, color: colors[fanNumber] }], technicalFanOptionsFilter);
+                plotTechnicalGraph.resize();
                 plotTechnicalGraph.setupGrid();
                 plotTechnicalGraph.draw();
+
+                // window.onresize = function() {
+                //     plotTechnicalGraph = $.plot($('#technical-graph'), [{ data: filteredData, color: colors[fanNumber] }], technicalFanOptionsFilter);
+                // }
             },
             error: function () {
                 alert("Er is een time-out opgetreden!")

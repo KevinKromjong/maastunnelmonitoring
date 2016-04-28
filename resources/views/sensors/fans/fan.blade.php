@@ -18,7 +18,7 @@
                         @if(count($fansOverview) == 5)
                             <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12 five-fans">
                                 @else
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                         @endif
 
                                         <article class="fan" data-index="{{$fan->fan_number -1}}">
@@ -59,6 +59,8 @@
                                                             <p>Zuid</p>
                                                         @endif
                                                     </div>
+
+                                                    <hr/>
 
                                                     <div class="expand-fan-button"
                                                          style="float: right; margin-right: 20px; margin-top: -20px; font-size: 20px">

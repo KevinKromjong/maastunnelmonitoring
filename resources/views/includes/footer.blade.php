@@ -14,6 +14,7 @@
 <script src="{{asset('/js/flot/jquery.flot.min.js')}}" rel="script"></script>
 <script src="{{asset('/js/flot/jquery.flot.time.min.js')}}" rel="script"></script>
 <script src="{{asset('/js/flot/jquery.flot.axislabels.js')}}" rel="script"></script>
+<script src="{{asset('/js/flot/jquery.flot.resize.min.js')}}" rel="script"></script>
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 
