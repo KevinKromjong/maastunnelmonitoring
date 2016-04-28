@@ -100,37 +100,8 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
     var epochT = (new Date).getTime();
     var dataset = [];
     var i = 1;
-    var options = {
-        grid: {
-            hoverable: true,
-            tooltip: true
-        },
-        series: {
-            lines: {
-                show: true
-            },
-        },
-        legend: {
-            container: $('#fan-graph-legend'), noColumns: 1, labelFormatter: function (label, series) {
-                return '<a id="toggle-legend" href="#" onClick="togglePlot(' + series.idx + '); return false;">' + label + '</a>';
-            }
-        },
-        xaxis: {
-            mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser",
-            min: epochT - 43200000, //3 uur
-            max: epochT
-        },
-        axisLabels: {
-            show: true
-        },
-        xaxes: [{
-            axisLabel: 'Tijd in hele uren'
-        }],
-        yaxes: [{
-            position: 'left',
-            axisLabel: 'Stroomverbruik in Kilowatt'
-        }]
-    }; //The options for the graph
+    var lowest = 1000;
+    var highest = 0;
 
     // Enables tooltips and executes the function that fills the fan variables
     configureTooltip();
@@ -148,6 +119,14 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
             } else {
                 label = 'Ventilator Z-0' + parseInt(index + 1);
             }
+
+            $.each(value, function (index2, value2) {
+                if (value2[1] < lowest)
+                    lowest = value2[1];
+
+                if (value2[1] > highest)
+                    highest = value2[1];
+            });
 
             // Pushes the data from the fan to the dataset variable
             // This variable holds all the data from all the fans
@@ -175,6 +154,43 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
 
     // Add the critical line to the dataset variable
     dataset.unshift(criticalLine);
+
+
+    var options = {
+        grid: {
+            hoverable: true,
+            tooltip: true
+        },
+        series: {
+            lines: {
+                show: true
+            }
+        },
+        legend: {
+            container: $('#fan-graph-legend'), noColumns: 1, labelFormatter: function (label, series) {
+                return '<a id="toggle-legend" href="#" onClick="togglePlot(' + series.idx + '); return false;">' + label + '</a>';
+            }
+        },
+        xaxis: {
+            mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser",
+            min: epochT - 43200000, //3 uur
+            max: epochT
+        },
+        axisLabels: {
+            show: true
+        },
+        xaxes: [{
+            axisLabel: 'Tijd in hele uren'
+        }],
+        yaxes: [{
+            position: 'left',
+            axisLabel: 'Stroomverbruik in Kilowatt'
+        }],
+        yaxis: {
+            min: lowest - 10,
+            max: highest + 10
+        }
+    }; //The options for the graph
 
     // Plot the plot and update it every 30 seconds
     if (window.matchMedia('(max-width: 640px)').matches) {
@@ -348,7 +364,8 @@ function filterFanDropdownGraph(colors) {
         // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
         $.ajax({
             // url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            url: 'http://10.34.164.155/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            // url: 'http://10.34.164.155/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            url: 'http://146.185.130.75/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             format: 'json',
             async: true,
             success: function (data) {

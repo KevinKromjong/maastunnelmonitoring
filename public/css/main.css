@@ -242,7 +242,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
 
     /*#fan-graph { height: 200px; width: 100%}*/
     #fan-graph-container { top: 20px; }
-    #fan-graph-legend { float: none; width: 100%; height: auto; padding: 0 0 30px 40px; margin-top: 15px;}
+    #fan-graph-legend { float: none; width: 100%; height: auto; margin-top: 15px;}
     #fan-graph-legend .legendLabel { padding: 0; }
     #fan-graph-legend tr { float: left; width: 50%; }
     #fan-graph-legend tr:nth-child(1) { margin-top: 20px; }
