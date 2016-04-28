@@ -109,9 +109,6 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
             lines: {
                 show: true
             },
-            points : {
-                show : true
-            }
         },
         legend: {
             container: $('#fan-graph-legend'), noColumns: 1, labelFormatter: function (label, series) {
@@ -221,9 +218,6 @@ function toggleFanDropdown(fansToCheck, colors) {
             lines: {
                 show: true
             },
-            points : {
-                show : true
-            }
         },
         xaxis: {
             mode: "time", timeformat: "%H:%M", tickSize: [3, "hour"], timezone: "browser",
@@ -383,9 +377,6 @@ function filterFanDropdownGraph(colors) {
                         lines: {
                             show: true
                         },
-                        points: {
-                            show: true
-                        }
                     },
                     xaxis: {
                         mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser"
