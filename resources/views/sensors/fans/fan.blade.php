@@ -14,6 +14,10 @@
 
                 <section id="fans">
 
+                    <div id="testgraph" style="width: 1000px; height: 500px;;">
+
+                    </div>
+
                 @foreach($fansOverview as $index => $fan)
                         @if(count($fansOverview) == 5)
                             <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12 five-fans">

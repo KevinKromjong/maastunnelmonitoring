@@ -115,7 +115,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 
 .filter-buttons { float: right; margin-top: 20px; width: 100%; }
 .filter-buttons > div { background: #dfdfdf; border: 1px solid lightgray; width: 25%; height: 50px; float: left; }
-.filter-buttons > div:hover { cursor: pointer; }
+.filter-buttons > div:hover { cursor: pointer; background: lightgray;}
 .filter-buttons > div p { text-align: center; padding-top: 10px; font-variant: small-caps; font-family: Rubik, sans-serif; font-size: 15px; line-height: 15px; }
 
 #technical-graph { padding: 50px; float: right; width: 82%; height: 400px; margin-top: 110px;}

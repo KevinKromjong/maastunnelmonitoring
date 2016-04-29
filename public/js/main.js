@@ -2,8 +2,58 @@ $(document).ready(function () {
 
     var criticalValue = 128;    // Set the critical value
     fansToCheck = [];   // Initialize the fan container
-    var colors = ['#DD2C00', '#9BC2DB', '#DBEDF3', '#A3DFFB', '#C4E3FC', '#A4D4FA']; // Set the colors of the lines in the graph
 
+    // Old colours
+    // var colors = ['#DD2C00', '#9BC2DB', '#DBEDF3', '#A3DFFB', '#C4E3FC', '#A4D4FA']; 
+
+    var colors = ['#DD2C00', '#699633', '#83be3e', '#a3cf70', '#c4e0a3', '#e5f1d6'];
+
+    var data1 = [[0,1], [10,1]];
+    var data2 = [[0,2], [10,2]];
+    var data3 = [[0,3], [10,3]];
+    var data4 = [[0,4], [10,4]];
+    var data5 = [[0,5], [10,5]];
+    var data6 = [[0,6], [10,6]];
+
+    var dataset = [
+        {
+            data : data1,
+            color : colors[0]
+        },
+        {
+            data : data2,
+            color : colors[1]
+        },
+        {
+            data : data3,
+            color : colors[2]
+        },
+        {
+            data : data4,
+            color : colors[3]
+        },
+        {
+            data : data5,
+            color : colors[4]
+        },
+        {
+            data : data6,
+            color : colors[5]
+        }
+    ];
+    var options = {
+        series : {
+            lines : {
+                show : true
+            },
+            points : {
+                radius : 3,
+                show : true
+            }
+        }
+    };
+
+    $.plot($('#testgraph'), dataset, options    );
 
     //Execute the necessary functions
     // connectToWebSocket();
@@ -172,8 +222,8 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
             }
         },
         xaxis: {
-            mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser",
-            min: epochT - 43200000, //3 uur
+            mode: "time", timeformat: "%H:%M", tickSize: [1 , "minute"], timezone: "browser",
+            min: epochT - 600000, //3 uur
             max: epochT
         },
         axisLabels: {
@@ -233,7 +283,7 @@ function toggleFanDropdown(fansToCheck, colors) {
         series: {
             lines: {
                 show: true
-            },
+            }
         },
         xaxis: {
             mode: "time", timeformat: "%H:%M", tickSize: [3, "hour"], timezone: "browser",
@@ -312,7 +362,8 @@ function toggleFanDropdown(fansToCheck, colors) {
                     if (fansOverview[index]['is_on'] == true) {
                         $('#technical-graph').html('').removeClass('fan-off');
                         $('.filter-buttons').show();
-                        plotTechnicalGraph = $.plot($('#technical-graph'), [{ data: fansToCheck[index], color: colors[index + 1]}], technicalFanOptions);
+                        plotTechnicalGraph = $.plot($('#technical-graph'), [{ data: fansToCheck[index], dashes : {
+                            show : true}, color: colors[index + 1]}], technicalFanOptions);
                         plotTechnicalGraph.resize();
                         plotTechnicalGraph.setupGrid();
                         plotTechnicalGraph.draw();
@@ -363,9 +414,9 @@ function filterFanDropdownGraph(colors) {
 
         // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
         $.ajax({
-            // url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             // url: 'http://10.34.164.155/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            url: 'http://146.185.130.75/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            // url: 'http://146.185.130.75/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             format: 'json',
             async: true,
             success: function (data) {
