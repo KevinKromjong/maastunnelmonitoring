@@ -99,8 +99,11 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .fan p.fan-status { padding-top: 12px; font-size: 36px; line-height: 0; margin-bottom: 30px;}
 .fan p.fan-time-on { font-family: Hind, sans-serif; padding-top: 15px; font-size: 30px; line-height: 0;}
 
-.fan .arrow-squiggly-down { transform: rotate(180deg); display: inline-block; font-size: 45px; margin: -10px 0 -10px 0; }
-.fan .arrow-squiggly-up { transform: rotate(90deg);display: inline-block; font-size: 55px; margin: -15px -5px -15px -5px;}
+.fan .arrow-squiggly-up { transform: rotate(90deg);display: inline-block; font-size: 45px; margin: -10px -5px; }
+.fan .arrow-squiggly-down { transform: rotate(270deg); display: inline-block; font-size: 45px; margin: -10px -5px; }
+.fan .arrow-straight-up { transform: rotate(0deg); display: inline-block; font-size: 35px; margin: -5px 0; }
+.fan .arrow-straight-down { transform: rotate(180deg);display: inline-block; font-size: 35px; margin: -5px 0; }
+
 
 .fan hr { border-top: 1px solid lightgrey; margin: 10px 20px 0 20px;}
 .fan hr:nth-child(3) { display: none }
@@ -136,7 +139,11 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 #fan-graph-legend .legendLabel a { color: black;}
 #fan-graph-legend .legendLabel:hover a { color: darkgrey;}
 
-
+/*.fan-technical-keys p { margin-left: 30px; }*/
+.fan-technical-values p { margin-right: 30px; }
+.fa-info-circle { float: right; margin-top: 15px;}
+.fa-info-circle:first-of-type { margin-top: 5px;}
+.fa-info-circle:hover { cursor: pointer;}
 
 /************************************
  *    Media queries - Detailpagina     *

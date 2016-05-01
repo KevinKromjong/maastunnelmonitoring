@@ -14,11 +14,7 @@
 
                 <section id="fans">
 
-                    <div id="testgraph" style="width: 1000px; height: 500px;;">
-
-                    </div>
-
-                @foreach($fansOverview as $index => $fan)
+                    @foreach($fansOverview as $index => $fan)
                         @if(count($fansOverview) == 5)
                             <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12 five-fans">
                                 @else
@@ -35,7 +31,7 @@
 
                                                 <hr/>
 
-                                                <h2 class="fan-status-heading">status</h2>
+                                                <h2 class="fan-status-heading">stand</h2>
 
                                                 @if($fan->is_on === true)
                                                     <p class="fan-status green">AAN</p>
@@ -48,20 +44,36 @@
                                                     <h2 class="fan-direction-heading">blaasrichting</h2>
 
                                                     <div class="fan-blowing-direction">
-                                                        @if($fan->blow_direction == 'north')
+                                                        @if($fan->is_on === true)
+                                                            @if($fan->blow_direction == 'north')
+                                                                <p class="arrow-squiggly-up">&#8604;</p>
+                                                                <p class="arrow-squiggly-up">&#8604;</p>
+                                                                <p class="arrow-squiggly-up">&#8604;</p>
 
-                                                            <p class="arrow-squiggly-up">&#8604;</p>
-                                                            <p class="arrow-squiggly-up">&#8604;</p>
-                                                            <p class="arrow-squiggly-up">&#8604;</p>
+                                                                <p>Noord</p>
+                                                            @else
+                                                                <p class="arrow-squiggly-down">&#8604;</p>
+                                                                <p class="arrow-squiggly-down">&#8604;</p>
+                                                                <p class="arrow-squiggly-down">&#8604;</p>
 
-                                                            <p>Noord</p>
+                                                                <p>Zuid</p>
+                                                            @endif
                                                         @else
-                                                            <p class="arrow-squiggly-down">&#8593;</p>
-                                                            <p class="arrow-squiggly-down">&#8593;</p>
-                                                            <p class="arrow-squiggly-down">&#8593;</p>
+                                                            @if($fan->blow_direction == 'north')
+                                                                <p class="arrow-straight-up">&#8593;</p>
+                                                                <p class="arrow-straight-up">&#8593;</p>
+                                                                <p class="arrow-straight-up">&#8593;</p>
 
-                                                            <p>Zuid</p>
+                                                                <p>Noord</p>
+                                                            @else
+                                                                <p class="arrow-straight-down">&#8593;</p>
+                                                                <p class="arrow-straight-down">&#8593;</p>
+                                                                <p class="arrow-straight-down">&#8593;</p>
+
+                                                                <p>Zuid</p>
+                                                            @endif
                                                         @endif
+
                                                     </div>
 
                                                     <hr/>
@@ -89,7 +101,7 @@
                                                 <div class="fan-information-technical-details">
                                                     <div class="col-lg-6 col-md-4 col-sm-5 col-xs-6">
                                                         <div class="fan-technical-keys">
-                                                            <p>Status</p>
+                                                            <p>Stand</p>
                                                             <hr/>
                                                             <p>Blaasrichting</p>
                                                             <hr/>
@@ -121,6 +133,11 @@
 
                                                             <hr/>
 
+                                                            {{--<a href="#extra-info" data-lightbox="image-1"--}}
+                                                               {{--data-title="My caption">--}}
+                                                                {{--<i class='fa fa-info-circle' aria-hidden='true'></i>--}}
+                                                            {{--</a>--}}
+
                                                             @if($fan->is_on === true)
                                                                 <p class="fan-time-on">12:45:13</p>
                                                             @else
@@ -129,12 +146,17 @@
 
                                                             <hr/>
 
-                                                            <p class="fan-power-usage"> 125.4 Watt <br/> <span style="font-size: 12px">(sinds 6 uur terug)</span>
+                                                            {{--<i class='fa fa-info-circle' aria-hidden='true'></i>--}}
+                                                            <p class="fan-power-usage"> 125.4 Watt <br/> <span
+                                                                        style="font-size: 12px">(sinds 6 uur terug)</span>
                                                             </p>
-
                                                             <hr/>
 
-                                                            <p class="fan-technical-life-expectancy">Nog {{ rand(2,5) }} jaar <br/> <span style="font-size: 12px">(berekend vanaf {{ rand( 2012, 2015) }} )</span></p>
+                                                            {{--<i class='fa fa-info-circle' aria-hidden='true'></i>--}}
+                                                            <p class="fan-technical-life-expectancy">Nog {{ rand(2,5) }}
+                                                                jaar <br/> <span
+                                                                        style="font-size: 12px">(berekend vanaf {{ rand( 2012, 2015) }}
+                                                                    )</span></p>
 
                                                             <hr/>
 

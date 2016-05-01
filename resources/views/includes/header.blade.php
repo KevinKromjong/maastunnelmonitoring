@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{asset('/css/bootstrap.min.css')}}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{asset('/css/bootstrap.min.css.map')}}"/>
+    <link rel="stylesheet" href="{{asset('/css/lightbox.css')}}"/>
     <link rel="stylesheet" href="{{asset('/css/main.css')}}"/>
 
 </head>
