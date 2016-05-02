@@ -1,12 +1,13 @@
 $(document).ready(function () {
 
-    var criticalValue = 128;    // Set the critical value
+    var criticalValue = 180;   // Set the critical value
     fansToCheck = [];   // Initialize the fan container
 
     // Old colours
     // var colors = ['#DD2C00', '#9BC2DB', '#DBEDF3', '#A3DFFB', '#C4E3FC', '#A4D4FA']; 
 
     var colors = ['#DD2C00', '#699633', '#83be3e', '#a3cf70', '#c4e0a3', '#e5f1d6'];
+
 
     // var data1 = [[0,1], [10,1]];
     // var data2 = [[0,2], [10,2]];
@@ -56,11 +57,14 @@ $(document).ready(function () {
     // $.plot($('#testgraph'), dataset, options    );
 
     //Execute the necessary functions
-    // connectToWebSocket();
+
+    connectToWebSocket();
     fillFanVariables(fansToCheck);
     plotMainGraph(criticalValue, fansToCheck, colors);
     toggleFanDropdown(fansToCheck, colors);
 });
+
+
 
 /**
  * Connects to the websocket via server.js
@@ -192,7 +196,7 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
     });
 
     // Configure the critial line
-    var criticalLine = {
+    criticalLine = {
         idx: 0,
         color: colors[0],
         label: '<span style="text-decoration: underline">Gevarenzone</span> <br/>' + criticalValue + ' Kilowatt',
@@ -201,7 +205,7 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
             [9999999999999, criticalValue]
         ]
     };
-
+    
     // Add the critical line to the dataset variable
     dataset.unshift(criticalLine);
 
@@ -359,13 +363,12 @@ function toggleFanDropdown(fansToCheck, colors) {
 
                     // If the fan is on: plot the data according to the clicked fan
                     // If the fan is off: show a message that the fan is off, so there is no data to fetch and display
+
                     if (fansOverview[index]['is_on'] == true) {
                         $('#technical-graph').html('').removeClass('fan-off');
                         $('.filter-buttons').show();
                         plotTechnicalGraph = $.plot($('#technical-graph'), [{
-                            data: fansToCheck[index], dashes: {
-                                show: true
-                            }, color: colors[index + 1]
+                            data: fansToCheck[index], color: colors[index + 1]
                         }], technicalFanOptions);
                         plotTechnicalGraph.resize();
                         plotTechnicalGraph.setupGrid();
@@ -447,7 +450,7 @@ function filterFanDropdownGraph(colors) {
                     series: {
                         lines: {
                             show: true
-                        },
+                        }
                     },
                     xaxis: {
                         mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser"
@@ -482,6 +485,10 @@ function filterFanDropdownGraph(colors) {
                         technicalFanOptionsFilter.xaxis.tickSize = [6, 'hour'];
                         break;
                 }
+
+                filteredData.unshift([0, 134],
+                    [9999999999999, 134]);
+                console.log(filteredData);
 
                 plotTechnicalGraph = $.plot($('#technical-graph'), [{
                     data: filteredData,
