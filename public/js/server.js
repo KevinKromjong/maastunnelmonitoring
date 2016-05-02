@@ -33,6 +33,18 @@ var server = http.createServer(function (request, response) {
     }
 });
 
+
+function randomizeDate(){
+    var randomDate = '2016-05-02 ';
+
+    var randomHour = Math.floor((Math.random() * 23) + 1);
+    var randomMinute = Math.floor((Math.random() * 59) + 1);
+    var randomSecond = Math.floor((Math.random() * 59) + 1);
+
+    return new Date(randomDate + randomHour + ':' + randomMinute + ':' + randomSecond);
+
+}
+
 server.listen(443);
 console.log('Server running at http://10.129.10.82:8080/');
 
@@ -40,7 +52,7 @@ var listener = io.listen(server);
 
 listener.sockets.on('connection', function (socket) {
     setInterval(function () {
-        socket.emit('date', {'date' : new Date()});
+        socket.emit('date', {'date' : randomizeDate()});
     });
 
 });

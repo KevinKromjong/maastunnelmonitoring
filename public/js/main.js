@@ -5,9 +5,8 @@ $(document).ready(function () {
 
     // Old colours
     // var colors = ['#DD2C00', '#9BC2DB', '#DBEDF3', '#A3DFFB', '#C4E3FC', '#A4D4FA']; 
-
+    
     var colors = ['#DD2C00', '#699633', '#83be3e', '#a3cf70', '#c4e0a3', '#e5f1d6'];
-
 
     // var data1 = [[0,1], [10,1]];
     // var data2 = [[0,2], [10,2]];
@@ -63,8 +62,6 @@ $(document).ready(function () {
     plotMainGraph(criticalValue, fansToCheck, colors);
     toggleFanDropdown(fansToCheck, colors);
 });
-
-
 
 /**
  * Connects to the websocket via server.js

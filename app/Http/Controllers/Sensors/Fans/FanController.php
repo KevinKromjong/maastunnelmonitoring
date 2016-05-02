@@ -55,7 +55,7 @@ class FanController extends Controller
 //                ->orderBy('created_at', 'asc')
                 ->get();
         }
-
+        
         Javascript::put([
             'fansOverview' => $fansOverview->sortBy('fan_number'),
             'fansGraph' => $fansGraph,
