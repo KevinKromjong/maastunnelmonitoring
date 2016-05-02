@@ -82,7 +82,7 @@ function connectToWebSocket() {
     }
 
     socket.on('date', function (data) {
-        var fantime = data.date;
+        var fantime = new Date(data.date);
 
         if ($('.fan-information-technical .fan-status').attr('class') == 'fan-status red') {
             $('.fan-information-technical .fan-time-on').text('0');

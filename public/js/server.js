@@ -41,7 +41,7 @@ function randomizeDate(){
     var randomMinute = Math.floor((Math.random() * 59) + 1);
     var randomSecond = Math.floor((Math.random() * 59) + 1);
 
-    return new Date(randomDate + randomHour + ':' + randomMinute + ':' + randomSecond);
+    return randomDate + randomHour + ':' + randomMinute + ':' + randomSecond;
 
 }
 
