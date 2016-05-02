@@ -34,7 +34,6 @@ class APIController extends Controller
 
         switch ($filter) {
             case 6 : // 6 uur
-                \Debugbar::error($this->now->subHours(6));
                 $fans = Sensor::where('tunnel', $translation['tunnel'])->where('direction', $translation['direction'])->where('fan_number', '=', intval($fan))->where('created_at', '>=', $this->now->subHours(6))->get();
                 break;
             case 12 :  // 12 uur
