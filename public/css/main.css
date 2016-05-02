@@ -225,7 +225,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .fan hr:nth-child(3) { display: block }
 
 
-    .fan-information-basic { height: 260px; border-bottom: 1px solid lightgrey; }
+    .fan-information-basic { height: 270px; border-bottom: 1px solid lightgrey; }
     .fan .fan-information-basic h2 { padding-top: 0;}
     .fan .fan-information-basic h2.fan-status-heading { padding-top: 0; font-size: 15px; margin-bottom: 5px;}
     .fan .fan-information-basic h2.fan-direction-heading { font-size: 12px; margin-top: 10px; }
@@ -233,7 +233,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .fan p.fan-status { font-size: 25px; margin-bottom: 20px;}
 
     .fan .arrow-squiggly-down { font-size: 23px;}
-    .fan .arrow-squiggly-up { font-size: 35px; margin: -10px;}
+    .fan .arrow-squiggly-up { font-size: 35px; margin: -5px -10px;}
     .fan .fan-blowing-direction p:last-child { font-size: 10px; margin-top: 0;}
     .fan .fan-information-basic .expand-fan-button { margin: 10px auto !important; font-size: 15px !important; width: 15px !important; float: none !important;}
 

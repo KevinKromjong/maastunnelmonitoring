@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var criticalValue = 180;   // Set the critical value
+    var criticalValue = 190;   // Set the critical value
     fansToCheck = [];   // Initialize the fan container
 
     // Old colours
