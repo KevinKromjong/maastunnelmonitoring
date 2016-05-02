@@ -473,7 +473,7 @@ function filterFanDropdownGraph(colors) {
 
                 switch (timeBack) {
                     case '6' :
-                        technicalFanOptionsFilter.xaxis.tickSize = [1, 'hour'];
+                        technicalFanOptionsFilter.xaxis.tickSize = [2, 'hour'];
                         break;
                     case '12' :
                         technicalFanOptionsFilter.xaxis.tickSize = [2, 'hour'];
