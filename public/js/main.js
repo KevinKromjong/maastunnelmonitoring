@@ -486,10 +486,6 @@ function filterFanDropdownGraph(colors) {
                         break;
                 }
 
-                filteredData.unshift([0, 134],
-                    [9999999999999, 134]);
-                console.log(filteredData);
-
                 plotTechnicalGraph = $.plot($('#technical-graph'), [{
                     data: filteredData,
                     color: colors[fanNumber]
