@@ -15,7 +15,10 @@
 <script src="{{asset('/js/flot/jquery.flot.time.min.js')}}" rel="script"></script>
 <script src="{{asset('/js/flot/jquery.flot.axislabels.js')}}" rel="script"></script>
 <script src="{{asset('/js/flot/jquery.flot.resize.min.js')}}" rel="script"></script>
-<script src="{{asset('/js/lightbox.js')}}" rel="script"></script>
+<script src="{{asset('/js/jquery.fancybox.js')}}" rel="script"></script>
+<script src="{{asset('/js/jquery.circliful.min.js')}}" rel="script"></script>
+<script src="{{asset('/js/moment-with-locales.min.js')}}" rel="script"></script>
+<script src="{{asset('/js/bootstrap-datetimepicker.min.js')}}" rel="script"></script>
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 

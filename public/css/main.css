@@ -108,7 +108,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .fan hr { border-top: 1px solid lightgrey; margin: 10px 20px 0 20px;}
 .fan hr:nth-child(3) { display: none }
 
-.fan-information-technical { background: #f7f7f7; height: 650px; width: 100%; padding: 50px; display: none; float:left; clear:both;}
+.fan-information-technical { background: #f7f7f7; height: 670px; width: 100%; padding: 50px; display: none; float:left; clear:both;}
 .fan-information-technical h1 { text-align: center; font-family: Rubik, sans-serif; font-variant: small-caps}
 
 .fan-technical-keys { text-align: left}
@@ -116,7 +116,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .fan-technical-keys, .fan-technical-values { font-size: 16px;}
 .fan-technical-keys p { font-weight: bold}
 
-.filter-buttons { float: right; margin-top: 20px; width: 100%; }
+.filter-buttons { float: right; margin-top: 31px; width: 100%; }
 .filter-buttons > div { background: #dfdfdf; border: 1px solid lightgray; width: 25%; height: 50px; float: left; }
 .filter-buttons > div:hover { cursor: pointer; background: lightgray;}
 .filter-buttons > div p { text-align: center; padding-top: 10px; font-variant: small-caps; font-family: Rubik, sans-serif; font-size: 15px; line-height: 15px; }
@@ -139,11 +139,32 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 #fan-graph-legend .legendLabel a { color: black;}
 #fan-graph-legend .legendLabel:hover a { color: darkgrey;}
 
-/*.fan-technical-keys p { margin-left: 30px; }*/
-/*.fan-technical-values p { margin-right: 30px; }*/
-/*.fa-info-circle { float: right; margin-top: 15px;}*/
-/*.fa-info-circle:first-of-type { margin-top: 5px;}*/
-/*.fa-info-circle:hover { cursor: pointer;}*/
+.fan-technical-keys { margin-bottom: 30px;}
+.fan-technical-values p { margin-right: 30px; }
+.fa-info-circle { float: right; margin-top: 15px;}
+.fa-info-circle:first-of-type { margin-top: 5px;}
+.fa-info-circle:hover { cursor: pointer;}
+
+#compare-fans-button { background: lightgrey; height: 50px; clear: both; text-align: center; padding-top: 15px; border: 1px solid darkgrey; cursor: pointer;}
+#compare-fans-button:hover { background: darkgrey} #compare-yearly-statistics-button:hover { background: darkgrey;}
+
+.table-compare { margin-top: 76px; margin-left: -50px;  }
+.table-compare thead tr { background: #eee; }
+.table-compare tr td:nth-child(3) { border-right: 2px solid #ddd}
+.table-compare tr th:nth-child(3) { border-right: 2px solid #ddd}
+
+.table-compare tr th:nth-child(2) { border-left: 3px solid #83be3e; }
+.table-compare tr th:nth-child(3) { border-left: 3px solid #c4e0a3; }
+
+/*.compare-fan-one-colour { background: #83be3e; width: 100%; height: 4px; float: left; color: #83be3e;}*/
+/*.compare-fan-two-colour { background: #c4e0a3; width: 100%; height: 4px; float: left; color: #c4e0a3;}*/
+
+.fancybox-skin { background: white;}
+.fancybox-inner { min-height: 650px;}
+
+
+#compare-inputs { margin-top: 40px;}
+#compare-chosen-button { margin-top: 10px;}
 
 /************************************
  *    Media queries - Detailpagina     *
@@ -157,13 +178,17 @@ and (orientation : landscape) {
 
     header .back-button { padding-top: 5px; padding-left: 20px;}
 
+    .fan-information-technical { height: 700px;}
     .fan-information-technical h1 { margin-right: 125px; padding-bottom: 25px;}
 
     #technical-graph { width: 100%;}
     #fan-graph {width: 85%;}
     #fan-graph-legend { width: 140px;}
 
+    #compare-fans-button { width: 85%;}
+    .filter-buttons { margin-top: 55px;}
 
+    #compare-chosen-button { width: 200px; }
 }
 
 /*iPad -- Portrait*/
@@ -193,6 +218,13 @@ and (orientation : portrait) {
 
     .axisLabels { display: none;}
     #technical-graph.fan-off { font-size: 18px;}
+
+    #compare-fans-button { width: 85%;}
+    .filter-buttons { margin-top: 46px;}
+
+    .table-compare { margin-top: 20px; margin-left: 0;  }
+    #placeholder { width: 385px}
+
 
 
 
@@ -283,9 +315,15 @@ and (min-device-width: 320px)
 and (max-device-width: 640px)
 and (orientation: portrait) {
 
+    .dataset-blocks h1 { margin-left: 20px; }
     #fan-graph { height: 250px; width: 100%; }
-    #technical-graph { width: 100%; height: 250px; }
+    #technical-graph { width: 100%; height: 250px; margin-top: 0;}
+
     .fan-information-technical { height: 990px; }
+    .fan-information-technical-details { padding: 20px 30px 50px 30px; }
+    .fan-technical-values p { margin-right: 0; }
+
+    #placeholder { width: auto; height: 250px; }
 
 
 }

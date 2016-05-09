@@ -3,8 +3,8 @@
 //Translate Dutch tunneltubes and directions into English
 function translateTubeAndDirection($tunnel, $direction)
 {
-    $tunnel = strtolower($tunnel);
-    $direction = strtolower($direction);
+    $tunnel = trim(strtolower($tunnel));
+    $direction = trim(strtolower($direction));
 
     if ($tunnel == 'westbuis') {
         if ($direction == 'noordzijde') {

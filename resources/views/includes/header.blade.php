@@ -4,6 +4,7 @@
     <title>Maastunnel - Monitoring</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{{asset('/favicon.png')}}"/>
 
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
@@ -15,7 +16,9 @@
     <link rel="stylesheet" href="{{asset('/css/bootstrap.min.css')}}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{asset('/css/bootstrap.min.css.map')}}"/>
-    <link rel="stylesheet" href="{{asset('/css/lightbox.css')}}"/>
+    <link rel="stylesheet" href="{{asset('/css/jquery.fancybox.css')}}"/>
+    <link rel="stylesheet" href="{{asset('/css/jquery.circliful.css')}}"/>
+    <link rel="stylesheet" href="{{asset('/css/bootstrap-datetimepicker.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('/css/main.css')}}"/>
 
 </head>

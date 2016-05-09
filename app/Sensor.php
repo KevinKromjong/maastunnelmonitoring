@@ -11,4 +11,5 @@ class Sensor extends Eloquent {
 
     protected $guarded = [];
 
+
 }

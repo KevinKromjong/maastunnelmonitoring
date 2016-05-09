@@ -42,7 +42,6 @@ function randomizeDate(){
     var randomSecond = Math.floor((Math.random() * 59) + 1);
 
     return randomDate + randomHour + ':' + randomMinute + ':' + randomSecond;
-
 }
 
 server.listen(443);

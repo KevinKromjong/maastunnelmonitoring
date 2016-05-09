@@ -99,7 +99,7 @@
                                                 @endif
 
                                                 <div class="fan-information-technical-details">
-                                                    <div class="col-lg-6 col-md-4 col-sm-5 col-xs-6">
+                                                    <div class="col-lg-6 col-md-5 col-sm-5 col-xs-6">
                                                         <div class="fan-technical-keys">
                                                             <p>Stand</p>
                                                             <hr/>
@@ -115,7 +115,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-6 col-md-4 col-sm-5 col-xs-6">
+                                                    <div class="col-lg-6 col-md-5 col-sm-6 col-xs-6">
                                                         <div class="fan-technical-values">
                                                             @if($fan->is_on === true)
                                                                 <p class="fan-status green">AAN</p>
@@ -133,10 +133,9 @@
 
                                                             <hr/>
 
-                                                            {{--<a href="#extra-info" data-lightbox="image-1"--}}
-                                                               {{--data-title="My caption">--}}
-                                                                {{--<i class='fa fa-info-circle' aria-hidden='true'></i>--}}
-                                                            {{--</a>--}}
+                                                            <div>
+
+                                                            </div>
 
                                                             @if($fan->is_on === true)
                                                                 <p class="fan-time-on">12:45:13</p>
@@ -146,27 +145,31 @@
 
                                                             <hr/>
 
-                                                            {{--<i class='fa fa-info-circle' aria-hidden='true'></i>--}}
                                                             <p class="fan-power-usage"> 125.4 Watt <br/> <span
                                                                         style="font-size: 12px">(sinds 6 uur terug)</span>
                                                             </p>
                                                             <hr/>
 
-                                                            {{--<i class='fa fa-info-circle' aria-hidden='true'></i>--}}
-                                                            <p class="fan-technical-life-expectancy">Nog {{ rand(2,5) }}
-                                                                jaar <br/> <span
-                                                                        style="font-size: 12px">(berekend vanaf {{ rand( 2012, 2015) }}
-                                                                    )</span></p>
-
+                                                            <p class="fan-technical-life-expectancy">Nog {{ rand(2,5) }} jaar <br/> <span style="font-size: 12px">(vanaf 2016)</span></p>
                                                             <hr/>
 
-                                                            <p class="fan-theoretical-life-expectancy">{{ rand(4,6) }}
-                                                                jaar</p>
-
+                                                            <p class="fan-theoretical-life-expectancy">{{ rand(4,6) }} jaar <br/> <span style="font-size: 12px">(vanaf aanschafjaar: {{ rand( 2010, 2012) }})</span></p>
                                                         </div>
                                                     </div>
+
+
+                                                    <a style="text-decoration: none; color:black"
+                                                       class="fancybox"
+                                                       rel="group" href="#compare-fans">
+                                                        <div id="compare-fans-button">
+                                                            <p>Vergelijk gegevens</p>
+                                                        </div>
+                                                    </a>
+
                                                 </div>
                                             </div>
+
+
                                             <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
                                                 <section id="technical-graph">
 
@@ -219,7 +222,9 @@
             </div>
         </div>
     </div>
-    </div>
+
+    @include('includes.compare-fans')
+
 @endsection
 
 

@@ -1,66 +1,28 @@
 $(document).ready(function () {
 
-    var criticalValue = 190;   // Set the critical value
+    var criticalValue = 340;   // Set the critical value
     fansToCheck = [];   // Initialize the fan container
 
     // Old colours
     // var colors = ['#DD2C00', '#9BC2DB', '#DBEDF3', '#A3DFFB', '#C4E3FC', '#A4D4FA']; 
-    
+
     var colors = ['#DD2C00', '#699633', '#83be3e', '#a3cf70', '#c4e0a3', '#e5f1d6'];
 
-    // var data1 = [[0,1], [10,1]];
-    // var data2 = [[0,2], [10,2]];
-    // var data3 = [[0,3], [10,3]];
-    // var data4 = [[0,4], [10,4]];
-    // var data5 = [[0,5], [10,5]];
-    // var data6 = [[0,6], [10,6]];
-    //
-    // var dataset = [
-    //     {
-    //         data : data1,
-    //         color : colors[0]
-    //     },
-    //     {
-    //         data : data2,
-    //         color : colors[1]
-    //     },
-    //     {
-    //         data : data3,
-    //         color : colors[2]
-    //     },
-    //     {
-    //         data : data4,
-    //         color : colors[3]
-    //     },
-    //     {
-    //         data : data5,
-    //         color : colors[4]
-    //     },
-    //     {
-    //         data : data6,
-    //         color : colors[5]
-    //     }
-    // ];
-    // var options = {
-    //     series : {
-    //         lines : {
-    //             show : true
-    //         },
-    //         points : {
-    //             radius : 3,
-    //             show : true
-    //         }
-    //     }
-    // };
-    //
-    // $.plot($('#testgraph'), dataset, options    );
-
-    //Execute the necessary functions
-
-    connectToWebSocket();
+    // Execute the necessary functions
+    // connectToWebSocket();
     fillFanVariables(fansToCheck);
     plotMainGraph(criticalValue, fansToCheck, colors);
     toggleFanDropdown(fansToCheck, colors);
+
+    // Initialize fancybox
+    $(".fancybox").fancybox();
+
+    // Initialize datepicker
+    $('#datetimepicker1 input, #datetimepicker2 input').datetimepicker({
+            locale: 'nl',
+            format: 'DD/MM/YYYY',
+            ignoreReadonly: true
+    });
 });
 
 /**
@@ -95,7 +57,6 @@ function connectToWebSocket() {
         }
     });
 }
-
 
 /**
  * Fills fanOne through fanFive with the data from the database
@@ -138,7 +99,6 @@ function fillFanVariables() {
 
     return fansToCheck = [fanOne, fanTwo, fanThree, fanFour, fanFive];
 }
-
 
 /**
  * Plots the main graph at the bottom of the fanspage
@@ -202,7 +162,7 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
             [9999999999999, criticalValue]
         ]
     };
-    
+
     // Add the critical line to the dataset variable
     dataset.unshift(criticalLine);
 
@@ -354,7 +314,7 @@ function toggleFanDropdown(fansToCheck, colors) {
                     } else {
                         $('.fan-power-usage').html(calculateAveragePowerConsumption(fansToCheck[index]) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds 6 uur geleden) </span>");
                     }
-                    
+
                     // Give the element with the filter class the correct fan-number
                     $('.filter').attr('data-fan-number', fansOverview[index]['fan_number']);
 
@@ -371,10 +331,6 @@ function toggleFanDropdown(fansToCheck, colors) {
                         plotTechnicalGraph.setupGrid();
                         plotTechnicalGraph.draw();
 
-                        // window.onresize = function() {
-                        // plotTechnicalGraph = $.plot($('#technical-graph'), [{ data: fansToCheck[index], color: colors[index + 1]}], technicalFanOptions);
-                        // };
-
                     } else {
                         $('#technical-graph').html('<p class="fan-off">Deze ventilator staat uit en kan dus geen data weergeven</p>');
                         $('.filter-buttons').hide();
@@ -385,6 +341,8 @@ function toggleFanDropdown(fansToCheck, colors) {
 
                 }
             });
+
+            compareFanData();
         }
     });
 
@@ -418,8 +376,8 @@ function filterFanDropdownGraph(colors) {
         // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
         $.ajax({
             // url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            // url: 'http://10.34.164.155/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            url: 'http://146.185.130.75/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            url: 'http://192.168.2.42/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            // url: 'http://146.185.130.75/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             format: 'json',
             async: true,
             success: function (data) {
@@ -438,6 +396,14 @@ function filterFanDropdownGraph(colors) {
                     var date = new Date(value['created_at'].replace(/-/g, "/"));
                     filteredData.push([date, value['power_usage'], parseInt(fanNumber)]);
                 });
+
+                if (timeBack == 6 || timeBack == 12) {
+                    $('.fan-power-usage').html(calculateAveragePowerConsumption(data['fans'], true) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds " + timeBack + " uur geleden) </span>");
+                } else if (timeBack == 1) {
+                    $('.fan-power-usage').html(calculateAveragePowerConsumption(data['fans'], true) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds " + timeBack + " dag geleden) </span>");
+                } else {
+                    $('.fan-power-usage').html(calculateAveragePowerConsumption(data['fans'], true) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds " + timeBack + " dagen geleden) </span>");
+                }
 
                 var technicalFanOptionsFilter = {
                     grid: {
@@ -491,9 +457,6 @@ function filterFanDropdownGraph(colors) {
                 plotTechnicalGraph.setupGrid();
                 plotTechnicalGraph.draw();
 
-                // window.onresize = function() {
-                //     plotTechnicalGraph = $.plot($('#technical-graph'), [{ data: filteredData, color: colors[fanNumber] }], technicalFanOptionsFilter);
-                // }
             },
             error: function () {
                 alert("Er is een time-out opgetreden!")
@@ -553,19 +516,335 @@ function showTooltip(x, y, contents) {
 
 /**
  * Calculates the average power consumption for te information in the dropdown
+ *
+ * @param dataArray: the array with all the data (not just the power consumption)
+ * @param filter: true if the calculation applies to the filtering of data, false if the calculation applies to the dropdown data
+ * @returns {number}: returns 0 if there occurs an error, returns the average power consumption if it calculates succesfully.
  */
-function calculateAveragePowerConsumption(dataArray) {
+function calculateAveragePowerConsumption(dataArray, filter) {
+
     var averagePowerUsage = 0;
     var i = 0;
 
-    $.each(dataArray, function (index, value) {
-        averagePowerUsage += value[1];
-        i++;
-    });
+    if (!filter) {
+        $.each(dataArray, function (index, value) {
+            averagePowerUsage += value[1];
+            i++;
+        });
+    } else {
+        $.each(dataArray, function (index, value) {
+            averagePowerUsage += value['power_usage'];
+            i++;
+        });
+    }
 
     if (isNaN(averagePowerUsage / i)) {
         return 0;
     } else {
         return Math.round((averagePowerUsage / i) * 100) / 100
     }
+}
+
+/**
+ * Calculates the differences in power consumption in percentage and units
+ *
+ * @param fanOneData: the array with all the data for fan one(not just the power consumption)
+ * @param fanTwoData: the array with all the data for fan two (not just the power consumption)
+ */
+function calculateAveragePowerDifferences(fanOneData, fanTwoData) {
+    var fanOneAveragePowerConsumption = calculateAveragePowerConsumption(fanOneData, true);
+    var fanTwoAveragePowerConsumption = calculateAveragePowerConsumption(fanTwoData, true);
+    var fanPowerConsumptionDifference = Math.round(((fanTwoAveragePowerConsumption - fanOneAveragePowerConsumption) / fanOneAveragePowerConsumption) * 100) / 100;
+
+    $('#fan-one-power').html(fanOneAveragePowerConsumption + ' Kilowatt');
+    $('#fan-two-power').html(fanTwoAveragePowerConsumption + ' Kilowatt');
+
+    // If the power consumption of fan 1 and fan 2 equals 0 ..
+    if (fanOneAveragePowerConsumption == 0 && fanTwoAveragePowerConsumption == 0) {
+        $('#fan-power-difference-unit').html(0 + ' Kilowatt').addClass('warning').removeClass('danger success');
+        $('#fan-power-difference-percentage').html(0 + '%').addClass('warning').removeClass('danger success');
+        // If the power consumption of fan 1 equals 0..
+    } else if (fanOneAveragePowerConsumption == 0) {
+        $('#fan-power-difference-unit').html('+' + fanTwoAveragePowerConsumption + ' Kilowatt').addClass('success').removeClass('danger warning');
+        $('#fan-power-difference-percentage').html('-').addClass('warning').removeClass('danger success');
+        // If the power consumption of fan 2 equals 0..
+    } else if (fanTwoAveragePowerConsumption == 0) {
+        $('#fan-power-difference-unit').html('-' + fanOneAveragePowerConsumption + ' Kilowatt').addClass('danger').removeClass('success warning');
+        $('#fan-power-difference-percentage').html('-').addClass('warning').removeClass('success danger');
+        // If the difference between the power consumption of fan 1 and fan 2 equals 0..
+    } else if (fanPowerConsumptionDifference == 0) {
+        $('#fan-power-difference-unit').html(Math.round((fanOneAveragePowerConsumption - fanTwoAveragePowerConsumption) * 100) / 100 + ' Kilowatt').addClass('warning').removeClass('success danger');
+        $('#fan-power-difference-percentage').html(fanPowerConsumptionDifference + '%').addClass('warning').removeClass('success danger');
+        // If the difference between the power consumption of fan 1 and fan 2 is less than 0..
+    } else if (fanPowerConsumptionDifference < 0) {
+        $('#fan-power-difference-unit').html(Math.round((fanOneAveragePowerConsumption - fanTwoAveragePowerConsumption) * 100) / 100 + ' Kilowatt').addClass('danger').removeClass('success warning');
+        $('#fan-power-difference-percentage').html(fanPowerConsumptionDifference + '%').addClass('danger').removeClass('success warning');
+        // If the difference between the power consumption of fan 1 and fan 2 is greater than 0..
+    } else {
+        $('#fan-power-difference-unit').html('+' + Math.round((fanTwoAveragePowerConsumption - fanOneAveragePowerConsumption) * 100) / 100 + ' Kilowatt').addClass('success').removeClass('danger warning');
+        $('#fan-power-difference-percentage').html('+' + fanPowerConsumptionDifference + '%').addClass('success').removeClass('danger warning');
+    }
+}
+
+/**
+ * Calculates the total time the fans are on
+
+ * @param firstTime: the array with all the data for fan one(not just the time)
+ * @param secondTime: the array with all the data for fan one(not just the time)
+ */
+function calculateTotalFanTimeOn(firstTime, secondTime) {
+
+    var fanOneDateSplit = firstTime.split('/');
+    var fanTwoDateSplit = secondTime.split('/');
+    var fanOneDate = new Date(fanOneDateSplit[2], fanOneDateSplit[1], fanOneDateSplit[0] - 1);
+    var fanTwoDate = new Date(fanTwoDateSplit[2], fanTwoDateSplit[1], fanTwoDateSplit[0] - 1);
+    var dayOrDaysFanOne = ' dagen';
+    var dayOrDaysFanTwo = ' dagen';
+    var dayOrDays = ' dagen';
+
+    var fanTimeDifference = Math.round((fanTwoDate - fanOneDate) / (1000 * 60 * 60 * 24));
+
+    if (fanTimeDifference > 21) {
+        var randomTimeFanOne = Math.floor((Math.random() * fanTimeDifference) + fanTimeDifference - 20);
+        var randomTimeFanTwo = Math.floor((Math.random() * fanTimeDifference) + fanTimeDifference - 20);
+    } else {
+        var randomTimeFanOne = Math.floor((Math.random() * fanTimeDifference) + fanTimeDifference);
+        var randomTimeFanTwo = Math.floor((Math.random() * fanTimeDifference) + fanTimeDifference);
+    }
+
+    if (randomTimeFanOne == 1) {
+        dayOrDaysFanOne = ' dag';
+    } else if (randomTimeFanTwo == 1) {
+        dayOrDaysFanTwo = ' dag';
+    }
+    if (randomTimeFanOne - randomTimeFanTwo == 1 || randomTimeFanTwo - randomTimeFanOne == 1) {
+        dayOrDays = ' dag'
+    }
+
+    $('#fan-one-time-on').html(randomTimeFanOne + dayOrDaysFanOne);
+    $('#fan-two-time-on').html(randomTimeFanTwo + dayOrDaysFanTwo);
+
+    if (randomTimeFanOne > randomTimeFanTwo) {
+        $('#fan-time-on-difference-unit').html(randomTimeFanOne - randomTimeFanTwo + dayOrDays)
+    } else {
+        $('#fan-time-on-difference-unit').html(randomTimeFanTwo - randomTimeFanOne + dayOrDays);
+    }
+
+    var fanTimePercentage = Math.round(((randomTimeFanTwo - randomTimeFanOne) / randomTimeFanOne) * 100 * 100) / 100;
+    $('#fan-time-on-difference-percentage').html(fanTimePercentage + '%');
+}
+
+/**
+ * Calculates the life expextancy of the fans
+ */
+function calculateTechnicalLifeExpextancy() {
+    var fanOneTheoretical = $('#fan-one-theoretical-life-expectancy').text().charAt(0);
+    var fanTwoTheoretical = $('#fan-two-theoretical-life-expectancy').text().charAt(0);
+
+    var fanOneTechnical = Math.floor((Math.random() * fanOneTheoretical) + 1);
+    var fanTwoTechnical = Math.floor((Math.random() * fanTwoTheoretical) + 1);
+
+    $('#fan-one-technical-life-expectancy').html('Nog <br/>' + fanOneTechnical + ' jaar');
+    $('#fan-two-technical-life-expectancy').html('Nog <br/>' + fanTwoTechnical + ' jaar');
+
+    if (fanOneTechnical > fanTwoTechnical) {
+        $("#fan-technical-life-expectancy-difference").html(fanOneTechnical - fanTwoTechnical + ' jaar');
+    } else {
+        $("#fan-technical-life-expectancy-difference").html(fanTwoTechnical - fanOneTechnical + ' jaar');
+    }
+
+    var technicalLifeExpectancyPercentage = Math.round(((fanTwoTechnical - fanOneTechnical) / fanOneTechnical) * 100);
+
+    if (technicalLifeExpectancyPercentage > 0) {
+        $('#fan-technical-life-expectancy-difference-percentage').html('+' + technicalLifeExpectancyPercentage + '%');
+    } else {
+        $('#fan-technical-life-expectancy-difference-percentage').html(technicalLifeExpectancyPercentage + '%');
+    }
+
+}
+
+/**
+ * Draws the graph with the given data
+ *
+ * @param fanOneData: the array with all the data for fan one(not just the power consumption)
+ * @param fanTwoData: the array with all the data for fan two (not just the power consumption)
+ */
+function fillCompareGraph(fanOneData, fanTwoData) {
+
+    var fanOnePowerUsage = [];
+    var fanTwoPowerUsage = [];
+
+    // if($('#fan-one-power').text() == '0 Kilowatt' && $('#fan-two-power').text() == '0 Kilowatt') {
+    //     $('#placeholder').addClass('fan-off').html('Er is geen verbruik beschikbaar van de gekozen ventilatoren binnen het gekozen tijdsbestek');
+    // } else {
+        $.each(fanOneData, function (key, value) {
+            var date = new Date(value['created_at'].replace(/-/g, "/"));
+            fanOnePowerUsage.push([date.getTime(), value['power_usage']]);
+        });
+
+        $.each(fanTwoData, function (key, value) {
+            var date = new Date(value['created_at'].replace(/-/g, "/"));
+            fanTwoPowerUsage.push([date.getTime(), value['power_usage']]);
+        });
+
+        var data = [
+            {
+                data: fanOnePowerUsage,
+                color: '#83be3e'
+            },
+            {
+                data: fanTwoPowerUsage,
+                color: '#c4e0a3'
+            }
+        ];
+        var options = {
+            grid: {
+                hoverable: true,
+                tooltip: true
+            },
+            series: {
+                lines: {
+                    show: true
+                }
+            },
+            xaxis: {
+                mode: "time", timeformat: "%H:%M", tickSize: [6, "hour"], timezone: "browser"
+            },
+            axisLabels: {
+                show: true
+            },
+            xaxes: [{
+                axisLabel: 'Tijd in hele uren'
+            }],
+            yaxes: [{
+                position: 'left',
+                axisLabel: 'Stroomverbruik in Kilowatt'
+            }]
+        };
+
+        $("#placeholder").show();
+        $('.table-compare').show();
+        // $('.fancybox-inner').css('height', '750px');
+        $('.fancybox-inner').css('height', 'auto');
+
+        var compareGraph = $.plot($("#placeholder"), data, options);
+        compareGraph.resize();
+        compareGraph.setupGrid();
+        compareGraph.draw();
+    // }
+}
+
+/**
+ * Creates an alert box with custom text
+ *
+ * @param text: The text that the alert box shows
+ * @returns: The alert box with the given text
+ */
+function createWarning(text) {
+    return '<div class="alert alert-danger empty-input" role="alert">' +
+        '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="false"></span>' +
+        '<span class="sr-only">Error:</span>' + text +
+        '</div>';
+}
+
+/**
+ * Checks if the second calendar date is greater than the first calendar date
+ *
+ * @returns {boolean}
+ */
+function checkCalendarDate() {
+    var dateOne = $('#datetimepicker1 input').val().split("/");
+    var dateTwo = $('#datetimepicker2 input').val().split("/");
+
+    var convertedDateOne = new Date(dateOne[2], dateOne[1] - 1, dateOne[0]);
+    var convertedDateTwo = new Date(dateTwo[2], dateTwo[1] - 1, dateTwo[0]);
+
+    if (convertedDateOne > convertedDateTwo) {
+        return $('.warning-placeholder').html(createWarning(' De eerste datum moet eerder zijn dan de tweede datum!')).show();
+    } else if (convertedDateOne.getTime() == convertedDateTwo.getTime()) {
+        return $('.warning-placeholder').html(createWarning(' De twee datums moeten wel van dag verschillen!')).show();
+    }
+}
+
+/**
+ * Serves as a facade for the calculation functions
+ *
+ * @param data: the datasets of the two fans
+ * @param firstTime: the first date for the comparison
+ * @param secondTime: the second date for the comparison
+ */
+function retrieveCompareDataAjaxCallback(data, firstTime, secondTime) {
+    var fanOneData = data['fanOne'];
+    var fanTwoData = data['fanTwo'];
+
+    calculateAveragePowerDifferences(fanOneData, fanTwoData);
+
+    calculateTotalFanTimeOn(firstTime, secondTime);
+
+    calculateTechnicalLifeExpextancy();
+
+    fillCompareGraph(fanOneData, fanTwoData);
+}
+
+function retrieveCompareData(firstTime, secondTime, tunnelOne, tunnelTwo, directionOne, directionTwo, fanOne, fanTwo) {
+
+    $.ajax({
+        // url: 'http://monitoringring.maastunnel.dev/api/v1/fans?compare=1' +
+        url: 'http://192.168.2.42/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?compare=1' +
+        '&firstTime=' + firstTime +
+        '&secondTime=' + secondTime +
+        '&tunnelOne=' + tunnelOne +
+        '&tunnelTwo=' + tunnelTwo +
+        '&directionOne=' + directionOne +
+        '&directionTwo=' + directionTwo +
+        '&fanOne=' + fanOne +
+        '&fanTwo=' + fanTwo,
+        type: 'get',
+        format: 'json',
+        async: true,
+        success: function (data) {
+            retrieveCompareDataAjaxCallback(data, firstTime, secondTime);
+        }
+    });
+}
+
+/**
+ *  Randomizes the data in the comparison popup
+ */
+function compareFanData() {
+    $('#compare-chosen-button').on('click', function () {
+
+        var fanOneOptionGroup = $('#fan-to-compare-one :selected').parent().attr('label');
+        var fanTwoOptionGroup = $('#fan-to-compare-two :selected').parent().attr('label');
+
+        var fanOneName = $('#fan-to-compare-one').val();
+        var fanTwoName = $('#fan-to-compare-two').val();
+
+        var fanOneTime = $('#datetimepicker1').find('input').val();
+        var fanTwoTime = $('#datetimepicker2').find('input').val();
+
+        // Check if the user entered all information before continuing.
+        if ($('#fan-to-compare-one').val() == null || $('#fan-to-compare-two').val() == null) {
+            $('.warning-placeholder').html(createWarning(' Je moet een ventilator kiezen!')).show();
+            return false;
+        } else if ($('#datetimepicker1').find('input').val() == '' || $('#datetimepicker2').find('input').val() == '') {
+            $('.warning-placeholder').html(createWarning(' Je moet een datum kiezen om de ventilatoren te vergelijken!')).show();
+            return false;
+        } else if (checkCalendarDate()) {
+            checkCalendarDate();
+            return false;
+        } else {
+            $('.warning-placeholder').hide();
+        }
+
+        retrieveCompareData(fanOneTime, fanTwoTime, fanOneOptionGroup.split('-')[0], fanTwoOptionGroup.split('-')[0], fanOneOptionGroup.split('-')[1], fanTwoOptionGroup.split('-')[1], fanOneName.slice(-1), fanTwoName.slice(-1));
+
+        var fanOneSplit = $('#fan-to-compare-one').val().splice
+
+        // Enter the names of the chosen fans into the table headers.
+        $('#chosen-fan-one').html($('#fan-to-compare-one').val() + '<span class="compare-fan-one-colour"></span>');
+        $('#chosen-fan-two').html($('#fan-to-compare-two').val() + '<span class="compare-fan-two-colour"></span>');
+        $('#chosen-fan-difference').html('Verschil <br/>' + $('#fan-to-compare-one').val() + ' t.o.v. <br/> ' + $('#fan-to-compare-two').val());
+
+    })
 }

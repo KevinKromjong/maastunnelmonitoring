@@ -6,6 +6,10 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <section class="dataset-blocks">
+
+                    <h1>Technische Tunnelinstallaties</h1>
+                    <hr/>
+
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                         <article class="dataset-block" style="border-right: 10px solid green">
                             <a href="{{route('ventilatoren')}}">
@@ -22,24 +26,8 @@
                             </a>
                         </article>
                     </div>
-                </section>
 
-                {{--@for( $i = 0; $i < 6; $i++)--}}
-                {{--<div class="col-lg-4">--}}
-                {{--<div class="dataset-block" style="border-right: 10px solid {{ $colors[$i] }}">--}}
-                {{--<div class="col-lg-4">--}}
-                {{--<div class="dataset-block-image">--}}
-                {{--<img alt="Afbeelding van ventilator" src="/images/{{ $icons[$i] }}"/>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="col-lg-8">--}}
-                {{--<div class="dataset-block-name">--}}
-                {{--<h3>{{ $types[$i] }}</h3>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--@endfor--}}
+                </section>
             </div>
         </div>
     </div>
