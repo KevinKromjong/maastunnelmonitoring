@@ -25,8 +25,11 @@ $(document).ready(function () {
             ignoreReadonly: true
     });
 
+    rootUrl = $('meta[name="base_url"]').attr('content');
 
 });
+
+
 
 /**
  * Connects to the websocket via server.js
@@ -378,9 +381,7 @@ function filterFanDropdownGraph(colors) {
 
         // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
         $.ajax({
-            // url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            url: 'http://10.34.165.85/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            // url: 'http://146.185.130.75/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            url: rootUrl + '/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             format: 'json',
             async: true,
             success: function (data) {
@@ -805,9 +806,7 @@ function retrieveCompareData(firstTime, secondTime, tunnelOne, tunnelTwo, direct
 
 
     $.ajax({
-        // url: 'http://monitoringring.maastunnel.dev/api/v1/fans?compare=1' +
-        url: 'http://10.34.165.85/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?compare=1' +
-        // url: 'http://146.185.130.75/api/v1/fans?compare=1' +
+        url: rootUrl + '/api/v1/fans?compare=1' +
         '&firstTime=' + firstTime +
         '&secondTime=' + secondTime +
         '&tunnelOne=' + tunnelOne +

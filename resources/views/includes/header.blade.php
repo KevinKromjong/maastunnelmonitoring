@@ -4,6 +4,7 @@
     <title>Maastunnel - Monitoring</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="base_url" content="{{ URL::to('/') }}">
     <link rel="shortcut icon" type="image/png" href="{{asset('/favicon.png')}}"/>
 
     <!-- Fonts -->
