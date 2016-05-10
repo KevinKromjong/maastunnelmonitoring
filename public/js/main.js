@@ -13,6 +13,7 @@ $(document).ready(function () {
     fillFanVariables(fansToCheck);
     plotMainGraph(criticalValue, fansToCheck, colors);
     toggleFanDropdown(fansToCheck, colors);
+    loadAjaxLoadingGif();
 
     // Initialize fancybox
     $(".fancybox").fancybox();
@@ -23,6 +24,8 @@ $(document).ready(function () {
             format: 'DD/MM/YYYY',
             ignoreReadonly: true
     });
+
+
 });
 
 /**
@@ -376,8 +379,8 @@ function filterFanDropdownGraph(colors) {
         // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
         $.ajax({
             // url: 'http://monitoring.maastunnel.dev/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            // url: 'http://192.168.2.42/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
-            url: 'http://146.185.130.75/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            url: 'http://10.34.165.85/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
+            // url: 'http://146.185.130.75/api/v1/fans?filter=' + timeBack + '&fan=' + fanNumber + '&tunnel=' + tunnel + '&direction=' + direction,
             format: 'json',
             async: true,
             success: function (data) {
@@ -512,6 +515,16 @@ function showTooltip(x, y, contents) {
         'background-color': '#fee',
         opacity: 0.80
     }).appendTo("body").fadeIn(200);
+}
+
+/**
+ * Loads the gif while fetching and processing ajax calls
+ */
+function loadAjaxLoadingGif() {
+    $(document).on({
+        ajaxStart: function() { $('body').addClass("loading");    },
+        ajaxStop: function() { $('body').removeClass("loading"); }
+    });
 }
 
 /**
@@ -788,10 +801,13 @@ function retrieveCompareDataAjaxCallback(data, firstTime, secondTime) {
 
 function retrieveCompareData(firstTime, secondTime, tunnelOne, tunnelTwo, directionOne, directionTwo, fanOne, fanTwo) {
 
+    // loadAjaxLoadingGif($('#compare-fans'));
+
+
     $.ajax({
         // url: 'http://monitoringring.maastunnel.dev/api/v1/fans?compare=1' +
-        // url: 'http://192.168.2.42/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?compare=1' +
-        url: 'http://146.185.130.75/api/v1/fans?compare=1' +
+        url: 'http://10.34.165.85/afstuderen/webapplicatie/maastunnelmonitoring/public/api/v1/fans?compare=1' +
+        // url: 'http://146.185.130.75/api/v1/fans?compare=1' +
         '&firstTime=' + firstTime +
         '&secondTime=' + secondTime +
         '&tunnelOne=' + tunnelOne +

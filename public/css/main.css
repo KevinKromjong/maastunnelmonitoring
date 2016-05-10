@@ -12,6 +12,10 @@ body .container { padding-bottom: 50px; }
 
 #main-container { height: 100%; position: relative}
 
+.modal { display: none; position: fixed; z-index: 1000; top: 0; left: 0; height: 100%; width: 100%; background: rgba( 255, 255, 255, .8 ) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat; }
+body.loading { overflow: hidden; }
+body.loading .modal { display: block; }
+
 /*****************
  *    Helpers    *
 *****************/
@@ -324,6 +328,4 @@ and (orientation: portrait) {
     .fan-technical-values p { margin-right: 0; }
 
     #placeholder { width: auto; height: 250px; }
-
-
 }

@@ -225,6 +225,9 @@
 
     @include('includes.compare-fans')
 
+    <div class="modal"><!-- Place at bottom of page --></div>
+
+
 @endsection
 
 
