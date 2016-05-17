@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var criticalValue = 340;   // Set the critical value
+    var criticalValue = 130;   // Set the critical value
     fansToCheck = [];   // Initialize the fan container
 
     // Old colours
@@ -801,9 +801,6 @@ function retrieveCompareDataAjaxCallback(data, firstTime, secondTime) {
 }
 
 function retrieveCompareData(firstTime, secondTime, tunnelOne, tunnelTwo, directionOne, directionTwo, fanOne, fanTwo) {
-
-    // loadAjaxLoadingGif($('#compare-fans'));
-
 
     $.ajax({
         url: rootUrl + '/api/v1/fans?compare=1' +

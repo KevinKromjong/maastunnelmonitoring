@@ -29,11 +29,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="back-button">
-                    <a href={{ URL::previous() }}>
-                        <img src="{{asset('/images/arrow-prev.png')}}">
-                    </a>
-                </div>
+                {{--<div class="back-button">--}}
+                    {{--<a href={{ redirect()->back() }}>--}}
+                        {{--<img src="{{asset('/images/arrow-prev.png')}}">--}}
+                    {{--</a>--}}
+                {{--</div>--}}
                 <div id="logo">
                     <a href="{{ route('home') }}">
                         <h1>maastunnel | monitoring</h1>
