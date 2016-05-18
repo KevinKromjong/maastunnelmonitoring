@@ -97,8 +97,8 @@ class APIController extends Controller
         $dateFanTwo = Carbon::createFromFormat('d/m/Y', $secondTime);
 
         //where('mod_id', 'mod', [2, 0])
-        $fanOne = Sensor::where('created_at', '>', $dateFanOne)->where('created_at', '<', $dateFanTwo)->where('tunnel', $translationOne['tunnel'])->where('direction', $translationOne['direction'])->where('fan_number', '=', intval($fanOne))->get();
-        $fanTwo = Sensor::where('created_at', '>', $dateFanOne)->where('created_at', '<', $dateFanTwo)->where('tunnel', $translationTwo['tunnel'])->where('direction', $translationTwo['direction'])->where('fan_number', '=', intval($fanTwo))->get();
+        $fanOne = Sensor::where('created_at', '>', $dateFanOne)->where('created_at', '<', $dateFanTwo)->where('tunnel', $translationOne['tunnel'])->where('direction', $translationOne['direction'])->where('fan_number', '=', intval($fanOne))->where('mod_id', 'mod', [15, 0])->get();
+        $fanTwo = Sensor::where('created_at', '>', $dateFanOne)->where('created_at', '<', $dateFanTwo)->where('tunnel', $translationTwo['tunnel'])->where('direction', $translationTwo['direction'])->where('fan_number', '=', intval($fanTwo))->where('mod_id', 'mod', [15, 0])->get();
 
         return Response(['fanOne' => $fanOne, 'fanTwo' => $fanTwo]);
     }

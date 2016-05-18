@@ -158,9 +158,7 @@
                                                     </div>
 
 
-                                                    <a style="text-decoration: none; color:black"
-                                                       class="fancybox"
-                                                       rel="group" href="#compare-fans">
+                                                    <a style="text-decoration: none; color:black" class="fancybox" rel="group" href="#compare-fans">
                                                         <div id="compare-fans-button">
                                                             <p>Vergelijk gegevens</p>
                                                         </div>
@@ -180,24 +178,25 @@
                                                         <div class="filter filter-six-hours" data-filter="6"
                                                              data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
                                                             <p>
-                                                                6 <br/> uur
+                                                                6 <br/> uur terug
                                                             </p>
                                                         </div>
                                                         <div class="filter filter-twelve-hours" data-filter="12"
                                                              data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
                                                             <p>
-                                                                12 <br/> uur</p>
+                                                                12 <br/> uur terug
+                                                            </p>
                                                         </div>
                                                         <div class="filter filter-one-day" data-filter="1"
                                                              data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
                                                             <p>
-                                                                1 <br/> dag
+                                                                1 <br/> dag terug
                                                             </p>
                                                         </div>
                                                         <div class="filter filter-two-days" data-filter="2"
                                                              data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
                                                             <p>
-                                                                2 <br/> dagen
+                                                                2 <br/> dagen terug
                                                             </p>
                                                         </div>
 
@@ -225,7 +224,6 @@
 
     @include('includes.compare-fans')
 
-    <div class="modal"><!-- Place at bottom of page --></div>
 
 
 @endsection

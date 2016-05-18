@@ -1,35 +1,23 @@
 $(document).ready(function () {
 
-    var criticalValue = 130;   // Set the critical value
-    fansToCheck = [];   // Initialize the fan container
-
-    // Old colours
-    // var colors = ['#DD2C00', '#9BC2DB', '#DBEDF3', '#A3DFFB', '#C4E3FC', '#A4D4FA']; 
-
-    var colors = ['#DD2C00', '#699633', '#83be3e', '#a3cf70', '#c4e0a3', '#e5f1d6'];
+    //Set and initialize necessary variables
+    var minCriticalValue = 260;
+    var maxCriticalValue = 280;
+    var colors = ['#EE2F00', '#699633', '#83be3e', '#a3cf70', '#c4e0a3', '#e5f1d6', '#BB2500'];
+    fansToCheck = [];
+    rootUrl = $('meta[name="base_url"]').attr('content');
+    $(".fancybox").fancybox();
+    
 
     // Execute the necessary functions
-    // connectToWebSocket();
+    connectToWebSocket();
     fillFanVariables(fansToCheck);
-    plotMainGraph(criticalValue, fansToCheck, colors);
+    plotMainGraph(minCriticalValue, maxCriticalValue, fansToCheck, colors);
     toggleFanDropdown(fansToCheck, colors);
     loadAjaxLoadingGif();
-
-    // Initialize fancybox
-    $(".fancybox").fancybox();
-
-    // Initialize datepicker
-    $('#datetimepicker1 input, #datetimepicker2 input').datetimepicker({
-            locale: 'nl',
-            format: 'DD/MM/YYYY',
-            ignoreReadonly: true
-    });
-
-    rootUrl = $('meta[name="base_url"]').attr('content');
+    initializeDatePicker()
 
 });
-
-
 
 /**
  * Connects to the websocket via server.js
@@ -112,7 +100,7 @@ function fillFanVariables() {
  * @param criticalValue: the critical value declared at the top of the page
  * @param fansToCheck: the list of fans to check. Normally, it contains all five fans
  */
-function plotMainGraph(criticalValue, fansToCheck, colors) {
+function plotMainGraph(minCriticalValue, maxCriticalValue, fansToCheck, colors) {
 
     var epochT = (new Date).getTime();
     var dataset = [];
@@ -159,18 +147,29 @@ function plotMainGraph(criticalValue, fansToCheck, colors) {
     });
 
     // Configure the critial line
-    criticalLine = {
+    minimalCriticalLine = {
         idx: 0,
         color: colors[0],
-        label: '<span style="text-decoration: underline">Gevarenzone</span> <br/>' + criticalValue + ' Kilowatt',
+        label: '<span style="text-decoration: underline">Minimale grenswaarde</span> <br/>' + minCriticalValue + ' Kilowatt',
         data: [
-            [0, criticalValue],
-            [9999999999999, criticalValue]
+            [0, minCriticalValue],
+            [9999999999999, minCriticalValue]
+        ]
+    };
+
+    maximalCriticalLine = {
+        idx: 0,
+        color: colors[6],
+        label: '<span style="text-decoration: underline">Maximale grenswaarde</span> <br/>' + maxCriticalValue + ' Kilowatt',
+        data: [
+            [0, maxCriticalValue],
+            [9999999999999, maxCriticalValue]
         ]
     };
 
     // Add the critical line to the dataset variable
-    dataset.unshift(criticalLine);
+    dataset.unshift(maximalCriticalLine);
+    dataset.push(minimalCriticalLine)
 
 
     var options = {
@@ -523,8 +522,23 @@ function showTooltip(x, y, contents) {
  */
 function loadAjaxLoadingGif() {
     $(document).on({
-        ajaxStart: function() { $('body').addClass("loading");    },
-        ajaxStop: function() { $('body').removeClass("loading"); }
+        ajaxStart: function () {
+            $('body').addClass("loading");
+        },
+        ajaxStop: function () {
+            $('body').removeClass("loading");
+        }
+    });
+}
+
+/**
+ * Initializes the datepicker for the comparison screen
+ */
+function initializeDatePicker() {
+    $('#datetimepicker1, #datetimepicker2').datetimepicker({
+        locale: 'nl',
+        format: 'DD/MM/YYYY',
+        ignoreReadonly: true
     });
 }
 
@@ -674,7 +688,6 @@ function calculateTechnicalLifeExpextancy() {
     } else {
         $('#fan-technical-life-expectancy-difference-percentage').html(technicalLifeExpectancyPercentage + '%');
     }
-
 }
 
 /**
@@ -687,65 +700,73 @@ function fillCompareGraph(fanOneData, fanTwoData) {
 
     var fanOnePowerUsage = [];
     var fanTwoPowerUsage = [];
+    var tickSize = [];
 
-    // if($('#fan-one-power').text() == '0 Kilowatt' && $('#fan-two-power').text() == '0 Kilowatt') {
-    //     $('#placeholder').addClass('fan-off').html('Er is geen verbruik beschikbaar van de gekozen ventilatoren binnen het gekozen tijdsbestek');
-    // } else {
-        $.each(fanOneData, function (key, value) {
-            var date = new Date(value['created_at'].replace(/-/g, "/"));
-            fanOnePowerUsage.push([date.getTime(), value['power_usage']]);
-        });
+    $.each(fanOneData, function (key, value) {
+        var date = new Date(value['created_at'].replace(/-/g, "/"));
+        fanOnePowerUsage.push([date.getTime(), value['power_usage']]);
+    });
 
-        $.each(fanTwoData, function (key, value) {
-            var date = new Date(value['created_at'].replace(/-/g, "/"));
-            fanTwoPowerUsage.push([date.getTime(), value['power_usage']]);
-        });
+    $.each(fanTwoData, function (key, value) {
+        var date = new Date(value['created_at'].replace(/-/g, "/"));
+        fanTwoPowerUsage.push([date.getTime(), value['power_usage']]);
+    });
 
-        var data = [
-            {
-                data: fanOnePowerUsage,
-                color: '#83be3e'
-            },
-            {
-                data: fanTwoPowerUsage,
-                color: '#c4e0a3'
-            }
-        ];
-        var options = {
-            grid: {
-                hoverable: true,
-                tooltip: true
-            },
-            series: {
-                lines: {
-                    show: true
-                }
-            },
-            xaxis: {
-                mode: "time", timeformat: "%H:%M", tickSize: [6, "hour"], timezone: "browser"
-            },
-            axisLabels: {
+    //Calculate difference between times for the x-axis ticksize
+    var timeDiff = Math.abs(checkCalendarDate(true)[1].getTime() - checkCalendarDate(true)[0].getTime());
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    if(diffDays >= 30) {
+        tickSize = [30, 'day']
+    } else if(diffDays >= 14) {
+        tickSize = [7, 'day'];
+    } else {
+        tickSize = [1, 'day'];
+    }
+
+    var data = [
+        {
+            data: fanOnePowerUsage,
+            color: '#83be3e'
+        },
+        {
+            data: fanTwoPowerUsage,
+            color: '#c4e0a3'
+        }
+    ];
+    var options = {
+        grid: {
+            hoverable: true,
+            tooltip: true
+        },
+        series: {
+            lines: {
                 show: true
-            },
-            xaxes: [{
-                axisLabel: 'Tijd in hele uren'
-            }],
-            yaxes: [{
-                position: 'left',
-                axisLabel: 'Stroomverbruik in Kilowatt'
-            }]
-        };
+            }
+        },
+        xaxis: {
+            mode: "time", min: checkCalendarDate(true)[0], max: checkCalendarDate(true)[1], tickSize: tickSize, timezone: "browser"
+        },
+        axisLabels: {
+            show: true
+        },
+        xaxes: [{
+            axisLabel: 'Tijd in hele uren'
+        }],
+        yaxes: [{
+            position: 'left',
+            axisLabel: 'Stroomverbruik in Kilowatt'
+        }]
+    };
 
-        $("#placeholder").show();
-        $('.table-compare').show();
-        // $('.fancybox-inner').css('height', '750px');
-        $('.fancybox-inner').css('height', 'auto');
+    $("#placeholder").show();
+    $('.table-compare').show();
+    $('.fancybox-inner').css('height', 'auto');
 
-        var compareGraph = $.plot($("#placeholder"), data, options);
-        compareGraph.resize();
-        compareGraph.setupGrid();
-        compareGraph.draw();
-    // }
+    var compareGraph = $.plot($("#placeholder"), data, options);
+    compareGraph.resize();
+    compareGraph.setupGrid();
+    compareGraph.draw();
 }
 
 /**
@@ -766,17 +787,22 @@ function createWarning(text) {
  *
  * @returns {boolean}
  */
-function checkCalendarDate() {
+function checkCalendarDate(xaxis) {
+
     var dateOne = $('#datetimepicker1 input').val().split("/");
     var dateTwo = $('#datetimepicker2 input').val().split("/");
 
     var convertedDateOne = new Date(dateOne[2], dateOne[1] - 1, dateOne[0]);
     var convertedDateTwo = new Date(dateTwo[2], dateTwo[1] - 1, dateTwo[0]);
 
-    if (convertedDateOne > convertedDateTwo) {
-        return $('.warning-placeholder').html(createWarning(' De eerste datum moet eerder zijn dan de tweede datum!')).show();
-    } else if (convertedDateOne.getTime() == convertedDateTwo.getTime()) {
-        return $('.warning-placeholder').html(createWarning(' De twee datums moeten wel van dag verschillen!')).show();
+    if(xaxis) {
+        return [convertedDateOne, convertedDateTwo];
+    } else {
+        if (convertedDateOne > convertedDateTwo) {
+            return $('.warning-placeholder').html(createWarning(' De eerste datum moet eerder zijn dan de tweede datum!')).show();
+        } else if (convertedDateOne.getTime() == convertedDateTwo.getTime()) {
+            return $('.warning-placeholder').html(createWarning(' De twee datums moeten wel van dag verschillen!')).show();
+        }
     }
 }
 
@@ -816,6 +842,16 @@ function retrieveCompareData(firstTime, secondTime, tunnelOne, tunnelTwo, direct
         format: 'json',
         async: true,
         success: function (data) {
+            console.log(rootUrl + '/api/v1/fans?compare=1' +
+                '&firstTime=' + firstTime +
+                '&secondTime=' + secondTime +
+                '&tunnelOne=' + tunnelOne +
+                '&tunnelTwo=' + tunnelTwo +
+                '&directionOne=' + directionOne +
+                '&directionTwo=' + directionTwo +
+                '&fanOne=' + fanOne +
+                '&fanTwo=' + fanTwo);
+
             retrieveCompareDataAjaxCallback(data, firstTime, secondTime);
         }
     });
@@ -826,15 +862,6 @@ function retrieveCompareData(firstTime, secondTime, tunnelOne, tunnelTwo, direct
  */
 function compareFanData() {
     $('#compare-chosen-button').on('click', function () {
-
-        var fanOneOptionGroup = $('#fan-to-compare-one :selected').parent().attr('label');
-        var fanTwoOptionGroup = $('#fan-to-compare-two :selected').parent().attr('label');
-
-        var fanOneName = $('#fan-to-compare-one').val();
-        var fanTwoName = $('#fan-to-compare-two').val();
-
-        var fanOneTime = $('#datetimepicker1').find('input').val();
-        var fanTwoTime = $('#datetimepicker2').find('input').val();
 
         // Check if the user entered all information before continuing.
         if ($('#fan-to-compare-one').val() == null || $('#fan-to-compare-two').val() == null) {
@@ -850,9 +877,17 @@ function compareFanData() {
             $('.warning-placeholder').hide();
         }
 
-        retrieveCompareData(fanOneTime, fanTwoTime, fanOneOptionGroup.split('-')[0], fanTwoOptionGroup.split('-')[0], fanOneOptionGroup.split('-')[1], fanTwoOptionGroup.split('-')[1], fanOneName.slice(-1), fanTwoName.slice(-1));
+        // If all the information is legit, continue to get the variables.
+        var fanOneOptionGroup = $('#fan-to-compare-one :selected').parent().attr('label').replace(/ /g, '');
+        var fanTwoOptionGroup = $('#fan-to-compare-two :selected').parent().attr('label').replace(/ /g, '');
 
-        var fanOneSplit = $('#fan-to-compare-one').val().splice
+        var fanOneName = $('#fan-to-compare-one').val();
+        var fanTwoName = $('#fan-to-compare-two').val();
+
+        var fanOneTime = $('#datetimepicker1').find('input').val();
+        var fanTwoTime = $('#datetimepicker2').find('input').val();
+
+        retrieveCompareData(fanOneTime, fanTwoTime, fanOneOptionGroup.split('-')[0], fanTwoOptionGroup.split('-')[0], fanOneOptionGroup.split('-')[1], fanTwoOptionGroup.split('-')[1], fanOneName.slice(-1), fanTwoName.slice(-1));
 
         // Enter the names of the chosen fans into the table headers.
         $('#chosen-fan-one').html($('#fan-to-compare-one').val() + '<span class="compare-fan-one-colour"></span>');
