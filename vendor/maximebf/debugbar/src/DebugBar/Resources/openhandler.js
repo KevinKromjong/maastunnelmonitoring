@@ -105,7 +105,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
             var self = this;
             $.each(data, function(i, meta) {
                var a = $('<a />')
-                    .text('Load dataset')
+                    .text('Load datasetFanValues')
                     .on('click', function(e) {
                        self.hide();
                        self.load(meta['id'], function(data) {

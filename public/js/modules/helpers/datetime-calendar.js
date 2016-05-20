@@ -1,3 +1,12 @@
+/*
+ |--------------------------------------------------------------------------
+ | DateTime Calendar Module
+ |--------------------------------------------------------------------------
+ |
+ | Initializes the DateTime Calendar on the comparison screen
+ |
+ */
+
 var DateTimeCalendar = (function() {
 
     return {

@@ -33,6 +33,10 @@ var FanDropdown = (function () {
         },
 
         graphOptions: function () {
+            /**
+             * The options for the graph in the dropdown
+             */
+
             return {
                 grid: {
                     hoverable: true,
@@ -62,6 +66,9 @@ var FanDropdown = (function () {
         },
 
         onFanClick: function () {
+            /**
+             * Triggers the changes in the dropdown when clicked on a different or the same fan
+             */
 
             // If clicked on a fan..
             $('.fan').on('click', function () {
@@ -88,6 +95,10 @@ var FanDropdown = (function () {
         },
 
         changeInformation: function () {
+            /**
+             * Triggers the functions that change the text in the dropdown
+             */
+
             // For each fan, get the data from the clicked fan (data attribute) from the fansToCheck variable
             $.each(FanVariables.returnFanVariables(), function (index, value) {
 
@@ -102,7 +113,10 @@ var FanDropdown = (function () {
         },
 
         changeFanTitle: function (index) {
-            // Change the title of the fan in the dropdown
+            /**
+             * Changes the title of the fan at the top of the dropdown
+             */
+
             if (fansOverview[index]['direction'] == 'north') {
                 return $('.fan-information-technical h1').html('ventilator <br/> N-0' + fansOverview[index]['fan_number'])
             } else {
@@ -111,7 +125,10 @@ var FanDropdown = (function () {
         },
 
         changeFanBlowDirection: function (index) {
-            // Change the blow direction of the fan in the dropdown
+            /**
+             * Changes the text of the blow direction in the left column
+             */
+
             if (fansOverview[index]['blow_direction'] == 'north') {
                 $('.fan-information-technical .fan-blowing-direction').html('Noord');
             } else {
@@ -120,7 +137,10 @@ var FanDropdown = (function () {
         },
 
         changeFanStatus: function (index) {
-            // Change the status of the fan in the dropdown
+            /**
+             * Changes the status of the fan in the left column
+             */
+
             if (fansOverview[index]['is_on'] == true) {
                 $('.fan-information-technical .fan-status').html('AAN').addClass('green').removeClass('red');
             } else {
@@ -129,7 +149,10 @@ var FanDropdown = (function () {
         },
 
         changeFanAveragePower: function (index) {
-            // Change the average power usage of the fan in the dropdown
+            /**
+             * Changes the text of the average power consumption in the left column
+             */
+
             if (AveragePowerConsumption.calculate(FanVariables.returnFanVariables()[index]) == 0) {
                 $('.fan-power-usage').html(AveragePowerConsumption.calculate(FanVariables.returnFanVariables()[index]) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds 0 uur geleden) </span>");
             } else {
@@ -138,6 +161,10 @@ var FanDropdown = (function () {
         },
 
         plotOrMessage: function (index) {
+            /**
+             * Plot the graph in the right column or shows a message when the fan is off
+             */
+
             // Give the element with the filter class the correct fan-number
             $('.filter').attr('data-fan-number', fansOverview[index]['fan_number']);
 
@@ -164,6 +191,10 @@ var FanDropdown = (function () {
         },
 
         filter: function () {
+            /**
+             * Retrieves the data when the user filters the data using the buttons beneath the graph
+             */
+
             $('.filter-buttons > div').on('click', function (event) {
 
                 s.filterTimeBack = $(this).attr('data-filter');
@@ -183,7 +214,7 @@ var FanDropdown = (function () {
 
                 // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
                 $.ajax({
-                    url: rootUrl + '/api/v1/fans?filter=' + s.filterTimeBack + '&fan=' + s.filterFanNumber + '&tunnel=' + s.filterTunnel + '&direction=' + s.filterDirection,
+                    url: Utils.rootUrl() + '/api/v1/fans?filter=' + s.filterTimeBack + '&fan=' + s.filterFanNumber + '&tunnel=' + s.filterTunnel + '&direction=' + s.filterDirection,
                     format: 'json',
                     async: true,
                     success: function (data) {
@@ -221,6 +252,10 @@ var FanDropdown = (function () {
         },
 
         filterGraphOptions: function (lowest, highest) {
+            /**
+             * Contains the options for the graph in the dropdown
+             */
+
             s.filterGraphOptions = {
                 grid: {
                     hoverable: true,
@@ -257,6 +292,10 @@ var FanDropdown = (function () {
         },
 
         filterGraphXAxis : function () {
+            /**
+             * Checks whether the x-axis becomes too flooded with numbers and changes the values accordingly
+             */
+
             switch (s.filterTimeBack) {
                 case '6' :
                     s.filterGraphOptions.xaxis.tickSize = [1, 'hour'];
@@ -274,6 +313,10 @@ var FanDropdown = (function () {
         },
 
         filterChangeAveragePowerConsumptionHoursAgo : function (data) {
+            /**
+             * Changes the text beneath the average power usage in the left column according to the chosen filtering option
+             */
+
             if (s.filterTimeBack == 6 || s.filterTimeBack == 12) {
                 $('.fan-power-usage').html(AveragePowerConsumption.calculate(data['fans'], true) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds " + s.filterTimeBack + " uur geleden) </span>");
             } else if (s.filterTimeBack == 1) {

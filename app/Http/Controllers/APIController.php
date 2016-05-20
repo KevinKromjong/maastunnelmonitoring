@@ -86,7 +86,7 @@ class APIController extends Controller
      * @param $directionTwo : the second direction to compare
      * @param $fanOne : the first fan to compare
      * @param $fanTwo : the second function to compare
-     * @return : the dataset of the first and the second fan
+     * @return : the datasetFanValues of the first and the second fan
      */
     public function getFilteredData($firstTime, $secondTime, $tunnelOne, $tunnelTwo, $directionOne, $directionTwo, $fanOne, $fanTwo)
     {

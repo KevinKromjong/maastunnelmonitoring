@@ -15,10 +15,10 @@ var WebSockets = (function () {
     
     return {
         settings: {
-            baseURL: s.getBaseURL(), // Call function to determine it
+            baseURL: '', // Call function to determine it
             socketIOPort: 443,
-            socketIOLocation: s.baseURL + s.socketIOPort, // Build Socket.IO location
-            socket: io.connect(s.socketIOLocation),
+            socketIOLocation: this.baseURL + this.socketIOPort, // Build Socket.IO location
+            socket: io.connect(this.socketIOLocation),
             fanTime: new Date(),
             fanStatus: $('.fan-information-technical .fan-status'),
             fanTimeOn: $('.fan-information-technical .fan-time-on')
@@ -27,15 +27,22 @@ var WebSockets = (function () {
 
         init: function () {
             s = this.settings;
-            this.yay();
+
+            this.getBaseURL();
         },
 
         getBaseURL: function () {
+            /**
+             * Generates the URL from which the data is pulled
+             */
+
             s.baseURL = location.protocol + "//" + location.hostname + ":" + location.port;
-            return s.baseURL;
         },
 
         bindTimeToScreen: function () {
+            /**
+             * Put the incoming time on the screen on the left column of the dropdown
+             */
             socket.on('date', function (data) {
                 s.fanTime = new Date(data.date);
 

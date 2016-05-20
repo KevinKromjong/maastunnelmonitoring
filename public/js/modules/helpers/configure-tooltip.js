@@ -13,11 +13,15 @@ var ConfigureTooltip = (function () {
 
     return {
         settings: {
-            previousPoint: null,
+            previousPoint: null
         },
 
         configure: function () {
-
+            /**
+             * Sets up and configure the tooltip
+             * Shows it on hover, removes it on release
+             */
+           
             s = this.settings;
 
             $("#technical-graph, #fan-graph").bind("plothover", function (event, pos, item) {
@@ -36,7 +40,6 @@ var ConfigureTooltip = (function () {
         },
 
         createToolTip: function (x, y, contents) {
-
             $('<div id="tooltip">' + contents + '</div>').css({
                 position: 'absolute',
                 display: 'none',

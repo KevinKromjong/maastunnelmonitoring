@@ -340,7 +340,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
     /**
      * Dataset title formater
      *
-     * Formats the title of a dataset for the select box
+     * Formats the title of a datasetFanValues for the select box
      */
     var DatasetTitleFormater = PhpDebugBar.DatasetTitleFormater = function(debugbar) {
         this.debugbar = debugbar;
@@ -349,7 +349,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
     $.extend(DatasetTitleFormater.prototype, {
 
         /**
-         * Formats the title of a dataset
+         * Formats the title of a datasetFanValues
          * 
          * @this {DatasetTitleFormater}
          * @param {String} id
@@ -869,9 +869,9 @@ if (typeof(PhpDebugBar) == 'undefined') {
         },
 
         /**
-         * Adds a dataset
+         * Adds a datasetFanValues
          *
-         * If more than one dataset are added, the dataset selector
+         * If more than one datasetFanValues are added, the datasetFanValues selector
          * will be displayed.
          * 
          * For this method to be usefull, you need to specify
@@ -898,7 +898,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
         },
 
         /**
-         * Loads a dataset using the open handler
+         * Loads a datasetFanValues using the open handler
          * 
          * @param {String} id
          */
@@ -914,7 +914,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
         },
 
         /**
-         * Returns the data from a dataset
+         * Returns the data from a datasetFanValues
          * 
          * @this {DebugBar}
          * @param {String} id
@@ -925,7 +925,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
         },
 
         /**
-         * Switch the currently displayed dataset
+         * Switch the currently displayed datasetFanValues
          * 
          * @this {DebugBar}
          * @param {String} id
@@ -936,7 +936,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
         },
 
         /**
-         * Called when the current dataset is modified.
+         * Called when the current datasetFanValues is modified.
          * 
          * @this {DebugBar}
          * @param {Object} data
@@ -955,7 +955,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
         },
 
         /**
-         * Sets the handler to open past dataset
+         * Sets the handler to open past datasetFanValues
          * 
          * @this {DebugBar}
          * @param {object} handler
@@ -970,7 +970,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
         },
 
         /**
-         * Returns the handler to open past dataset
+         * Returns the handler to open past datasetFanValues
          * 
          * @this {DebugBar}
          * @return {object}
@@ -989,7 +989,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
     /**
      * AjaxHandler
      *
-     * Extract data from headers of an XMLHttpRequest and adds a new dataset
+     * Extract data from headers of an XMLHttpRequest and adds a new datasetFanValues
      */
     var AjaxHandler = PhpDebugBar.AjaxHandler = function(debugbar, headerName) {
         this.debugbar = debugbar;
@@ -1013,7 +1013,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
         },
 
         /**
-         * Checks if the HEADER-id exists and loads the dataset using the open handler
+         * Checks if the HEADER-id exists and loads the datasetFanValues using the open handler
          * 
          * @param {XMLHttpRequest} xhr
          * @return {Bool}
@@ -1038,7 +1038,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
         },
 
         /**
-         * Checks if the HEADER exists and loads the dataset
+         * Checks if the HEADER exists and loads the datasetFanValues
          * 
          * @param {XMLHttpRequest} xhr
          * @return {Bool}

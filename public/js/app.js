@@ -7,4 +7,5 @@
     //Helpers
     AjaxLoadingGif.init();
     DateTimeCalendar.init();
+    Utils.initFancyBox();
 })();

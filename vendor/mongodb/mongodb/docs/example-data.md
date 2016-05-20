@@ -1,10 +1,10 @@
 # Example Data
 
 Some examples in this documentation use example data fixtures from
-[zips.json](http://media.mongodb.org/zips.json). This is a dataset comprised of
+[zips.json](http://media.mongodb.org/zips.json). This is a datasetFanValues comprised of
 United States postal codes, populations, and geographic locations.
 
-Importing the dataset into MongoDB can be done in several ways. The following
+Importing the datasetFanValues into MongoDB can be done in several ways. The following
 example uses [PHP driver](http://php.net/mongodb) (i.e. `mongodb` extension).
 
 ```
@@ -30,7 +30,7 @@ Executing this script should yield the following output:
 Inserted 29353 documents
 ```
 
-You may also import the dataset using the
+You may also import the datasetFanValues using the
 [`mongoimport`](http://docs.mongodb.org/manual/reference/program/mongoimport/)
 command, which is included with MongoDB:
 

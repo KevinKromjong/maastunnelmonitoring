@@ -111,8 +111,7 @@
             <hr/>
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <div id="graph-circle-container">
-                    {{--<div id="test-circle"></div>--}}
-                    <div id="placeholder" style="width: 400px; height: 385px; display: none;"></div>
+                    <div id="graph-comparison" style="width: 400px; height: 385px; display: none;"></div>
                 </div>
             </div>
 

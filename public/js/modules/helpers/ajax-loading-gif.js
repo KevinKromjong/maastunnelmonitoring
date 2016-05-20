@@ -1,3 +1,12 @@
+/*
+ |--------------------------------------------------------------------------
+ | Ajax Loading Gif Module
+ |--------------------------------------------------------------------------
+ |
+ | Displays a loading gif when an AJAX-call is being made
+ |
+ */
+
 var AjaxLoadingGif = (function () {
 
     return {

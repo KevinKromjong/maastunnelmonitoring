@@ -1,17 +1,28 @@
+/*
+ |--------------------------------------------------------------------------
+ | Fan Comparison Module
+ |--------------------------------------------------------------------------
+ |
+ | Let the user compare fans with the button on the bottom of the dropdown
+ |
+ */
+
 var FanComparison = (function () {
 
+    // The settings variable
     var s;
 
     return {
+        // The settings of the chosen fans
         settings: {
             firstTime: null,
             secondTime: null,
-            tunnelOne : null,
-            tunnelTwo : null,
-            directionOne : null,
-            directionTwo : null,
-            fanOne : null,
-            fanTwo : null
+            tunnelOne: null,
+            tunnelTwo: null,
+            directionOne: null,
+            directionTwo: null,
+            fanOne: null,
+            fanTwo: null
         },
 
         init: function () {
@@ -20,7 +31,13 @@ var FanComparison = (function () {
             this.getCompareInput();
         },
 
+
         getCompareInput: function () {
+            /**
+             * Fills the compare screen with data
+             */
+
+            // If the user submits the compared fans..
             $('#compare-chosen-button').on('click', function () {
 
                 var inputFanOne = $('#fan-to-compare-one').val();
@@ -46,12 +63,6 @@ var FanComparison = (function () {
                 var fanOneOptionGroup = $('#fan-to-compare-one :selected').parent().attr('label').replace(/ /g, '');
                 var fanTwoOptionGroup = $('#fan-to-compare-two :selected').parent().attr('label').replace(/ /g, '');
 
-                // var fanOneName = $('#fan-to-compare-one').val();
-                // var fanTwoName = $('#fan-to-compare-two').val();
-
-                // var fanOneTime = $('#datetimepicker1').find('input').val();
-                // var fanTwoTime = $('#datetimepicker2').find('input').val();
-
                 FanComparison.retrieveCompareInputData(inputDateTimePickerOne, inputDateTimePickerTwo, fanOneOptionGroup.split('-')[0], fanTwoOptionGroup.split('-')[0], fanOneOptionGroup.split('-')[1], fanTwoOptionGroup.split('-')[1], inputFanOne.slice(-1), inputFanTwo.slice(-1));
 
                 // Enter the names of the chosen fans into the table headers.
@@ -61,25 +72,29 @@ var FanComparison = (function () {
             });
         },
 
+
         retrieveCompareInputData: function () {
+            /**
+             * Makes an AJAX-call to retrieve the input from the database
+             */
 
             //Fill the settings object with the corresponding data
             var i = 0;
-            for(var key in this.settings){
+            for (var key in this.settings) {
                 this.settings[key] = arguments[i];
                 i++;
             }
 
             $.ajax({
-                url: rootUrl + '/api/v1/fans?compare=1' +
-                '&firstTime=' + arguments[0] +
-                '&secondTime=' + arguments[1] +
-                '&tunnelOne=' + arguments[2] +
-                '&tunnelTwo=' + arguments[3] +
-                '&directionOne=' + arguments[4] +
-                '&directionTwo=' + arguments[5] +
-                '&fanOne=' + arguments[6] +
-                '&fanTwo=' + arguments[7],
+                url: Utils.rootUrl() + '/api/v1/fans?compare=1' +
+                '&firstTime=' + s.firstTime +
+                '&secondTime=' + s.secondTime +
+                '&tunnelOne=' + s.tunnelOne +
+                '&tunnelTwo=' + s.tunnelTwo +
+                '&directionOne=' + s.directionOne +
+                '&directionTwo=' + s.directionTwo +
+                '&fanOne=' + s.fanOne +
+                '&fanTwo=' + s.fanTwo,
                 type: 'get',
                 format: 'json',
                 async: true,
@@ -91,12 +106,15 @@ var FanComparison = (function () {
         },
 
         retrieveCompareInputDataCallback: function (data, firstTime, secondTime) {
+            /**
+             * Handles the text in the table after the call to the database has been made
+             */
+
             var fanOneData = data['fanOne'];
             var fanTwoData = data['fanTwo'];
 
             this.calculateAveragePowerDifferences(fanOneData, fanTwoData);
 
-            console.log();
             this.calculateTotalFanTime(firstTime, secondTime);
 
             this.calculateTechnicalLifeExpectancy();
@@ -105,6 +123,9 @@ var FanComparison = (function () {
         },
 
         calculateAveragePowerDifferences: function (fanOneData, fanTwoData) {
+            /**
+             * Calculates the average power consumption differences for the table
+             */
 
             var fanOneAveragePowerConsumption = AveragePowerConsumption.calculate(fanOneData, true);
             var fanTwoAveragePowerConsumption = AveragePowerConsumption.calculate(fanTwoData, true);
@@ -140,7 +161,11 @@ var FanComparison = (function () {
             }
         },
 
-        calculateTotalFanTime : function (firstTime, secondTime) {
+        calculateTotalFanTime: function (firstTime, secondTime) {
+            /**
+             * Calculates the total fantime differences for the table
+             */
+
             var fanOneDateSplit = firstTime.split('/');
             var fanTwoDateSplit = secondTime.split('/');
             var fanOneDate = new Date(fanOneDateSplit[2], fanOneDateSplit[1], fanOneDateSplit[0] - 1);
@@ -180,8 +205,12 @@ var FanComparison = (function () {
             var fanTimePercentage = Math.round(((randomTimeFanTwo - randomTimeFanOne) / randomTimeFanOne) * 100 * 100) / 100;
             $('#fan-time-on-difference-percentage').html(fanTimePercentage + '%');
         },
-        
-        calculateTechnicalLifeExpectancy : function () {
+
+        calculateTechnicalLifeExpectancy: function () {
+            /**
+             * Calculates the technical life expectancy for the tables
+             */
+
             var fanOneTheoretical = $('#fan-one-theoretical-life-expectancy').text().charAt(0);
             var fanTwoTheoretical = $('#fan-two-theoretical-life-expectancy').text().charAt(0);
 
@@ -205,8 +234,12 @@ var FanComparison = (function () {
                 $('#fan-technical-life-expectancy-difference-percentage').html(technicalLifeExpectancyPercentage + '%');
             }
         },
-        
-        plotCompareGraph : function (fanOneData, fanTwoData) {
+
+        plotCompareGraph: function (fanOneData, fanTwoData) {
+            /**
+             * Plots the graph next to the table
+             */
+
             var fanOnePowerUsage = [];
             var fanTwoPowerUsage = [];
             var tickSize = [];
@@ -225,36 +258,32 @@ var FanComparison = (function () {
             var timeDiff = Math.abs(this.checkCalendarDate(true)[1].getTime() - this.checkCalendarDate(true)[0].getTime());
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-            if(diffDays >= 30) {
+            if (diffDays >= 30) {
                 tickSize = [30, 'day']
-            } else if(diffDays >= 14) {
+            } else if (diffDays >= 14) {
                 tickSize = [7, 'day'];
             } else {
                 tickSize = [1, 'day'];
             }
 
-            var data = [
-                {
-                    data: fanOnePowerUsage,
-                    color: '#83be3e'
-                },
-                {
-                    data: fanTwoPowerUsage,
-                    color: '#c4e0a3'
-                }
-            ];
+            var data = [{data: fanOnePowerUsage, color: '#83be3e'}, {data: fanTwoPowerUsage, color: '#c4e0a3'}];
 
-            $("#placeholder").show();
+            $("#graph-comparison").show();
             $('.table-compare').show();
             $('.fancybox-inner').css('height', 'auto');
 
-            var compareGraph = $.plot($("#placeholder"), data, this.compareGraphOptions(tickSize));
+            var compareGraph = $.plot($("#graph-comparison"), data, this.compareGraphOptions(tickSize));
             compareGraph.resize();
             compareGraph.setupGrid();
             compareGraph.draw();
         },
 
-        compareGraphOptions : function (tickSize) {
+
+        compareGraphOptions: function (tickSize) {
+            /**
+             * Contains the options for the graph next to the table
+             */
+
             return {
                 grid: {
                     hoverable: true,
@@ -286,6 +315,10 @@ var FanComparison = (function () {
         },
 
         createWarningMessage: function (text) {
+            /**
+             * Creates a warning message when the input for the comparison is incorrect
+             */
+
             return '<div class="alert alert-danger empty-input" role="alert">' +
                 '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="false"></span>' +
                 '<span class="sr-only">Error:</span>' + text +
@@ -293,6 +326,10 @@ var FanComparison = (function () {
         },
 
         checkCalendarDate: function (xaxis) {
+            /**
+             * Checks if the inputted calendar dates are valid
+             */
+
             var dateOne = $('#datetimepicker1 input').val().split("/");
             var dateTwo = $('#datetimepicker2 input').val().split("/");
 

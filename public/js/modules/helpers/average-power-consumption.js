@@ -5,10 +5,6 @@
  |
  | Calculates the average power consumption for te information in the dropdown
  |
- | @param dataArray: the array with all the data (not just the power consumption)
- | @param filter: true if the calculation applies to the filtering of data, false if the calculation applies to the dropdown data
- | @returns {number}: returns 0 if there occurs an error, returns the average power consumption if it calculates succesfully.
- |
  */
 
 var AveragePowerConsumption = (function() {
@@ -22,6 +18,11 @@ var AveragePowerConsumption = (function() {
         },
 
         calculate: function (dataArray, filter) {
+            /**
+             * Checks if this functions is used for filtering or not
+             * Calculates and returns the average number
+             */
+
             s = this.settings;
 
             if (!filter) {

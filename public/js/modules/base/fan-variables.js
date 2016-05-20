@@ -32,13 +32,18 @@ var FanVariables = (function() {
             // Make a shortcut for the settings variable
             s = this.settings;
             s.fansGraph = fansGraph;
-            s.colors = ['#EE2F00', '#699633', '#83be3e', '#a3cf70', '#c4e0a3', '#e5f1d6', '#BB2500'];
+            s.colors = ['#FF7A7A', '#699633', '#83be3e', '#a3cf70', '#c4e0a3', '#e5f1d6', '#BB2500'];
 
 
             this.fillFanVariables();
         },
 
         fillFanVariables: function () {
+            /**
+             * Gets the data from the database and fills the fan variables
+             * so that the fanblocks and the graphs can use it to display the fans
+             */
+
             $.each(s.fansGraph, function (key, value) {
 
                 // Format the display so the graph can display the data correctly
@@ -70,6 +75,10 @@ var FanVariables = (function() {
         },
 
         returnFanVariables: function () {
+            /**
+             * Returns the array with all the fandata
+             */
+
             return s.fansToCheck;
         }
 

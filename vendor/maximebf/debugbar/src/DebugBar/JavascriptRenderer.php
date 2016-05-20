@@ -941,7 +941,7 @@ class JavascriptRenderer
     }
 
     /**
-     * Returns the js code needed to add a dataset
+     * Returns the js code needed to add a datasetFanValues
      *
      * @param string $requestId
      * @param array $data

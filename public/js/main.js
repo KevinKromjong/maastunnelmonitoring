@@ -133,7 +133,7 @@ function plotMainGraph(minCriticalValue, maxCriticalValue, fansToCheck, colors) 
                     highest = value2[1];
             });
 
-            // Pushes the data from the fan to the dataset variable
+            // Pushes the data from the fan to the datasetFanValues variable
             // This variable holds all the data from all the fans
             dataset.push({
                 data: value,
@@ -167,7 +167,7 @@ function plotMainGraph(minCriticalValue, maxCriticalValue, fansToCheck, colors) 
         ]
     };
 
-    // Add the critical line to the dataset variable
+    // Add the critical line to the datasetFanValues variable
     dataset.unshift(maximalCriticalLine);
     dataset.push(minimalCriticalLine)
 
