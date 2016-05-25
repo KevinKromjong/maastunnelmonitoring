@@ -2,9 +2,11 @@
  *    Algemeen    *
 ******************/
 
-html, body {margin: 0; padding: 0; font-family: 'Raleway', sans-serif; }
+html, body {margin: 0; padding: 0; font-family: 'Lato', sans-serif; color: black; } /*Raleway*/
 body a:hover { text-decoration: none;}
 body .container { padding-bottom: 50px; }
+
+h1, h2, h3, h4, h5, h6, p { font-weight: normal;}
 
 *[class^='col-'] { padding-left: 0; padding-right: 0;}
 
@@ -19,9 +21,8 @@ body.loading .modal { display: block; }
 /*****************
  *    Helpers    *
 *****************/
-/*.red { color: #CC0000}*/
-.red { color: darkgrey;}
-.green { color: green}
+.blue { color: #81CFE0}
+.green { color: #27AE60}
 .five-fans { width: 20%;}
 .fan-off { font-size: 25px; text-align: center; margin-top: 150px; }
 
@@ -37,10 +38,10 @@ body.loading .modal { display: block; }
  *  Header en Footer *
  *********************/
 
-header { width: 100%; height: 75px; background: #f8f8f8; margin-bottom: 50px; border-bottom: 5px solid #18933C;}
+header { width: 100%; height: 75px; background: #f8f8f8; margin-bottom: 50px; border-bottom: 5px solid #27AE60; font-family: Lato, sans-serif; }
 header .back-button { float: left; width: 30px; padding-top: 25px; }
 header .back-button img { height: 18px; }
-header #logo h1 { font-variant: small-caps; color: #777; font-size: 25px;}
+header #logo h1 { font-variant: small-caps; color: #777; font-size: 22px; margin-top: 25px;}
 
 footer { width: 100%; height: 50px; background: #f8f8f8; position: fixed; bottom: 0; margin-top: 50px; border-top: 5px solid #18933C }
 footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 10px;}
@@ -50,12 +51,13 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 /*******************
  *    Homepage     *
  *******************/
+.dataset-blocks h1 { font-size: 36px;}
 .dataset-block { width: 360px; height: 180px; background: lightgrey; margin: 20px 20px 20px 20px; transition: background 0.5s ease; overflow: hidden}
 .dataset-block a { text-decoration: none; color: black}
 .dataset-block-image { margin: 60px 0 0 -60px;}
 .dataset-block-image img { width: 175px; height: 175px; opacity: 0.3; transition: height 0.5s ease, width 0.5s ease;}
 .dataset-block-name { padding-top: 55px;}
-.dataset-block-name h3 { margin-left: 40px; transition: font-size 0.5s ease;}
+.dataset-block-name h3 { margin-left: 40px; transition: font-size 0.5s ease; font-size: 24px;}
 
 .dataset-block:hover { cursor: pointer; background: #e2e2e2 }
 .dataset-block:hover .dataset-block-image img { width: 180px; height: 180px; }
@@ -68,13 +70,13 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 /************************************
  *    Ventilator - Tunnelbuizen     *
  ************************************/
-.tunnel_tubes h1{ text-align: center; padding-bottom: 20px;}
+.tunnel_tubes h1{ text-align: center; padding-bottom: 20px; font-size: 30px;}
 
 .tunnel_tube { height: 200px; background: lightgray;  border-left: 150px solid darkgrey; border-right: 150px solid darkgrey;  margin: 0 auto 50px;
 }
 .tunnel_tube a { text-decoration: none; color: black}
 
-.tunnel_tube h1 { padding-top: 80px;}
+.tunnel_tube h1 { padding-top: 90px;}
 .tunnel_tube h3 { font-size: 24px;}
 .tunnel_tube a:first-child h3 { float: left; margin-left: -135px; margin-top: 90px;}
 .tunnel_tube a:last-child h3  { float: right; margin-right: -125px; margin-top: -60px; }
@@ -85,22 +87,24 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 /************************************
  *    Ventilator - Detailpagina     *
  ************************************/
-#segment { margin-bottom: 100px;}
-#segment h1, #segment h3 {  text-align: center}
-#segment h1 { font-size: 50px;}
+#segment { margin-bottom: 70px;}
+#segment h1, #segment h3 {  text-align: center; font-weight: 100; }
+#segment h1 { font-size: 50px; }
+#segment h3 { font-size: 24px; }
 
-.fan[data-index='4'] { border-right: 1px solid lightgray}
-
-.fan-information-basic { border-top: 1px solid lightgrey; border-left: 1px solid lightgrey; height: 380px; background: linear-gradient(to bottom ,#f7f7f7, #dfdfdf); }
-.fan-information-basic:hover { cursor: pointer; background: rgba(0,0,0,0.06)}
-.fan-information-basic h2 { text-align: center; font-size: 20px;  padding-top: 20px; font-variant: small-caps;}
+.fan { margin-right: 1px;}
+/*.fan-information-basic { height: 410px; background: linear-gradient(to bottom right ,#ECF0F1, #F6F8F8) }*/
+/*.fan-information-basic:hover { cursor: pointer; background: rgba(0,0,0,0.06)}*/
+.fan-information-basic { height: 410px; background: #EEEEEE;} /* ECF0F1 */
+.fan-information-basic:hover { cursor: pointer; background: #E7E7E7;} /* E2E8EA */
+.fan-information-basic h2 { text-align: center; font-size: 20px; font-variant: small-caps;}
 
 .fan h1, .fan p { text-align: center;}
 
 .fan p { font-size: 20px}
-.fan h1.fan-name { font-family: Rubik, sans-serif; font-variant: small-caps; font-size: 26px;}
+.fan h1.fan-name { font-variant: small-caps; font-size: 26px; padding-top: 30px;}
 .fan p.fan-status { padding-top: 12px; font-size: 36px; line-height: 0; margin-bottom: 30px;}
-.fan p.fan-time-on { font-family: Hind, sans-serif; padding-top: 15px; font-size: 30px; line-height: 0;}
+.fan p.fan-time-on { padding-top: 15px; font-size: 30px; line-height: 0;}
 
 .fan .arrow-squiggly-up { transform: rotate(90deg);display: inline-block; font-size: 45px; margin: -10px -5px; }
 .fan .arrow-squiggly-down { transform: rotate(270deg); display: inline-block; font-size: 45px; margin: -10px -5px; }
@@ -111,63 +115,92 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .fan hr { border-top: 1px solid lightgrey; margin: 10px 20px 0 20px;}
 .fan hr:nth-child(3) { display: none }
 
-.fan-information-technical { background: #f7f7f7; height: 670px; width: 100%; padding: 50px; display: none; float:left; clear:both;}
-.fan-information-technical h1 { text-align: center; font-family: Rubik, sans-serif; font-variant: small-caps}
+.fan-information-technical { background: #f7f7f7; height: 730px; width: 100%; padding: 30px 50px 50px 50px; display: none; float:left; clear:both;}
+.fan-information-technical h1 { text-align: center; font-variant: small-caps; font-size: 36px;}
 
-.fan-technical-keys { text-align: left}
-.fan-technical-values { text-align: right}
-.fan-technical-keys, .fan-technical-values { font-size: 16px;}
+.fan-technical-keys { text-align: left; margin-bottom: 55px;}
+.fan-technical-values { text-align: right; margin-bottom: 55px;}
+.fan-technical-keys p , .fan-technical-values p { font-size: 16px;}
 .fan-technical-keys p { font-weight: bold}
 
-.filter-buttons { float: right; margin-top: 31px; width: 100%; }
-.filter-buttons > div { background: #dfdfdf; border: 1px solid lightgray; width: 25%; height: 50px; float: left; }
-.filter-buttons > div:hover { cursor: pointer; background: lightgray;}
-.filter-buttons > div p { text-align: center; padding-top: 10px; font-variant: small-caps; font-family: Rubik, sans-serif; font-size: 15px; line-height: 15px; }
+.btn-compare { color: black; width: 200px; background: #ECF0F1; border-radius: 0; -webkit-transform: translateZ(0); transform: translateZ(0); }
+.btn-compare:hover { background: #E7E7E7; color: black;}
+.btn-compare:before { content: ""; position: absolute; z-index: -1;  left: 0; right: 100%; bottom: 0; background: #27AE60; height: 4px; -webkit-transition-property: right; transition-property: right; -webkit-transition-duration: 0.3s; transition-duration: 0.3s; -webkit-transition-timing-function: ease-out; transition-timing-function: ease-out; }
+.btn-compare:hover:before, .btn-compare:focus:before, .btn-compare:active:before {; right: 0;}
+.btn-compare p { margin:0; font-size: 16px; }
 
-#technical-graph { padding: 50px; float: right; width: 82%; height: 400px; margin-top: 110px;}
-#fan-graph {height: 500px; margin-bottom: 100px; float:left; width: 88%;}
+.flot-y-axis .tickLabel { font-size: 12px; left: 30px !important;}
+.flot-x-axis .tickLabel { font-size: 12px;}
+.yaxisLabel, .xaxisLabel { font-size: 16px;}
+.yaxisLabel { left: -20px !important;}
+
+.btn-filter-screen { background: #27AE60; margin: 125px 0 20px 23px; border-radius: 0; width: 260px; }
+.btn-filter-screen:hover { background: #2ECC71}
+.filter-screen { width: 260px; display: none; border-radius: 0; margin: -20px 0 0 -142px; z-index: 2}
+/*.filter-buttons { float: right; margin-top: 33px; width: 100%; margin-right: -14px;}*/
+/*.filter-buttons > button { width: 24%; height: 50px; float: left; border-radius: 0; margin: 5px 0 0 1px}*/
+/*.filter-buttons > button:hover { cursor: pointer;}*/
+/*.filter-buttons > button p { color: black; margin: 0; text-align: center; font-variant: small-caps; font-size: 15px; line-height: 15px; }*/
+
+#technical-graph { padding: 50px; float: right; width: 82%; height: 477px; margin-top: 200px;}
+#fan-graph {height: 500px; float:left; width: 88%;}
 
 .fan .fan-blowing-direction { text-align: center;}
 .fan-blowing-direction i { font-size: 25px;}
 .fan-blowing-direction p { margin-top: 10px;}
 
-#fan-graph-container { top: 100px; position:relative; clear:both; }
+#fan-graph-container { margin-top: 100px; clear:both; }
+#fan-graph-container h1 { font-size: 28px; font-weight: lighter; float: left; margin-top: 10px; margin-right: 30px;}
+#fan-graph-container hr { margin-bottom: 50px;}
 
-#fan-graph-legend { clear: both; margin-top: 15px; padding: 20px; background: #f7f7f7; float:right; width: 125px; height: 452px;}
+#fan-graph-legend { clear: both; margin-top: 7px; padding-left: 15px; background: #f7f7f7; float:right; width: 135px; height: 452px;}
 
 #fan-graph-legend .legendColorBox > div { border: none !important; margin-top: 20px;}
 #fan-graph-legend .legendColorBox > div div { border-width: 8px !important;}
-#fan-graph-legend .legendLabel { text-decoration: none; padding: 30px 20px 0 5px; font-family: Rubik, sans-serif}
+#fan-graph-legend .legendLabel { text-decoration: none; padding: 30px 20px 0 5px; font-size: 13px;}
 #fan-graph-legend .legendLabel:nth-child(1) { padding-left: 20px;}
 #fan-graph-legend .legendLabel a { color: black;}
 #fan-graph-legend .legendLabel:hover a { color: darkgrey;}
 
 .fan-technical-keys { margin-bottom: 30px;}
 .fan-technical-values p { margin-right: 30px; }
+
+.fan-power-usage, .fan-technical-life-expectancy, .fan-theoretical-life-expectancy { line-height: 1; padding-top: 11px; padding-bottom: 11px; margin: 0;}
+.fan-power-usage span, .fan-technical-life-expectancy span, .fan-theoretical-life-expectancy span { margin-right: 3px}
+
 .fa-info-circle { float: right; margin-top: 15px;}
 .fa-info-circle:first-of-type { margin-top: 5px;}
 .fa-info-circle:hover { cursor: pointer;}
 
-#compare-fans-button { background: lightgrey; height: 50px; clear: both; text-align: center; padding-top: 15px; border: 1px solid darkgrey; cursor: pointer;}
-#compare-fans-button:hover { background: darkgrey} #compare-yearly-statistics-button:hover { background: darkgrey;}
 
-.table-compare { margin-top: 76px; margin-left: -50px;  }
+#compare-fans-button { background: lightgrey; height: 50px; clear: both; text-align: center; padding-top: 15px; border: 1px solid darkgrey; cursor: pointer;}
+#compare-fans-button:hover { background: darkgrey}
+#compare-fans { display: none;}
+#compare-fans h2 { font-size: 36px; font-weight: lighter; border-bottom: 1px solid #eee; padding-bottom: 9px; margin: 20px;}
+
+#s2id_fan-to-compare-one, #s2id_fan-to-compare-two { border: 2px solid #bdc3c7; }
+.select2-chosen { color: black;}
+.select2-drop .select2-highlighted > .select2-result-label { background: darkgrey;}
+
+#datetimepicker1 input, #datetimepicker2 input { color: black; }
+
+#graph-comparison { margin-left: 60px;width: 400px; height: 385px; display: none;}
+.table-compare { margin-top: 76px; margin-left: -50px; font-size: 14px; display: none;}
 .table-compare thead tr { background: #eee; }
 .table-compare tr td:nth-child(3) { border-right: 2px solid #ddd}
 .table-compare tr th:nth-child(3) { border-right: 2px solid #ddd}
 
-.table-compare tr th:nth-child(2) { border-left: 3px solid #83be3e; }
-.table-compare tr th:nth-child(3) { border-left: 3px solid #c4e0a3; }
-
-/*.compare-fan-one-colour { background: #83be3e; width: 100%; height: 4px; float: left; color: #83be3e;}*/
-/*.compare-fan-two-colour { background: #c4e0a3; width: 100%; height: 4px; float: left; color: #c4e0a3;}*/
+.table-compare tr th:nth-child(2) { background: #83be3e; }
+.table-compare tr th:nth-child(3) { background: #c4e0a3; }
 
 .fancybox-skin { background: white;}
-.fancybox-inner { min-height: 650px;}
-
+.fancybox-inner { min-height: 650px; width: 1070px !important;}
+.fancybox-wrap { width: 1100px !important; left: 90px !important;}
 
 #compare-inputs { margin-top: 40px;}
-#compare-chosen-button { margin-top: 10px;}
+#compare-chosen-button { margin-top: 10px; width: 175px !important;}
+
+.warning-placeholder { font-size: 15px;}
 
 /************************************
  *    Media queries - Detailpagina     *
@@ -225,7 +258,7 @@ and (orientation : portrait) {
     #compare-fans-button { width: 85%;}
     .filter-buttons { margin-top: 46px;}
 
-    .table-compare { margin-top: 20px; margin-left: 0;  }
+    .table-compare { margin-top: 20px; margin-left: 0; }
     #placeholder { width: 385px}
 
 
@@ -263,7 +296,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .fan-information-basic { height: 270px; border-bottom: 1px solid lightgrey; }
     .fan .fan-information-basic h2 { padding-top: 0;}
     .fan .fan-information-basic h2.fan-status-heading { padding-top: 0; font-size: 15px; margin-bottom: 5px;}
-    .fan .fan-information-basic h2.fan-direction-heading { font-size: 12px; margin-top: 10px; }
+    .fan .fan-information-basic h2.fan-direction-heading { font-size: 12px; margin-top: 20px; }
 
     .fan p.fan-status { font-size: 25px; margin-bottom: 20px;}
 

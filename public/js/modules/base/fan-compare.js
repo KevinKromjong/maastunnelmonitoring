@@ -299,7 +299,7 @@ var FanCompare = (function () {
             return '<div class="alert alert-danger empty-input" role="alert">' +
                 '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="false"></span>' +
                 '<span class="sr-only">Error:</span>' + text +
-                '</div>'; 
+                '</div>';
         },
 
         checkCalendarDate: function (xaxis) {

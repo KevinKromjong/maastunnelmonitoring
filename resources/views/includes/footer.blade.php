@@ -20,17 +20,21 @@
 <script src="{{asset('/js/libs/jquery.fancybox.js')}}" rel="script"></script>
 <script src="{{asset('/js/libs/moment-with-locales.min.js')}}" rel="script"></script>
 <script src="{{asset('/js/libs/bootstrap-datetimepicker.min.js')}}" rel="script"></script>
+<script src="{{asset('/js/libs/flat-ui.js')}}" rel="script"></script>
+<script src="{{asset('/js/libs/application.js')}}" rel="script"></script>
 
-<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+{{--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>--}}
+{{--<script src="{{asset('/js/server.js')}}" rel="script"></script>--}}
 
 <!--Modules-->
-<script src="{{asset('/js/modules/base/websocket.js')}}" rel="script"></script>
+{{--<script src="{{asset('/js/modules/base/websocket.js')}}" rel="script"></script>--}}
 <script src="{{asset('/js/modules/helpers/utils.js')}}" rel="script"></script>
 
 <script src="{{asset('/js/modules/base/fan-variables.js')}}" rel="script"></script>
 <script src="{{asset('/js/modules/base/graph-overview.js')}}" rel="script"></script>
 <script src="{{asset('/js/modules/base/fan-dropdown.js')}}" rel="script"></script>
-<script src="{{asset('/js/modules/base/fan-comparison.js')}}" rel="script"></script>
+<script src="{{asset('/js/modules/base/fan-compare.js')}}" rel="script"></script>
+<script src="{{asset('/js/modules/base/fan-filter.js')}}" rel="script"></script>
 
 <script src="{{asset('/js/modules/helpers/toggle-plot.js')}}" rel="script"></script>
 <script src="{{asset('/js/modules/helpers/configure-tooltip.js')}}" rel="script"></script>

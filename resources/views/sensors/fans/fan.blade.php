@@ -36,7 +36,7 @@
                                                 @if($fan->is_on === true)
                                                     <p class="fan-status green">AAN</p>
                                                 @else
-                                                    <p class="fan-status red">UIT</p>
+                                                    <p class="fan-status blue">UIT</p>
                                                 @endif
 
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -89,8 +89,17 @@
                                     </div>
                                     @endforeach
 
+
                                     <div class="col-lg-12">
                                         <div class="fan-information-technical">
+
+                                            {{--<div class="spinner-container-container">--}}
+                                            {{--<svg class="spinner-container" viewBox="0 0 44 44">--}}
+                                            {{--<circle class="path" cx="22" cy="22" r="20" fill="none"--}}
+                                            {{--stroke-width="4"></circle>--}}
+                                            {{--</svg>--}}
+                                            {{--</div>--}}
+
                                             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                                 @if($direction == 'noordzijde')
                                                     <h1 class="fan-name">ventilator <br/> N-0{{$fan->fan_number}}</h1>
@@ -111,7 +120,7 @@
                                                             <hr/>
                                                             <p>Technische <br/> levensduur</p>
                                                             <hr/>
-                                                            <p>Theoretische levensduur</p>
+                                                            <p>Theoretische <br/> levensduur</p>
                                                         </div>
                                                     </div>
 
@@ -138,7 +147,7 @@
                                                             </div>
 
                                                             @if($fan->is_on === true)
-                                                                <p class="fan-time-on">12:45:13</p>
+                                                                <p class="fan-time-on interval">Berekenen...</p>
                                                             @else
                                                                 <p class="fan-time-on">0</p>
                                                             @endif
@@ -146,62 +155,76 @@
                                                             <hr/>
 
                                                             <p class="fan-power-usage"> 125.4 Watt <br/> <span
-                                                                        style="font-size: 12px">(sinds 6 uur terug)</span>
+                                                                        style="font-size: 11px">vanaf 6 uur geleden</span>
                                                             </p>
                                                             <hr/>
 
-                                                            <p class="fan-technical-life-expectancy">Nog {{ rand(2,5) }} jaar <br/> <span style="font-size: 12px">(vanaf 2016)</span></p>
+                                                            <p class="fan-technical-life-expectancy">Nog {{ rand(2,5) }}
+                                                                jaar <br/> <span
+                                                                        style="font-size: 11px">vanaf 2016</span></p>
                                                             <hr/>
 
-                                                            <p class="fan-theoretical-life-expectancy">{{ rand(4,6) }} jaar <br/> <span style="font-size: 12px">(vanaf aanschafjaar: {{ rand( 2010, 2012) }})</span></p>
+                                                            <p class="fan-theoretical-life-expectancy">{{ rand(4,6) }}
+                                                                jaar <br/> <span style="font-size: 11px">vanaf aanschafjaar: {{ rand( 2010, 2012) }}
+                                                                    </span></p>
                                                         </div>
                                                     </div>
-
-
-                                                    <a style="text-decoration: none; color:black" class="fancybox" rel="group" href="#compare-fans">
-                                                        <div id="compare-fans-button">
-                                                            <p>Vergelijk gegevens</p>
-                                                        </div>
-                                                    </a>
-
                                                 </div>
                                             </div>
 
-
                                             <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
-                                                <section id="technical-graph">
 
-                                                </section>
+                                                <div class="col-lg-offset-7">
+                                                    <div style="position: absolute">
 
-                                                <div class="col-lg-10 col-lg-push-2">
-                                                    <div class="filter-buttons">
-                                                        <div class="filter filter-six-hours" data-filter="6"
-                                                             data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
-                                                            <p>
-                                                                6 <br/> uur terug
-                                                            </p>
-                                                        </div>
-                                                        <div class="filter filter-twelve-hours" data-filter="12"
-                                                             data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
-                                                            <p>
-                                                                12 <br/> uur terug
-                                                            </p>
-                                                        </div>
-                                                        <div class="filter filter-one-day" data-filter="1"
-                                                             data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
-                                                            <p>
-                                                                1 <br/> dag terug
-                                                            </p>
-                                                        </div>
-                                                        <div class="filter filter-two-days" data-filter="2"
-                                                             data-tunnel="{{$tunnel}}" data-direction="{{$direction}}">
-                                                            <p>
-                                                                2 <br/> dagen terug
-                                                            </p>
-                                                        </div>
+                                                        <div class="input-group">
+                                                            <button type="button"
+                                                                    class="btn btn-primary btn-filter-screen">
+                                                                Filter ventilatordata
+                                                                <span class="glyphicon glyphicon-filter"></span>
+                                                            </button>
 
+                                                            <div class="col-lg-offset-7">
+                                                                <div class="share mrl filter-screen">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <label class="share-label"
+                                                                                   style="width: 100%;"
+                                                                                   for="share-toggle2">Aantal</label>
+                                                                            <input type="number" style="width: 100px;"
+                                                                                   value=""
+                                                                                   placeholder="6.."
+                                                                                   class="form-control filter-number">
+                                                                        </li>
+                                                                        <li>
+                                                                            <label class="share-label"
+                                                                                   style="width: 30%;"
+                                                                                   for="share-toggle4">Eenheid</label>
+                                                                            <select data-toggle="select"
+                                                                                    class="form-control select select-default mrs mbm filter-unit">
+                                                                                <option value="days">Dagen</option>
+                                                                                <option value="weeks">Weken</option>
+                                                                                <option value="months">Maanden</option>
+                                                                                <option value="years">Jaren</option>
+                                                                            </select></li>
+
+                                                                    </ul>
+                                                                    <a href="#"
+                                                                       class="btn btn-primary btn-block btn-large btn-filter"
+                                                                       data-tunnel="{{$tunnel}}"
+                                                                       data-direction="{{$direction}}"
+                                                                       data-fan-number="{{$fan->fan_number}}"
+                                                                       style="background: #27AE60">Filter</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
+
+                                                <section id="technical-graph">
+                                                    <div class="modal"><!-- Place at bottom of page --></div>
+
+                                                </section>
 
                                             </div>
 
@@ -212,9 +235,14 @@
             </div>
 
             <div id="fan-graph-container">
-                <div id="fan-graph-legend"></div>
-                <p id="choices" style="float:right; width:135px;"></p>
+                <h1>Overzichtsgrafiek ventilatoren</h1>
+                <button class="btn-compare hvr-underline-from-left fancybox btn btn-block btn-lg btn-default"
+                        rel="group" href="#compare-fans">
+                    <p>Vergelijk ventilatoren</p>
+                </button>
+                <hr/>
 
+                <div id="fan-graph-legend"></div>
                 <section id="fan-graph">
 
                 </section>
@@ -223,8 +251,6 @@
     </div>
 
     @include('includes.compare-fans')
-
-
 
 @endsection
 

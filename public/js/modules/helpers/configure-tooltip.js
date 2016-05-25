@@ -21,7 +21,7 @@ var ConfigureTooltip = (function () {
              * Sets up and configure the tooltip
              * Shows it on hover, removes it on release
              */
-           
+
             s = this.settings;
 
             $("#technical-graph, #fan-graph").bind("plothover", function (event, pos, item) {
@@ -30,7 +30,18 @@ var ConfigureTooltip = (function () {
                         s.previousPoint = item.datapoint;
                         $('#tooltip').remove();
                         var time = new Date(item.datapoint[0]);
-                        ConfigureTooltip.createToolTip(item.pageX, item.pageY, item.datapoint[1].toFixed(2) + ' Kilowatt (' + (time.getHours() < 10 ? '0' : '') + time.getHours() + ':' + (time.getMinutes() < 10 ? '0' : '') + time.getMinutes() + ')');
+                        ConfigureTooltip.createToolTip(
+                            item.pageX,
+                            item.pageY,
+                            item.datapoint[1].toFixed(2) +
+                            ' Kilowatt ' + '<br/>' +
+                            time.getDate() + ' ' +
+                            Utils.settings.monthNames[time.getMonth()] + ' ' +
+                            time.getFullYear() + ' ' +
+                            '(' +(time.getHours() < 10 ? '0' : '') +
+                            time.getHours() + ':' +
+                            (time.getMinutes() < 10 ? '0' : '') +
+                            time.getMinutes() + ')');
                     }
                 } else {
                     $('#tooltip').remove();
@@ -41,6 +52,7 @@ var ConfigureTooltip = (function () {
 
         createToolTip: function (x, y, contents) {
             $('<div id="tooltip">' + contents + '</div>').css({
+                'font-size': '13px',
                 position: 'absolute',
                 display: 'none',
                 top: y + 5,
