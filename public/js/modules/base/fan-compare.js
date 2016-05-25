@@ -46,10 +46,7 @@ var FanComparison = (function () {
                 var inputDateTimePickerTwo = $('#datetimepicker2').find('input').val();
 
                 // Check if the user entered all information before continuing.
-                if (inputFanOne == null || inputFanTwo == null) {
-                    $('.warning-placeholder').html(FanComparison.createWarningMessage(' Je moet een ventilator kiezen!')).show();
-                    return false;
-                } else if (inputDateTimePickerOne == '' || inputDateTimePickerTwo == '') {
+                if (inputDateTimePickerOne == '' || inputDateTimePickerTwo == '') {
                     $('.warning-placeholder').html(FanComparison.createWarningMessage(' Je moet een datum kiezen om de ventilatoren te vergelijken!')).show();
                     return false;
                 } else if (FanComparison.checkCalendarDate()) {
@@ -68,7 +65,6 @@ var FanComparison = (function () {
                 // Enter the names of the chosen fans into the table headers.
                 $('#chosen-fan-one').html(inputFanOne + '<span class="compare-fan-one-colour"></span>');
                 $('#chosen-fan-two').html(inputFanTwo + '<span class="compare-fan-two-colour"></span>');
-                $('#chosen-fan-difference').html('Verschil <br/>' + inputFanOne + ' t.o.v. <br/> ' + inputFanTwo);
             });
         },
 
@@ -113,52 +109,44 @@ var FanComparison = (function () {
             var fanOneData = data['fanOne'];
             var fanTwoData = data['fanTwo'];
 
-            this.calculateAveragePowerDifferences(fanOneData, fanTwoData);
-
             this.calculateTotalFanTime(firstTime, secondTime);
+
+            this.calculateAveragePowerDifferencesTotal(fanOneData, fanTwoData);
 
             this.calculateTechnicalLifeExpectancy();
 
             this.plotCompareGraph(fanOneData, fanTwoData);
         },
 
-        calculateAveragePowerDifferences: function (fanOneData, fanTwoData) {
+        calculateAveragePowerDifferencesTotal: function (fanOneData, fanTwoData) {
             /**
              * Calculates the average power consumption differences for the table
              */
 
             var fanOneAveragePowerConsumption = AveragePowerConsumption.calculate(fanOneData, true);
             var fanTwoAveragePowerConsumption = AveragePowerConsumption.calculate(fanTwoData, true);
-            var fanPowerConsumptionDifference = Math.round(((fanTwoAveragePowerConsumption - fanOneAveragePowerConsumption) / fanOneAveragePowerConsumption) * 100) / 100;
+            var fanPowerDifference = Math.abs(Math.round((fanOneAveragePowerConsumption - fanTwoAveragePowerConsumption) * 100) / 100);
 
-            $('#fan-one-power').html(fanOneAveragePowerConsumption + ' Kilowatt');
-            $('#fan-two-power').html(fanTwoAveragePowerConsumption + ' Kilowatt');
+            $('#fan-one-power-total').html(Math.round(fanOneAveragePowerConsumption * 100) / 100 + ' Kilowatt');
+            $('#fan-two-power-total').html(Math.round(fanTwoAveragePowerConsumption * 100) / 100 + ' Kilowatt');
+            $('#fan-power-difference-total').html(fanPowerDifference + ' Kilowatt');
 
-            // If the power consumption of fan 1 and fan 2 equals 0 ..
-            if (fanOneAveragePowerConsumption == 0 && fanTwoAveragePowerConsumption == 0) {
-                $('#fan-power-difference-unit').html(0 + ' Kilowatt').addClass('warning').removeClass('danger success');
-                $('#fan-power-difference-percentage').html(0 + '%').addClass('warning').removeClass('danger success');
-                // If the power consumption of fan 1 equals 0..
-            } else if (fanOneAveragePowerConsumption == 0) {
-                $('#fan-power-difference-unit').html('+' + fanTwoAveragePowerConsumption + ' Kilowatt').addClass('success').removeClass('danger warning');
-                $('#fan-power-difference-percentage').html('-').addClass('warning').removeClass('danger success');
-                // If the power consumption of fan 2 equals 0..
-            } else if (fanTwoAveragePowerConsumption == 0) {
-                $('#fan-power-difference-unit').html('-' + fanOneAveragePowerConsumption + ' Kilowatt').addClass('danger').removeClass('success warning');
-                $('#fan-power-difference-percentage').html('-').addClass('warning').removeClass('success danger');
-                // If the difference between the power consumption of fan 1 and fan 2 equals 0..
-            } else if (fanPowerConsumptionDifference == 0) {
-                $('#fan-power-difference-unit').html(Math.round((fanOneAveragePowerConsumption - fanTwoAveragePowerConsumption) * 100) / 100 + ' Kilowatt').addClass('warning').removeClass('success danger');
-                $('#fan-power-difference-percentage').html(fanPowerConsumptionDifference + '%').addClass('warning').removeClass('success danger');
-                // If the difference between the power consumption of fan 1 and fan 2 is less than 0..
-            } else if (fanPowerConsumptionDifference < 0) {
-                $('#fan-power-difference-unit').html(Math.round((fanOneAveragePowerConsumption - fanTwoAveragePowerConsumption) * 100) / 100 + ' Kilowatt').addClass('danger').removeClass('success warning');
-                $('#fan-power-difference-percentage').html(fanPowerConsumptionDifference + '%').addClass('danger').removeClass('success warning');
-                // If the difference between the power consumption of fan 1 and fan 2 is greater than 0..
-            } else {
-                $('#fan-power-difference-unit').html('+' + Math.round((fanTwoAveragePowerConsumption - fanOneAveragePowerConsumption) * 100) / 100 + ' Kilowatt').addClass('success').removeClass('danger warning');
-                $('#fan-power-difference-percentage').html('+' + fanPowerConsumptionDifference + '%').addClass('success').removeClass('danger warning');
-            }
+
+            this.calculateAveragePowerDifferenceHour(fanOneAveragePowerConsumption, fanTwoAveragePowerConsumption);
+        },
+
+        calculateAveragePowerDifferenceHour : function (fanOne, fanTwo) {
+            var fanOneTimeOn = ($('#fan-one-time-on').html()).substring(0,2);
+            var fanTwoTimeOn = ($('#fan-two-time-on').html()).substring(0,2);
+
+            var fanOneHourlyPower = Math.round(fanOne / fanOneTimeOn) * 100 / 100;
+            var fanTwoHourlyPower = Math.round(fanTwo / fanTwoTimeOn) * 100 / 100;
+            var fanDifferenceHourlyPower = Math.abs(Math.round((fanOneHourlyPower - fanTwoHourlyPower) * 100) / 100);
+
+            $('#fan-one-power-hour').html(fanOneHourlyPower + ' Kilowatt');
+            $('#fan-two-power-hour').html(fanTwoHourlyPower + ' Kilowatt');
+            $('#fan-power-difference-hour').html(fanDifferenceHourlyPower + ' Kilowatt');
+
         },
 
         calculateTotalFanTime: function (firstTime, secondTime) {
@@ -197,13 +185,10 @@ var FanComparison = (function () {
             $('#fan-two-time-on').html(randomTimeFanTwo + dayOrDaysFanTwo);
 
             if (randomTimeFanOne > randomTimeFanTwo) {
-                $('#fan-time-on-difference-unit').html(randomTimeFanOne - randomTimeFanTwo + dayOrDays)
+                $('#fan-time-on-difference').html(randomTimeFanOne - randomTimeFanTwo + dayOrDays)
             } else {
-                $('#fan-time-on-difference-unit').html(randomTimeFanTwo - randomTimeFanOne + dayOrDays);
+                $('#fan-time-on-difference').html(randomTimeFanTwo - randomTimeFanOne + dayOrDays);
             }
-
-            var fanTimePercentage = Math.round(((randomTimeFanTwo - randomTimeFanOne) / randomTimeFanOne) * 100 * 100) / 100;
-            $('#fan-time-on-difference-percentage').html(fanTimePercentage + '%');
         },
 
         calculateTechnicalLifeExpectancy: function () {
@@ -217,21 +202,13 @@ var FanComparison = (function () {
             var fanOneTechnical = Math.floor((Math.random() * fanOneTheoretical) + 1);
             var fanTwoTechnical = Math.floor((Math.random() * fanTwoTheoretical) + 1);
 
-            $('#fan-one-technical-life-expectancy').html('Nog <br/>' + fanOneTechnical + ' jaar');
-            $('#fan-two-technical-life-expectancy').html('Nog <br/>' + fanTwoTechnical + ' jaar');
+            $('#fan-one-technical-life-expectancy').html('Nog ' + fanOneTechnical + ' jaar');
+            $('#fan-two-technical-life-expectancy').html('Nog ' + fanTwoTechnical + ' jaar');
 
             if (fanOneTechnical > fanTwoTechnical) {
                 $("#fan-technical-life-expectancy-difference").html(fanOneTechnical - fanTwoTechnical + ' jaar');
             } else {
                 $("#fan-technical-life-expectancy-difference").html(fanTwoTechnical - fanOneTechnical + ' jaar');
-            }
-
-            var technicalLifeExpectancyPercentage = Math.round(((fanTwoTechnical - fanOneTechnical) / fanOneTechnical) * 100);
-
-            if (technicalLifeExpectancyPercentage > 0) {
-                $('#fan-technical-life-expectancy-difference-percentage').html('+' + technicalLifeExpectancyPercentage + '%');
-            } else {
-                $('#fan-technical-life-expectancy-difference-percentage').html(technicalLifeExpectancyPercentage + '%');
             }
         },
 
@@ -343,6 +320,8 @@ var FanComparison = (function () {
                     return $('.warning-placeholder').html(this.createWarningMessage(' De eerste datum moet eerder zijn dan de tweede datum!')).show();
                 } else if (convertedDateOne.getTime() == convertedDateTwo.getTime()) {
                     return $('.warning-placeholder').html(this.createWarningMessage(' De twee datums moeten wel van dag verschillen!')).show();
+                } else if ( convertedDateTwo.getTime() > new Date()) {
+                    return $('.warning-placeholder').html(this.createWarningMessage(' Je kan niet in de toekomst zoeken!')).show();
                 }
             }
         }
