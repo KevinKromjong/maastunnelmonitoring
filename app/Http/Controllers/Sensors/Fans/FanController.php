@@ -34,7 +34,7 @@ class FanController extends Controller
             $fansGraph = Sensor::where('tunnel', '=', $translate['tunnel'])
                 ->where('direction', '=', $translate['direction'])
                 ->orderBy('created_at', 'desc')
-                ->take(900) //180 per buis, laatste 3 uur
+                ->take(7200) //180 per buis, laatste 3 uur
 //                ->orderBy('created_at', 'asc')
                 ->get();
         } 
@@ -51,7 +51,7 @@ class FanController extends Controller
             $fansGraph = Sensor::where('tunnel', '=', $translate['tunnel'])
                 ->where('direction', '=', $translate['direction'])
                 ->orderBy('created_at', 'desc')
-                ->take(540) //180 per buis, laatste 3 uur
+                ->take(4320) //180 per buis, laatste 3 uur
 //                ->orderBy('created_at', 'asc')
                 ->get();
         }

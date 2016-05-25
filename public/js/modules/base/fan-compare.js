@@ -7,7 +7,7 @@
  |
  */
 
-var FanComparison = (function () {
+var FanCompare = (function () {
 
     // The settings variable
     var s;
@@ -47,10 +47,10 @@ var FanComparison = (function () {
 
                 // Check if the user entered all information before continuing.
                 if (inputDateTimePickerOne == '' || inputDateTimePickerTwo == '') {
-                    $('.warning-placeholder').html(FanComparison.createWarningMessage(' Je moet een datum kiezen om de ventilatoren te vergelijken!')).show();
+                    $('.warning-placeholder').html(FanCompare.createWarningMessage(' Je moet een datum kiezen om de ventilatoren te vergelijken!')).show();
                     return false;
-                } else if (FanComparison.checkCalendarDate()) {
-                    FanComparison.checkCalendarDate();
+                } else if (FanCompare.checkCalendarDate()) {
+                    FanCompare.checkCalendarDate();
                     return false;
                 } else {
                     $('.warning-placeholder').hide();
@@ -60,7 +60,7 @@ var FanComparison = (function () {
                 var fanOneOptionGroup = $('#fan-to-compare-one :selected').parent().attr('label').replace(/ /g, '');
                 var fanTwoOptionGroup = $('#fan-to-compare-two :selected').parent().attr('label').replace(/ /g, '');
 
-                FanComparison.retrieveCompareInputData(inputDateTimePickerOne, inputDateTimePickerTwo, fanOneOptionGroup.split('-')[0], fanTwoOptionGroup.split('-')[0], fanOneOptionGroup.split('-')[1], fanTwoOptionGroup.split('-')[1], inputFanOne.slice(-1), inputFanTwo.slice(-1));
+                FanCompare.retrieveCompareInputData(inputDateTimePickerOne, inputDateTimePickerTwo, fanOneOptionGroup.split('-')[0], fanTwoOptionGroup.split('-')[0], fanOneOptionGroup.split('-')[1], fanTwoOptionGroup.split('-')[1], inputFanOne.slice(-1), inputFanTwo.slice(-1));
 
                 // Enter the names of the chosen fans into the table headers.
                 $('#chosen-fan-one').html(inputFanOne + '<span class="compare-fan-one-colour"></span>');
@@ -96,7 +96,7 @@ var FanComparison = (function () {
                 async: true,
                 success: function (data) {
 
-                    FanComparison.retrieveCompareInputDataCallback(data, s.firstTime, s.secondTime);
+                    FanCompare.retrieveCompareInputDataCallback(data, s.firstTime, s.secondTime);
                 }
             });
         },
@@ -299,7 +299,7 @@ var FanComparison = (function () {
             return '<div class="alert alert-danger empty-input" role="alert">' +
                 '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="false"></span>' +
                 '<span class="sr-only">Error:</span>' + text +
-                '</div>';
+                '</div>'; 
         },
 
         checkCalendarDate: function (xaxis) {

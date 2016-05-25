@@ -28,6 +28,12 @@ class APIController extends Controller
      */
     public function index()
     {
+        switch (Input::get('option')) {
+            case 'filter' :
+                return $this->filterFans(Input::get('fan'), Input::get('tunnel'), Input::get('direction'), Input::get('filternumber'), Input::get('filterunit'));
+                break;
+        }
+
         if (!empty(Input::get('filter'))) {
             return $this->filterFans(Input::get('filter'), Input::get('fan'), Input::get('tunnel'), Input::get('direction'));
         } else if (!empty(Input::get('translate'))) {
@@ -50,22 +56,22 @@ class APIController extends Controller
      * @param $direction : The direction to search for. Options: north or south
      * @return: The fans that are searched for
      */
-    public function filterFans($filter, $fan, $tunnel, $direction)
+    public function filterFans($fan, $tunnel, $direction, $number, $unit)
     {
         $translation = translateTubeAndDirection($tunnel, $direction);
 
-        switch ($filter) {
-            case 6 : // 6 uur
-                $fans = Sensor::where('tunnel', $translation['tunnel'])->where('direction', $translation['direction'])->where('fan_number', '=', intval($fan))->where('created_at', '>=', $this->now->subHours(6))->get();
+        switch ($unit) {
+            case 'days' :
+                $fans = Sensor::where('tunnel', $translation['tunnel'])->where('direction', $translation['direction'])->where('fan_number', '=', intval($fan))->where('created_at', '>=', $this->now->subDays(intval($number)))->where('mod_id', 'mod', [15, 0])->get();
                 break;
-            case 12 :  // 12translateTubeAndDirection uur
-                $fans = Sensor::where('tunnel', $translation['tunnel'])->where('direction', $translation['direction'])->where('fan_number', '=', intval($fan))->where('created_at', '>=', $this->now->subHours(12))->get();
+            case 'weeks' :
+                $fans = Sensor::where('tunnel', $translation['tunnel'])->where('direction', $translation['direction'])->where('fan_number', '=', intval($fan))->where('created_at', '>=', $this->now->subWeeks(intval($number)))->where('mod_id', 'mod', [15, 0])->get();
                 break;
-            case 1 : // 1 dag
-                $fans = Sensor::where('tunnel', $translation['tunnel'])->where('direction', $translation['direction'])->where('fan_number', '=', intval($fan))->where('created_at', '>=', $this->now->subDay())->get();
+            case 'months' :
+                $fans = Sensor::where('tunnel', $translation['tunnel'])->where('direction', $translation['direction'])->where('fan_number', '=', intval($fan))->where('created_at', '>=', $this->now->subMonths(intval($number)))->where('mod_id', 'mod', [15, 0])->get();
                 break;
-            case 2 : // 2 dagen
-                $fans = Sensor::where('tunnel', $translation['tunnel'])->where('direction', $translation['direction'])->where('fan_number', '=', intval($fan))->where('created_at', '>=', $this->now->subDays(2))->get();
+            case 'years' :
+                $fans = Sensor::where('tunnel', $translation['tunnel'])->where('direction', $translation['direction'])->where('fan_number', '=', intval($fan))->where('created_at', '>=', $this->now->subYears(intval($number)))->where('mod_id', 'mod', [15, 0])->get();
                 break;
             default :
                 return Response(['error' => 'het ingevulde filternummer bestaat niet. Maak een keuze tussen 1, 2, 3 of 4']);

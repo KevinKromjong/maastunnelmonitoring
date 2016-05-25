@@ -3,6 +3,7 @@
     FanVariables.init(fansGraph);
     GraphOverview.init();
     FanDropdown.init();
+    FanCompare.init();
 
     //Helpers
     AjaxLoadingGif.init();

@@ -185,9 +185,6 @@ var FanDropdown = (function () {
                 $('#technical-graph').html('<p class="fan-off">Deze ventilator staat uit en kan dus geen data weergeven</p>');
                 $('.filter-buttons').hide();
             }
-
-            FanComparison.init();
-
         },
 
         filter: function () {
