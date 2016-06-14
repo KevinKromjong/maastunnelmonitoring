@@ -9,20 +9,20 @@ body .container { padding-bottom: 50px; }
 h1, h2, h3, h4, h5, h6, p { font-weight: normal;}
 
 *[class^='col-'] { padding-left: 0; padding-right: 0;}
-
-/*.container { padding-bottom: 100px;}*/
+.hide { display: none !important; }
 
 #main-container { height: 100%; position: relative}
 
-.modal { display: none; position: fixed; z-index: 1000; top: 0; left: 0; height: 100%; width: 100%; background: rgba( 255, 255, 255, .8 ) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat; }
+.ajax-modal { display: none; position: fixed; z-index: 1000; top: 0; left: 0; height: 100%; width: 100%; background: rgba( 255, 255, 255, .8 ) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat; }
 body.loading { overflow: hidden; }
-body.loading .modal { display: block; }
+body.loading .ajax-modal { display: block; }
 
 /*****************
  *    Helpers    *
 *****************/
 .blue { color: #81CFE0}
 .green { color: #27AE60}
+.grey { background: #ECF0F1;}
 .five-fans { width: 20%;}
 .fan-off { font-size: 25px; text-align: center; margin-top: 150px; }
 
@@ -33,6 +33,24 @@ body.loading .modal { display: block; }
 .fan-order { width: 15px; height: 15px; background: white; float: left; margin-right: 10px; margin-top: -5px; }
 .colored { background: #444;}
 
+.message-popup { margin-top: 100px !important; width: 60%; display: none;}
+.message-popup .message-options li { width: 90%; margin-top: 10px;}
+.message-popup .message-options img { margin: 20px 20px 0 0; width: 32px; height: 32px;}
+.message-popup .message-options .media-body { padding-top: 10px; text-align: left;}
+.message-popup .message-options .media-body h5 { font-size: 20px; border-bottom: 1px solid white; padding-bottom: 3px; width: 50%; }
+.message-popup .message-options .media-body p { font-size: 14px; margin-top: -3px; margin-bottom: 5px;}
+
+.notification-alert { padding: 25px;}
+
+.modal-content { padding: 30px;}
+.modal-header .media-object { font-size: 25px; margin-top: 7px;}
+.modal-body .collapse-group { font-size: 16px;}
+.modal-body .collapse-group table { width: 100%; font-size: 14px;}
+.modal-body .collapse-group a:hover { color: #48c9b0}
+.modal-body .message-question { width: 90%; font-size: 20px;}
+.modal-footer ul { list-style: none; }
+
+
 
 /*********************
  *  Header en Footer *
@@ -42,6 +60,10 @@ header { width: 100%; height: 75px; background: #f8f8f8; margin-bottom: 50px; bo
 header .back-button { float: left; width: 30px; padding-top: 25px; }
 header .back-button img { height: 18px; }
 header #logo h1 { font-variant: small-caps; color: #777; font-size: 22px; margin-top: 25px;}
+
+header #logout { float: right; margin-top: 20px;}
+header #logout .dropdown-toggle { background: none; color: black;}
+header #logout button { color: black; padding: 0;}
 
 footer { width: 100%; height: 50px; background: #f8f8f8; position: fixed; bottom: 0; margin-top: 50px; border-top: 5px solid #18933C }
 footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 10px;}
@@ -63,25 +85,18 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .dataset-block:hover .dataset-block-image img { width: 180px; height: 180px; }
 .dataset-block:hover h3 { font-size: 26px; }
 
-
-/*12:47*/
-/*Detailpagina cluster maken: 13:50 begonnen*/
-
 /************************************
  *    Ventilator - Tunnelbuizen     *
  ************************************/
-.tunnel_tubes h1{ text-align: center; padding-bottom: 20px; font-size: 30px;}
-
-.tunnel_tube { height: 200px; background: lightgray;  border-left: 150px solid darkgrey; border-right: 150px solid darkgrey;  margin: 0 auto 50px;
-}
-.tunnel_tube a { text-decoration: none; color: black}
-
-.tunnel_tube h1 { padding-top: 90px;}
-.tunnel_tube h3 { font-size: 24px;}
-.tunnel_tube a:first-child h3 { float: left; margin-left: -135px; margin-top: 90px;}
-.tunnel_tube a:last-child h3  { float: right; margin-right: -125px; margin-top: -60px; }
-
-.tunnel_tube p { font-size: 16px; text-align: center; line-height: 0;}
+.tunnel-tube { height: 200px; background: lightgray; margin: 0 auto 50px; }
+.tunnel-tube h1{ text-align: center; font-size: 30px; float:left; width: 100%; margin-top: -120px;}
+.tunnel-tube-block-left { width: 150px; background: darkgrey; height: 200px; float: left; }
+.tunnel-tube-block-right { width: 150px; background: darkgrey; height: 200px; margin-top: -200px; float: right; }
+.tunnel-tube-block-left a, .tunnel-tube-block-right a { display: block; height: 200px; width: 150px; }
+.tunnel-tube .tunnel-tube-block-left h3 { font-size: 24px; height: 200px; padding: 90px 0 0 15px; margin: 0;}
+.tunnel-tube .tunnel-tube-block-right h3 { font-size: 24px; height: 200px; padding: 90px 0 0 25px; margin: 0;}
+.tunnel-tube a { text-decoration: none; color: black}
+.tunnel-tube p { font-size: 16px; text-align: center; line-height: 0;}
 
 
 /************************************
@@ -111,17 +126,22 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .fan .arrow-straight-up { transform: rotate(0deg); display: inline-block; font-size: 35px; margin: -5px 0; }
 .fan .arrow-straight-down { transform: rotate(180deg);display: inline-block; font-size: 35px; margin: -5px 0; }
 
-
 .fan hr { border-top: 1px solid lightgrey; margin: 10px 20px 0 20px;}
 .fan hr:nth-child(3) { display: none }
 
 .fan-information-technical { background: #f7f7f7; height: 730px; width: 100%; padding: 30px 50px 50px 50px; display: none; float:left; clear:both;}
 .fan-information-technical h1 { text-align: center; font-variant: small-caps; font-size: 36px;}
 
-.fan-technical-keys { text-align: left; margin-bottom: 55px;}
-.fan-technical-values { text-align: right; margin-bottom: 55px;}
-.fan-technical-keys p , .fan-technical-values p { font-size: 16px;}
-.fan-technical-keys p { font-weight: bold}
+.table-technical-information-left { margin-top: 30px; }
+.table-technical-information-left tr th { font-size: 17px; vertical-align: middle !important; }
+.table-technical-information-left tr td { font-size: 15px; text-align: right; vertical-align: middle !important; }
+.fa-info:hover { cursor: pointer; }
+.popover { max-width: 100%; }
+.popover.right { margin-left: 20px; }
+.popover-title { padding: 15px 20px; }
+.popover-content { padding: 15px 20px; }
+.table-technical-information-left tr th, .table-technical-information-left tr td { padding: 20px !important; }
+.table-technical-information-left tr:first-child th, .table-technical-information-left tr:first-child td { border-top: 0 solid white }
 
 .btn-compare { color: black; width: 200px; background: #ECF0F1; border-radius: 0; -webkit-transform: translateZ(0); transform: translateZ(0); }
 .btn-compare:hover { background: #E7E7E7; color: black;}
@@ -134,16 +154,13 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .yaxisLabel, .xaxisLabel { font-size: 16px;}
 .yaxisLabel { left: -20px !important;}
 
-.btn-filter-screen { background: #27AE60; margin: 125px 0 20px 23px; border-radius: 0; width: 260px; }
-.btn-filter-screen:hover { background: #2ECC71}
-.filter-screen { width: 260px; display: none; border-radius: 0; margin: -20px 0 0 -142px; z-index: 2}
-/*.filter-buttons { float: right; margin-top: 33px; width: 100%; margin-right: -14px;}*/
-/*.filter-buttons > button { width: 24%; height: 50px; float: left; border-radius: 0; margin: 5px 0 0 1px}*/
-/*.filter-buttons > button:hover { cursor: pointer;}*/
-/*.filter-buttons > button p { color: black; margin: 0; text-align: center; font-variant: small-caps; font-size: 15px; line-height: 15px; }*/
+.filter-screen-wrapper { position: absolute; margin-left: 45px;}
+.btn-filter-screen { background: #27AE60; border-radius: 0; width: 260px; }
+.btn-filter-screen:hover { background: #2ECC71; }
+.filter-screen { width: 260px; display: none; border-radius: 0; margin-left: -152px; z-index: 2}
 
-#technical-graph { padding: 50px; float: right; width: 82%; height: 477px; margin-top: 200px;}
-#fan-graph {height: 500px; float:left; width: 88%;}
+#technical-graph { width: 100%; height: 477px; margin-top: 50px;}
+#fan-graph {height: 610px; float:left; width: 92%;}
 
 .fan .fan-blowing-direction { text-align: center;}
 .fan-blowing-direction i { font-size: 25px;}
@@ -153,17 +170,14 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 #fan-graph-container h1 { font-size: 28px; font-weight: lighter; float: left; margin-top: 10px; margin-right: 30px;}
 #fan-graph-container hr { margin-bottom: 50px;}
 
-#fan-graph-legend { clear: both; margin-top: 7px; padding-left: 15px; background: #f7f7f7; float:right; width: 135px; height: 452px;}
+#fan-graph-legend { clear: both; margin-top: 20px; padding-left: 15px; background: #f7f7f7; float:right; width: 155px; height: 452px;}
 
 #fan-graph-legend .legendColorBox > div { border: none !important; margin-top: 20px;}
 #fan-graph-legend .legendColorBox > div div { border-width: 8px !important;}
-#fan-graph-legend .legendLabel { text-decoration: none; padding: 30px 20px 0 5px; font-size: 13px;}
+#fan-graph-legend .legendLabel { text-decoration: none; padding: 25px 20px 0 5px; font-size: 13px;}
 #fan-graph-legend .legendLabel:nth-child(1) { padding-left: 20px;}
 #fan-graph-legend .legendLabel a { color: black;}
 #fan-graph-legend .legendLabel:hover a { color: darkgrey;}
-
-.fan-technical-keys { margin-bottom: 30px;}
-.fan-technical-values p { margin-right: 30px; }
 
 .fan-power-usage, .fan-technical-life-expectancy, .fan-theoretical-life-expectancy { line-height: 1; padding-top: 11px; padding-bottom: 11px; margin: 0;}
 .fan-power-usage span, .fan-technical-life-expectancy span, .fan-theoretical-life-expectancy span { margin-right: 3px}
@@ -176,7 +190,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 #compare-fans-button { background: lightgrey; height: 50px; clear: both; text-align: center; padding-top: 15px; border: 1px solid darkgrey; cursor: pointer;}
 #compare-fans-button:hover { background: darkgrey}
 #compare-fans { display: none;}
-#compare-fans h2 { font-size: 36px; font-weight: lighter; border-bottom: 1px solid #eee; padding-bottom: 9px; margin: 20px;}
+#compare-fans h2, #limits-table-wrapper h2 { font-size: 36px; font-weight: lighter; border-bottom: 1px solid #eee; padding-bottom: 9px; margin: 20px;}
 
 #s2id_fan-to-compare-one, #s2id_fan-to-compare-two { border: 2px solid #bdc3c7; }
 .select2-chosen { color: black;}
@@ -184,7 +198,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 
 #datetimepicker1 input, #datetimepicker2 input { color: black; }
 
-#graph-comparison { margin-left: 60px;width: 400px; height: 385px; display: none;}
+#graph-comparison { margin-left: 20px;width: 500px; height: 385px; display: none;}
 .table-compare { margin-top: 76px; margin-left: -50px; font-size: 14px; display: none;}
 .table-compare thead tr { background: #eee; }
 .table-compare tr td:nth-child(3) { border-right: 2px solid #ddd}
@@ -193,18 +207,31 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .table-compare tr th:nth-child(2) { background: #83be3e; }
 .table-compare tr th:nth-child(3) { background: #c4e0a3; }
 
+#limits-table-wrapper { display: none; }
+#limits-table-wrapper h4 { font-size: 18px; margin: -10px 0 50px 20px; }
+
+/*.table-limits { width: 95%; margin: 0 auto;}*/
+/*.table-limits.sortable th.clickable:hover { background: #2ECC71 !important;}*/
+/*.table-limits thead { background: #26A65B; color: white; font-size: 15px;}*/
+/*.table-limits tbody { font-size: 13px;}*/
+/*.table-limits td,*/
+/*.table-limits tr td{ width:1%; white-space:nowrap; }*/
+
 .fancybox-skin { background: white;}
 .fancybox-inner { min-height: 650px; width: 1070px !important;}
 .fancybox-wrap { width: 1100px !important; left: 90px !important;}
 
-#compare-inputs { margin-top: 40px;}
+#compare-inputs, #limits-table { margin-top: 40px;}
 #compare-chosen-button { margin-top: 10px; width: 175px !important;}
 
 .warning-placeholder { font-size: 15px;}
 
-/************************************
- *    Media queries - Detailpagina     *
- ************************************/
+#example, #example_info, #example_length, #example_paginate a { font-size: 15px;}
+/*#example_length, #example_info { display: none; }*/
+
+/**************************
+ *     Media queries      *
+ **************************/
 
 /*iPad -- Landscape*/
 @media only screen
@@ -212,19 +239,33 @@ and (min-device-width : 768px)
 and (max-device-width : 1024px)
 and (orientation : landscape) {
 
-    header .back-button { padding-top: 5px; padding-left: 20px;}
+    /* Header */
+    header #logo h1 { margin-left: 25px; }
+    header #logout { margin-top: -5px;}
+    .message-popup { width: 85%;}
 
+    /* Technical details */
     .fan-information-technical { height: 700px;}
     .fan-information-technical h1 { margin-right: 125px; padding-bottom: 25px;}
-
     #technical-graph { width: 100%;}
+    .btn-filter-screen { margin: 125px 0 20px 161px}
+    .filter-screen { margin: -20px 0 0 161px; }
+
+    /* Main graph */
     #fan-graph {width: 85%;}
     #fan-graph-legend { width: 140px;}
 
-    #compare-fans-button { width: 85%;}
-    .filter-buttons { margin-top: 55px;}
+    /* Compare data */
+    .fancybox-overlay { margin-top: -200px; }
+    .fancybox-inner { min-height: 0 !important; width: auto !important;}
+    .fancybox-wrap { width: 95% !important; left: 2.5% !important;}
 
+    #compare-fans-button { width: 85%;}
     #compare-chosen-button { width: 200px; }
+
+    #graph-comparison { width: auto; margin-left: 25px !important;}
+    .table-compare { margin-top: 8px !important; margin-left: 0 !important; }
+
 }
 
 /*iPad -- Portrait*/
@@ -233,137 +274,256 @@ and (min-device-width : 768px)
 and (max-device-width : 1024px)
 and (orientation : portrait) {
 
-    header .back-button { padding-top: 5px; padding-left: 20px;}
+    .container { padding: 0 25px 0 25px;}
 
-    .fan-information-basic { height: 320px;}
+    /* Header */
+    header #logo h1 { margin-left: 25px; }
+    header #logout { margin-top: -5px;}
+    .message-popup { width: 85%;}
+
+    /* Fan block */
+    .fan-information-basic { height: 390px;}
     .fan-information-basic h1.fan-name { font-size: 20px;}
-    .fan-information-basic h2 { margin-top: 0;}
+    .fan-information-basic h2 { margin-top: 20px;}
+    .fan .arrow-squiggly-down { margin-bottom: -5px; font-size: 30px;}
+    .fan-blowing-direction p.arrow-straight-down { margin-top: 0; height: 55px;}
+    .fan-blowing-direction:last-child { margin-top: 20px;}
+    .expand-fan-button { margin-right: 15px; margin-top: -10px !important;}
+
+    /* Technical details */
     .fan-information-technical { padding: 50px 20px 50px 20px; }
     .fan-information-technical h1 { padding-bottom: 25px;}
-
-    .five-fans { margin: 0 auto;}
-
-    .fan-status { margin-bottom: 0;}
-
-    .fan .arrow-squiggly-down { margin: -5px; font-size: 30px;}
-
-    #technical-graph { width: 100%; }
-    #fan-graph {width: 82%;}
-
     .fan-technical-keys, .fan-technical-values { font-size: 15px;}
 
-    .axisLabels { display: none;}
+    /* Technical graph */
+    #technical-graph { width: 100%; }
     #technical-graph.fan-off { font-size: 18px;}
+    #technical-graph .axisLabels { display: none;}
+    .btn-filter-screen { margin: 125px 0 20px 79px; }
+    .filter-screen { margin: -20px 0 0 79px; }
 
+    /* Main graph */
     #compare-fans-button { width: 85%;}
-    .filter-buttons { margin-top: 46px;}
+    #fan-graph {width: 80%;}
 
+    /* Compare data */
+    .fancybox-overlay { margin-top: -200px; }
+    .fancybox-inner { min-height: 0 !important; width: auto !important;}
+    .fancybox-wrap { width: 95% !important; left: 2.5% !important;}
+
+    #graph-comparison { width: auto; margin-left: 0;}
     .table-compare { margin-top: 20px; margin-left: 0; }
-    #placeholder { width: 385px}
+
+
 
 
 
 
 }
 
-/*iPhone */
+/*iPhone - Landscape*/
 @media only screen
 and (min-device-width: 320px)
 and (max-device-width: 640px)
-and (-webkit-min-device-pixel-ratio: 2) {
+and (orientation: landscape) {
 
-    header { margin-bottom: 10px;}
-    header .back-button { padding-top: 5px; padding-left: 20px;}
+    /* Notification */
+    .notification-alert { width: 90%; margin: 0 auto;}
+    .notification-alert .message-title { font-size: 20px;}
 
-    .dataset-block { width: 320px;}
+    /* Popup */
+    .message-popup { width: 90%; margin: 0 auto;}
+    .message-popup .message-title { font-size: 20px;}
+    .message-popup .message-question { width: 100%; font-size: 13px;}
 
-    .tunnel_tubes .tunnel_tube { height: 150px; border-left: 100px solid darkgrey; border-right: 100px solid darkgrey; }
-    .tunnel_tube a:first-child h3 { margin-left: -92px; margin-top: 70px; }
-    .tunnel_tube a:last-child h3 { margin-right: -85px; margin-top: -50px;}
-    .tunnel_tube h3 { font-size: 16px; }
-    .tunnel_tube h1 { font-size: 16px; padding-top: 70px;}
+    /* Header */
+    header { margin-bottom: 10px; }
+    header #logo h1 { margin: 25px 0 0 25px; font-size: 17px; }
+    header #logout { margin-top: -10px;}
+    header .dropdown-menu { min-width: 160px;}
+    .message-popup { width: 85%;}
 
-    #segment { margin-bottom: 30px;}
-    #segment h1 { font-size: 30px; margin: 0;}
-    #segment hr { margin: 0 30px 0 30px;}
-    #segment h3 { font-size: 14px; }
+    /* Homepage */
+    .dataset-blocks .dataset-block { width: 250px; height: 120px; margin-top: 0;}
+    .dataset-blocks .dataset-block-name { padding-top: 25px; }
+    .dataset-blocks .dataset-block-image { margin: 50px 0 0 -50px; }
+    .dataset-blocks .dataset-block-image img { width: 145px; height: 145px; }
+    .dataset-blocks h1 { margin-left: 20px; font-size: 28px;}
+    .dataset-blocks .dataset-block-name h3 { font-size: 20px; margin-left: 20px;}
+    .dataset-blocks hr { width: 90%; }
 
-    .fan h1.fan-name { font-size: 12px;}
-    .fan hr { margin: 10px 10px 0 10px;}
-    .fan hr:nth-child(3) { display: block }
+    /* Tunnel tubes */
+    .tunnel-tube { margin: 0 auto 20px; height: 120px; }
+    .tunnel-tube h1 { padding-top: 50px; font-size: 24px; }
+    .tunnel-tube-block-left { height: 120px; }
+    .tunnel-tube-block-right { height: 120px; margin-top: -120px;}
+    .tunnel-tube .tunnel-tube-block-left a, .tunnel-tube .tunnel-tube-block-right a{ height: 120px; width: 150px; float: left;}
+    .tunnel-tube .tunnel-tube-block-left h3 { font-size: 20px; height: 120px; margin: 55px 0 0 25px; }
+    .tunnel-tube .tunnel-tube-block-right h3 { font-size: 20px; height: 120px; margin: 55px 0 0 35px; }
 
-
-    .fan-information-basic { height: 270px; border-bottom: 1px solid lightgrey; }
+    /* Fan blocks */
+    #segment { margin-bottom: 30px; }
+    #segment h1 { font-size: 30px }
+    #segment hr { width: 90%; }
+    #segment h3 { font-size: 18px; margin-top: 0; }
+    .fan h1.fan-name { font-size: 14px;}
+    .fan h2.fan-status-heading { margin-top: 15px;}
+    .fan-information-basic { height: 300px; }
     .fan .fan-information-basic h2 { padding-top: 0;}
     .fan .fan-information-basic h2.fan-status-heading { padding-top: 0; font-size: 15px; margin-bottom: 5px;}
     .fan .fan-information-basic h2.fan-direction-heading { font-size: 12px; margin-top: 20px; }
-
     .fan p.fan-status { font-size: 25px; margin-bottom: 20px;}
 
     .fan .arrow-squiggly-up:not(:nth-child(3)),
     .fan .arrow-squiggly-down:not(:nth-child(3)),
     .fan .arrow-straight-up:not(:nth-child(3)),
     .fan .arrow-straight-down:not(:nth-child(3)) { display: none;}
-
     .fan .arrow-squiggly-down { font-size: 23px; width: 20px; margin: -10px auto;}
     .fan .arrow-squiggly-up { font-size: 35px; margin: -10px auto; width: 80px;}
 
     .fan .fan-blowing-direction p:last-child { font-size: 10px; margin-top: 0;}
     .fan .fan-information-basic .expand-fan-button { margin: 10px auto !important; font-size: 15px !important; width: 15px !important; float: none !important;}
 
-    /******************/
-
+    /* Technical details */
     .fan-information-technical { height: 1070px; padding: 0}
     .fan-information-technical h1 { font-size: 25px; margin: 30px 0 20px 0; }
     .fan-information-technical-details { padding: 20px 50px 50px 50px;}
-
+    .fan-technical-keys p { margin-bottom: 35px; font-size: 14px;}
+    .fan-technical-values p { margin-bottom: 30px; font-size: 14px; }
     .fan-power-usage p:first-child, .fan-theoretical-life-expectancy p:first-child{ font-size: 11px;}
     .fan-power-usage p:last-child, .fan-theoretical-life-expectancy p:last-child { font-size: 16px;}
 
-    /*#technical-graph { width: 350px; margin-top: 30px; float: right;}*/
+    /* Technical graph */
+    #technical-graph { width: 90%; height: 350px; margin: 70px 50px 0 50px;}
+    .btn-filter-screen { margin: 0 0 0 250px; font-size: 13px;}
+    .filter-screen { margin: 0 0 0 250px;}
 
-    /*#fan-graph { height: 200px; width: 100%}*/
+    /* Main graph */
     #fan-graph-container { top: 20px; }
-    #fan-graph-legend { float: none; width: 100%; height: auto; margin-top: 15px;}
+    #fan-graph-container h1 { font-size: 20px; }
+    .btn-compare p { font-size: 12px; }
+    #fan-graph { height: 350px; width: 100%;}
+    #fan-graph-legend { margin-bottom: 20px; float: none; width: 100%; height: auto; margin-top: 15px; }
     #fan-graph-legend .legendLabel { padding: 0; }
-    #fan-graph-legend tr { float: left; width: 50%; }
+    #fan-graph-legend .legendLabel a { font-size: 12px;}
+    #fan-graph-legend tr { float: left; width: 50%; padding-bottom: 10px !important; margin-top: 15px !important; }
     #fan-graph-legend tr:nth-child(1) { margin-top: 20px; }
     #fan-graph-legend tr:not(:nth-child(1)) { padding-bottom: 20px; margin-top: 25px;}
     #fan-graph-legend .legendColorBox > div { margin-top: 0; padding-right: 10px !important; }
-    #footer p { margin-left: 20px;}
-
-}
-
-@media only screen
-and (min-device-width: 320px)
-and (max-device-width: 640px)
-and (orientation: landscape) {
-    .tunnel_tube { margin: 0 auto 20px;}
-    .tunnel_tubes .tunnel_tube { height: 100px; }
-    .tunnel_tube h1 { padding-top: 40px; }
-    .tunnel_tube a:first-child h3 { margin-top: 45px;}
-    .tunnel_tube a:last-child h3 { margin-top: -45px;}
+    #fan-graph-legend .xaxisLabel { font-size: 12px; }
 
 
-    #fan-graph { height: 350px; width: 100%;}
-    #technical-graph { width: 100%; height: 250px;}
-    .fan-information-technical { height: 970px; }
+    /* Compare data */
+    .fancybox-wrap { width: 80% !important; left: 10% !important;}
+    .fancybox-inner { width: 100% !important;}
+    #compare-inputs label { width: 100%; }
+    #compare-fans { margin-top: 30px; margin-left: 0;}
+    #compare-fans h2 { font-size: 26px;}
+    #graph-comparison { margin-left: 0;}
+    #graph-comparison .yaxisLabel { left: 0 !important;}
+    .table-compare { margin-top: 30px; margin-left: 0;}
+
+
 
 
 }
 
+/*iPhone - Portrait*/
 @media only screen
 and (min-device-width: 320px)
 and (max-device-width: 640px)
 and (orientation: portrait) {
 
-    .dataset-blocks h1 { margin-left: 20px; }
-    #fan-graph { height: 250px; width: 100%; }
-    #technical-graph { width: 100%; height: 250px; margin-top: 0;}
+    /* Header */
+    header { margin-bottom: 20px; }
+    header #logo h1 { margin: 20px 0 0 25px; font-size: 17px; }
+    header #logout { margin-top: -5px;}
+    header .dropdown-menu { min-width: 160px;}
+    .message-popup { width: 85%;}
 
-    .fan-information-technical { height: 990px; }
+    /* Homepage */
+    .dataset-blocks h1 { margin-left: 20px; font-size: 28px;}
+    .dataset-blocks hr { width: 90%; }
+    .dataset-blocks .dataset-block { height: 150px; width: 280px;}
+    .dataset-blocks .dataset-block-image { margin: 70px 0 0 -50px; }
+    .dataset-block-image img { width: 145px; height: 145px; }
+    .dataset-block-name { padding-top: 40px; }
+    .dataset-block-name h3 { font-size: 20px; margin-left: 20px; }
+
+    /* Tunnel tubes */
+    .tunnel-tube { height: 200px; margin: 50px 0 0 0; background: none;}
+    .tunnel-tube h1 { font-size: 30px; float: left; margin-top: -170px; }
+    .tunnel-tube-block-left { width: 159px; height: 120px; float: left; }
+    .tunnel-tube-block-right  { width: 159px; height: 120px; margin-top: -120px; float: right;}
+    .tunnel-tube .tunnel-tube-block-left a, .tunnel-tube .tunnel-tube-block-right a{ height: 120px; width: 159px; float: left;}
+    .tunnel-tube .tunnel-tube-block-left h3 { font-size: 18px; height: 200px; margin: 50px 0 0 35px; }
+    .tunnel-tube .tunnel-tube-block-right h3 { font-size: 18px; height: 200px; margin: 50px 0 0 45px; }
+
+    #segment { margin-bottom: 30px; }
+    #segment h1 { font-size: 30px }
+    #segment hr { width: 90%; }
+    #segment h3 { font-size: 18px; margin-top: 0; }
+    .fan h1.fan-name { font-size: 12px; padding-top: 20px; margin-bottom: 10px;}
+    .fan h2.fan-status-heading { margin-top: 10px; font-size: 13px; margin-bottom: 0;}
+    .fan-information-basic { height: 245px; }
+    .fan .fan-information-basic h2 { padding-top: 0;}
+    .fan .fan-information-basic h2.fan-status-heading { padding-top: 0; font-size: 15px; margin-bottom: 5px;}
+    .fan .fan-information-basic h2.fan-direction-heading { font-size: 10px; margin-top: 5px; margin-bottom: 5px; }
+    .fan p.fan-status { font-size: 16px; margin-bottom: 20px;}
+
+    .fan .arrow-squiggly-up:not(:nth-child(3)),
+    .fan .arrow-squiggly-down:not(:nth-child(3)),
+    .fan .arrow-straight-up:not(:nth-child(3)),
+    .fan .arrow-straight-down:not(:nth-child(3)) { display: none;}
+    .fan .arrow-straight-down { font-size: 25px;}
+    .fan .arrow-squiggly-down { font-size: 23px; width: 20px; margin: -10px auto;}
+    .fan .arrow-squiggly-up { font-size: 30px; margin: -10px 0 -10px 5px;}
+
+    .fan .fan-blowing-direction p:last-child { font-size: 10px; margin-top: 0;}
+    .fan .fan-information-basic .expand-fan-button { margin: 10px auto !important; font-size: 15px !important; width: 15px !important; float: none !important;}
+
+    /* Technical details */
+    .fan-information-technical h1 { font-size: 26px;}
+    .fan-information-technical { height: 800px; padding: 30px 0 50px 0;}
     .fan-information-technical-details { padding: 20px 30px 50px 30px; }
-    .fan-technical-values p { margin-right: 0; }
+    .fan-technical-keys, .fan-technical-values { margin-bottom: 100px; }
+    .fan-technical-keys p { font-size: 12px; margin-top: 10px;}
+    .fan-technical-values p { margin-right: 0; font-size: 13px;}
 
-    #placeholder { width: auto; height: 250px; }
+    .btn-filter-screen { margin: -100px 0 0 30px;; font-size: 13px;}
+    .filter-screen { margin: 0 0 0 -95px;}
+
+
+    /* Technical graph */
+    #technical-graph { width: 90%; height: 250px; margin-top: 0; margin-right: 23px;}
+    #technical-graph .yaxisLabel { left: 30px !important; font-size: 12px;}
+
+
+    /* Main graph */
+    #fan-graph-container h1{ font-size: 20px; }
+    .btn-compare p { font-size: 12px;}
+    #fan-graph { height: 250px; width: 100%; }
+    #fan-graph .yaxisLabel, #fan-graph .xaxisLabel { font-size: 11px;}
+    #fan-graph .yaxisLabel { left: 40px !important;}
+    #fan-graph-legend { margin-bottom: 20px; float: none; width: 100%; height: auto; margin-top: 15px; }
+    #fan-graph-legend .legendLabel { padding: 0; }
+    #fan-graph-legend .legendLabel a { font-size: 10px;}
+    #fan-graph-legend tr { float: left; width: 50%; padding-bottom: 10px !important; margin-top: 15px !important; }
+    #fan-graph-legend tr:nth-child(1) { margin-top: 20px; }
+    #fan-graph-legend tr:not(:nth-child(1)) { padding-bottom: 20px; margin-top: 25px;}
+    #fan-graph-legend .legendColorBox > div { margin-top: 0; padding-right: 10px !important; }
+    #fan-graph-legend .xaxisLabel { font-size: 12px; }
+
+    /* Compare data */
+    .fancybox-wrap { width: 80% !important; left: 10% !important;}
+    .fancybox-inner { width: 100% !important;}
+    #compare-inputs label { width: 100%; }
+    #compare-fans { margin-top: 30px; margin-left: 0;}
+    #compare-fans h2 { font-size: 26px;}
+    #graph-comparison { margin-left: 0;}
+    .table-compare { margin-top: 30px; margin-left: 0;}
+
 }
+
+/*.forget-password-tooltip { display: none;}*/
+/*.login-link:hover .forget-password-tooltip { display: block; }*/

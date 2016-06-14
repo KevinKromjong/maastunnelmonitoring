@@ -32,8 +32,8 @@ var FanVariables = (function() {
             // Make a shortcut for the settings variable
             s = this.settings;
             s.fansGraph = fansGraph;
-            s.colors = ['#FF7A7A', '#699633', '#83be3e', '#a3cf70', '#c4e0a3', '#e5f1d6', '#BB2500'];
-
+            // s.colors = ['#E74C3C', '#699633', '#83be3e', '#a3cf70', '#c4e0a3', '#e5f1d6', '#C0392B'];
+            s.colors = ['#E74C3C', '#00441b', '#238b45', '#66c2a4', '#ccece6', '#e5f5f9', '#C0392B'];
 
             this.fillFanVariables();
         },

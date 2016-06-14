@@ -19,17 +19,19 @@ var FanDropdown = (function () {
             previousTargetFanblock: null,       // The previously clicked fanblock
             previousTargetFilter: null,         // The previously clicked filteroption
             filterGraphOptions : {},
-            filterTimeBack: '',                // The data-attribute: timeback on the filter button
-            filterFanNumber: '',               // The data-attribute: fanNumber on the filter button
-            filterTunnel: '',                  // The data-attribute: tunnel on the filter button
-            filterDirection: ''                // The data-attribute: direction on the filter button
+            // filterTimeBack: '',                // The data-attribute: timeback on the filter button
+            // filterFanNumber: '',               // The data-attribute: fanNumber on the filter button
+            // filterTunnel: '',                  // The data-attribute: tunnel on the filter button
+            // filterDirection: ''                // The data-attribute: direction on the filter button
         },
 
         init: function () {
             s = this.settings;
 
+            Utils.initPopovers();
+            Utils.hidePopoversOnOutsideClick();
+            
             this.onFanClick();
-            this.filter();
         },
 
         graphOptions: function () {
@@ -118,9 +120,9 @@ var FanDropdown = (function () {
              */
 
             if (fansOverview[index]['direction'] == 'north') {
-                return $('.fan-information-technical h1').html('ventilator <br/> N-0' + fansOverview[index]['fan_number'])
+                return $('.fan-name').html('ventilator <br/> N-0' + fansOverview[index]['fan_number']).attr('data-fannumber', fansOverview[index]['fan_number'])
             } else {
-                return $('.fan-information-technical h1').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']);
+                return $('.fan-name').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']).attr('data-fannumber', fansOverview[index]['fan_number'])
             }
         },
 
@@ -142,9 +144,9 @@ var FanDropdown = (function () {
              */
 
             if (fansOverview[index]['is_on'] == true) {
-                $('.fan-information-technical .fan-status').html('AAN').addClass('green').removeClass('red');
+                $('.fan-information-technical .fan-status').html('<span style="color:black">' + fansOverview[index]['fan_state'] + ' - </span> AAN').addClass('green').removeClass('blue');
             } else {
-                $('.fan-information-technical .fan-status').html('UIT').addClass('red').removeClass('green');
+                $('.fan-information-technical .fan-status').html('<span style="color:black">' + fansOverview[index]['fan_state'] + ' - </span> UIT').addClass('blue').removeClass('green');
             }
         },
 
@@ -174,9 +176,11 @@ var FanDropdown = (function () {
             if (fansOverview[index]['is_on'] == true) {
                 $('#technical-graph').html('').removeClass('fan-off');
                 $('.filter-buttons').show();
+
                 plotTechnicalGraph = $.plot($('#technical-graph'), [{
                     data: FanVariables.returnFanVariables()[index], color: FanVariables.settings.colors[index + 1]
                 }], this.graphOptions());
+                
                 plotTechnicalGraph.resize();
                 plotTechnicalGraph.setupGrid();
                 plotTechnicalGraph.draw();
@@ -184,142 +188,6 @@ var FanDropdown = (function () {
             } else {
                 $('#technical-graph').html('<p class="fan-off">Deze ventilator staat uit en kan dus geen data weergeven</p>');
                 $('.filter-buttons').hide();
-            }
-        },
-
-        filter: function () {
-            /**
-             * Retrieves the data when the user filters the data using the buttons beneath the graph
-             */
-
-            $('.filter-buttons > div').on('click', function (event) {
-
-                s.filterTimeBack = $(this).attr('data-filter');
-                s.filterFanNumber = $(this).attr('data-fan-number');
-                s.filterTunnel = $(this).attr('data-tunnel');
-                s.filterDirection = $(this).attr('data-direction');
-
-                // Change the color when clicked on a filter to a darker color
-                // Change the color of the other elements back to their normal color
-                var parent = $(event.target).parent().parent().find('div');
-                $(parent).css('background', '#dfdfdf');
-
-                if (this != s.previousTargetFilter) {
-                    $(this).css('background', 'darkgrey');
-                    s.previousTargetFilter = null;
-                }
-
-                // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
-                $.ajax({
-                    url: Utils.rootUrl() + '/api/v1/fans?filter=' + s.filterTimeBack + '&fan=' + s.filterFanNumber + '&tunnel=' + s.filterTunnel + '&direction=' + s.filterDirection,
-                    format: 'json',
-                    async: true,
-                    success: function (data) {
-
-                        var filteredData = [];
-                        var lowest = 1000;
-                        var highest = 0;
-
-                        $.each(data['fans'], function (index, value) {
-                            if (value['power_usage'] < lowest)
-                                lowest = value['power_usage'];
-
-                            if (value['power_usage'] > highest)
-                                highest = value['power_usage'];
-
-                            var date = new Date(value['created_at'].replace(/-/g, "/"));
-                            filteredData.push([date, value['power_usage'], parseInt(s.filterFanNumber)]);
-                        });
-
-                        FanDropdown.filterGraphOptions(lowest, highest);
-                        FanDropdown.filterChangeAveragePowerConsumptionHoursAgo(data);
-
-                        plotTechnicalGraph = $.plot($('#technical-graph'), [{data: filteredData, color: FanVariables.settings.colors[s.filterFanNumber]}], s.filterGraphOptions);
-                        plotTechnicalGraph.resize();
-                        plotTechnicalGraph.setupGrid();
-                        plotTechnicalGraph.draw();
-
-                    },
-                    error: function () {
-                        alert("Er is een time-out opgetreden!")
-                    }
-
-                });
-            });
-        },
-
-        filterGraphOptions: function (lowest, highest) {
-            /**
-             * Contains the options for the graph in the dropdown
-             */
-
-            s.filterGraphOptions = {
-                grid: {
-                    hoverable: true,
-                    tooltip: true
-                },
-                series: {
-                    lines: {
-                        show: true
-                    }
-                },
-                xaxis: {
-                    mode: "time",
-                    timeformat: "%H:%M",
-                    tickSize: [1, "hour"],
-                    timezone: "browser"
-                },
-                xaxes: [{
-                    axisLabel: 'Tijd in hele uren'
-                }],
-                yaxis: {
-                    min: lowest - 10,
-                    max: highest + 10
-                },
-                yaxes: [{
-                    position: 'left',
-                    axisLabel: 'Stroomverbruik in Kilowatt'
-                }],
-                axisLabels: {
-                    show: true
-                }
-            };
-
-            FanDropdown.filterGraphXAxis();
-        },
-
-        filterGraphXAxis : function () {
-            /**
-             * Checks whether the x-axis becomes too flooded with numbers and changes the values accordingly
-             */
-
-            switch (s.filterTimeBack) {
-                case '6' :
-                    s.filterGraphOptions.xaxis.tickSize = [1, 'hour'];
-                    break;
-                case '12' :
-                    s.filterGraphOptions.xaxis.tickSize = [2, 'hour'];
-                    break;
-                case '1' :
-                    s.filterGraphOptions.xaxis.tickSize = [3, 'hour'];
-                    break;
-                case '2' :
-                    s.filterGraphOptions.xaxis.tickSize = [6, 'hour'];
-                    break;
-            }
-        },
-
-        filterChangeAveragePowerConsumptionHoursAgo : function (data) {
-            /**
-             * Changes the text beneath the average power usage in the left column according to the chosen filtering option
-             */
-
-            if (s.filterTimeBack == 6 || s.filterTimeBack == 12) {
-                $('.fan-power-usage').html(AveragePowerConsumption.calculate(data['fans'], true) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds " + s.filterTimeBack + " uur geleden) </span>");
-            } else if (s.filterTimeBack == 1) {
-                $('.fan-power-usage').html(AveragePowerConsumption.calculate(data['fans'], true) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds " + s.filterTimeBack + " dag geleden) </span>");
-            } else {
-                $('.fan-power-usage').html(AveragePowerConsumption.calculate(data['fans'], true) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds " + s.filterTimeBack + " dagen geleden) </span>");
             }
         }
     }

@@ -17,7 +17,7 @@ var GraphOverview = (function () {
             graph: $('#fan-graph'),             // The container of the graph
             mainGraph: null,                    // The variable that will hold the graph
             datasetFanValues: [],               // The datasetFanValues for the data that will display in the graph
-            datasetTotal : [],                  // The dataset variable that will hold the datasetFanValues and the minimum and maximum lines
+            datasetTotal: [],                  // The dataset variable that will hold the datasetFanValues and the minimum and maximum lines
             i: 1,                               // The incrementer for adding data to the datasetFanValues array
             lowest: 1000,                       // Placeholder for the lowest value for determing the length of the y-axis
             highest: 0,                         // Placeholder for the lowest value for determing the length of the y-axis
@@ -29,7 +29,7 @@ var GraphOverview = (function () {
             // Make a shortcut for the settings variable
             s = this.settings;
 
-            ConfigureTooltip.configure();
+            Tooltip.configure();
 
             this.addFans();
             this.plot();
@@ -67,6 +67,7 @@ var GraphOverview = (function () {
                             s.highest = value2[1];
                     });
 
+
                     // Pushes the data from the fan to the datasetFanValues variable
                     // This variable holds all the data from all the fans
                     GraphOverview.settings.datasetFanValues.push({
@@ -80,6 +81,43 @@ var GraphOverview = (function () {
                 }
             });
 
+            // GraphOverview.settings.datasetFanValues.push(
+            //     {
+            //         color: FanVariables.settings.colors[1],
+            //         data: [
+            //             [0, 20],
+            //             [9999999999999, 20]
+            //         ],
+            //     },
+            //     {
+            //         color: FanVariables.settings.colors[2],
+            //         data: [
+            //             [0, 40],
+            //             [9999999999999, 40]
+            //         ],
+            //     },
+            //     {
+            //         color: FanVariables.settings.colors[3],
+            //         data: [
+            //             [0, 60],
+            //             [9999999999999, 60]
+            //         ],
+            //     },
+            //     {
+            //         color: FanVariables.settings.colors[4],
+            //         data: [
+            //             [0, 80],
+            //             [9999999999999, 80]
+            //         ],
+            //     },
+            //     {
+            //         color: FanVariables.settings.colors[5],
+            //         data: [
+            //             [0, 100],
+            //             [9999999999999, 100]
+            //         ],
+            //     }
+            // )
             s.minimalCriticalValue = (Math.round(s.lowest / 10) * 10) - 15;
             s.maximalCriticalValue = (Math.round(s.highest / 10) * 10) + 15;
         },
@@ -97,7 +135,7 @@ var GraphOverview = (function () {
                     [0, s.minimalCriticalValue],
                     [9999999999999, s.minimalCriticalValue]
                 ],
-                dashes: { show: true }
+                dashes: {show: true}
             };
         },
 
@@ -114,7 +152,7 @@ var GraphOverview = (function () {
                     [0, s.maximalCriticalValue],
                     [9999999999999, s.maximalCriticalValue]
                 ],
-                dashes: { show: true }
+                dashes: {show: true}
             };
         },
 
@@ -149,8 +187,8 @@ var GraphOverview = (function () {
                     axisLabel: 'Stroomverbruik in Kilowatt'
                 }],
                 yaxis: {
-                    min: s.lowest - 20,
-                    max: s.highest + 20
+                    min: s.minimalCriticalValue - 5,
+                    max: s.maximalCriticalValue + 5
                 }
             }
         },
@@ -189,7 +227,7 @@ var GraphOverview = (function () {
             };
         },
 
-        returnGraph : function () {
+        returnGraph: function () {
             /**
              * Returns the graph object at the bottom of the fanpage
              */

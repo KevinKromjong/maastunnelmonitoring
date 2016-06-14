@@ -118,8 +118,6 @@
 
         <div class="col-lg-6 col-md-6 col-sm-12">
 
-            <span class="warning-placeholder"></span>
-
             <table class="table table-bordered table-responsive table-striped table-compare">
                 <thead>
                 <tr>
@@ -132,21 +130,21 @@
                 <tbody>
                 <tr>
                     <td>Kilowatt (totaal)</td>
-                    <td id="fan-one-power-total">440 Kilowatt</td>
-                    <td id="fan-two-power-total">320 Kilowatt</td>
-                    <td id="fan-power-difference-total">220 Kilowatt</td>
+                    <td id="fan-one-power-total">440</td>
+                    <td id="fan-two-power-total">320</td>
+                    <td id="fan-power-difference-total">220</td>
                 </tr>
                 <tr>
                     <td>Kilowatt per uur</td>
-                    <td id="fan-one-power-hour">1.5 Kilowatt</td>
-                    <td id="fan-two-power-hour">2.5 Kilowatt</td>
-                    <td id="fan-power-difference-hour">220 Kilowatt</td>
+                    <td id="fan-one-power-hour">1.5</td>
+                    <td id="fan-two-power-hour">2.5</td>
+                    <td id="fan-power-difference-hour">220</td>
                 </tr>
                 <tr>
                     <td>Draaiuren</td>
-                    <td id="fan-one-time-on">110 dagen</td>
-                    <td id="fan-two-time-on">120 dagen</td>
-                    <td id="fan-time-on-difference">12 dagen</td>
+                    <td id="fan-one-time-on">110</td>
+                    <td id="fan-two-time-on">120</td>
+                    <td id="fan-time-on-difference">12</td>
 
                 </tr>
                 <tr>
@@ -168,8 +166,4 @@
     </div>
 </div>
 
-<div class="modal"><!-- Place at bottom of page --></div>
-
-</div>
-</div>
 

@@ -2,6 +2,7 @@
 
 namespace MongoDB\Operation;
 
+use MongoDB\Driver\Cursor;
 use MongoDB\Driver\Query;
 use MongoDB\Driver\ReadConcern;
 use MongoDB\Driver\ReadPreference;
@@ -217,11 +218,11 @@ class Find implements Executable
         $modifiers = empty($this->options['modifiers']) ? [] : (array) $this->options['modifiers'];
 
         if (isset($this->options['comment'])) {
-            $modifiers['$comment'] = $options['comment'];
+            $modifiers['$comment'] = $this->options['comment'];
         }
 
         if (isset($this->options['maxTimeMS'])) {
-            $modifiers['$maxTimeMS'] = $options['maxTimeMS'];
+            $modifiers['$maxTimeMS'] = $this->options['maxTimeMS'];
         }
 
         if ( ! empty($modifiers)) {

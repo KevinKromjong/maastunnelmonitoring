@@ -19,8 +19,8 @@ var FanFilter = (function () {
             direction: '',
             filterNumber: 0,
             filterUnit: '',
-            lowest : 0,
-            highest : 0
+            lowest: 0,
+            highest: 0
 
         },
 
@@ -31,7 +31,8 @@ var FanFilter = (function () {
         },
 
         showFilterScreen: function () {
-            $('.btn-filter-screen').on('click', function () {
+            $('.btn-filter-screen').on('click', function (event) {
+
                 $('.filter-screen').slideToggle('slow');
 
                 FanFilter.filter();
@@ -49,55 +50,58 @@ var FanFilter = (function () {
 
                 s.tunnel = $(this).attr('data-tunnel');
                 s.direction = $(this).attr('data-direction');
-                s.fanNumber = $(this).attr('data-fan-number');
+                s.fanNumber = $('.fan-name').attr('data-fannumber');
                 s.filterNumber = $('.filter-number').val();
                 s.filterUnit = $('.filter-unit').find(':selected').val();
+                
+                if(s.filterNumber.length == 0) {
+                    console.log('Yay');
+                } else {
 
-                // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
-                console.log(Utils.rootUrl() + '/api/v1/fans?option=filter' + '&fan=' + s.fanNumber + '&tunnel=' + s.tunnel + '&direction=' + s.direction + '&filternumber=' + s.filterNumber + '&filterunit=' + s.filterUnit);
+                    // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
+                    // console.log(Utils.rootUrl() + '/api/v1/fans?option=filter' + '&fan=' + s.fanNumber + '&tunnel=' + s.tunnel + '&direction=' + s.direction + '&filternumber=' + s.filterNumber + '&filterunit=' + s.filterUnit);
 
-                $.ajax({
-                    url: Utils.rootUrl() + '/api/v1/fans?option=filter' + '&fan=' + s.fanNumber + '&tunnel=' + s.tunnel + '&direction=' + s.direction + '&filternumber=' + s.filterNumber + '&filterunit=' + s.filterUnit,
-                    format: 'json',
-                    async: true,
-                    success: function (data) {
+                    $.ajax({
+                        url: Utils.rootUrl() + '/api/v1/fans?option=filter' + '&fan=' + s.fanNumber + '&tunnel=' + s.tunnel + '&direction=' + s.direction + '&filternumber=' + s.filterNumber + '&filterunit=' + s.filterUnit,
+                        format: 'json',
+                        async: true,
+                        success: function (data) {
+                            // console.log(data);
 
-                        var filteredData = [];
+                            var filteredData = [];
 
-                        $.each(data['fans'], function (index, value) {
+                            $.each(data['fans'], function (index, value) {
 
-                            console.log(Utils.settings.currentHighest);
+                                Utils.calculateHighest(value['power_usage']);
+                                Utils.calculateLowest(value['power_usage']);
 
-                            Utils.calculateHighest(value['power_usage']);
-                            Utils.calculateLowest(value['power_usage']);
+                                var date = new Date(value['created_at'].replace(/-/g, "/"));
+                                filteredData.push([date, value['power_usage'], parseInt(s.fanNumber)]);
+                            });
 
-                            var date = new Date(value['created_at'].replace(/-/g, "/"));
-                            filteredData.push([date, value['power_usage'], parseInt(s.fanNumber)]);
-                        });
+                            s.lowest = Utils.getLowest();
+                            s.highest = Utils.getHighest();
 
-                        s.lowest = Utils.getLowest();
-                        s.highest = Utils.getHighest();
+                            FanFilter.filterGraphOptions();
+                            FanFilter.filterChangeAveragePowerConsumptionHoursAgo(data);
 
+                            plotTechnicalGraph = $.plot($('#technical-graph'), [{
+                                data: filteredData,
+                                color: FanVariables.settings.colors[s.fanNumber]
+                            }], s.filterGraphOptions);
+                            plotTechnicalGraph.resize();
+                            plotTechnicalGraph.setupGrid();
+                            plotTechnicalGraph.draw();
 
-                        FanFilter.filterGraphOptions();
-                        FanFilter.filterChangeAveragePowerConsumptionHoursAgo(data);
+                            $('.filter-screen').slideUp('slow');
 
-                        plotTechnicalGraph = $.plot($('#technical-graph'), [{
-                            data: filteredData,
-                            color: FanVariables.settings.colors[s.fanNumber]
-                        }], s.filterGraphOptions);
-                        plotTechnicalGraph.resize();
-                        plotTechnicalGraph.setupGrid();
-                        plotTechnicalGraph.draw();
+                        },
+                        error: function () {
+                            alert("Er is een time-out opgetreden!")
+                        }
 
-                        $('.filter-screen').slideUp('slow');
-
-                    },
-                    error: function () {
-                        alert("Er is een time-out opgetreden!")
-                    }
-
-                });
+                    });
+                }
             });
         },
 
@@ -139,8 +143,7 @@ var FanFilter = (function () {
             };
 
             FanFilter.filterGraphXAxis();
-        }
-        ,
+        },
 
         filterGraphXAxis: function () {
             /**

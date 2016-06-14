@@ -12,20 +12,19 @@
 */
 
 
-//Index
-Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
-
-//Sensors
-Route::get('/sensor/ventilatoren', ['as' => 'ventilatoren', 'uses' => 'Sensors\Fans\TubeController@index']);
-Route::get('/sensor/ventilatoren/{buis}/{zijde}', ['as' => 'tunnelbuis', 'uses' => 'Sensors\Fans\FanController@index']);
-
+//API
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 Route::group(array('prefix' => 'api/v1'), function()
 {
     Route::get('fans', 'APIController@index');
 });
 
+//Login
+//Route::get('/reset', 'Auth\LoginController@login');
 
+Route::post('geo-info-response', 'HomeController@getFanURL');
 
 
 /*
@@ -39,6 +38,17 @@ Route::group(array('prefix' => 'api/v1'), function()
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //
+Route::group(['middleware' => 'web'], function () {
+
+    Route::get('/logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
+
+    Route::get('/login', 'Auth\LoginController@index');
+    Route::post('/login', 'Auth\LoginController@login');
+
+    Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
+
+    Route::get('/sensor/ventilatoren', ['as' => 'ventilatoren', 'uses' => 'Sensors\Fans\TubeController@index']);
+    Route::get('/sensor/ventilatoren/{buis}/{zijde}', ['as' => 'tunnelbuis', 'uses' => 'Sensors\Fans\FanController@index']);
+
 });
+

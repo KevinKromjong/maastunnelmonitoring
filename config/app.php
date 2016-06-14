@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'nl',
 
     /*
     |--------------------------------------------------------------------------
@@ -160,7 +160,8 @@ return [
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
+        Zizaco\Entrust\EntrustServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
 
 
     ],
@@ -212,8 +213,9 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Javascript' => Laracasts\Utilities\JavaScript\JavaScriptFacade::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
 
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+
 
 
     ],

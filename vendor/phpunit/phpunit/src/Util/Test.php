@@ -477,7 +477,7 @@ class PHPUnit_Util_Test
             }
 
             if (!$data) {
-                throw new PHPUnit_Framework_Exception('The datasetFanValues for the @testWith annotation cannot be parsed.');
+                throw new PHPUnit_Framework_Exception('The dataset for the @testWith annotation cannot be parsed.');
             }
 
             return $data;

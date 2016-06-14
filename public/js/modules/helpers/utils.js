@@ -27,6 +27,29 @@ var Utils = (function () {
         initFancyBox: function () {
             $(".fancybox").fancybox();
         },
+        
+        initPopovers : function () {
+            $('[rel="popover"]').popover({
+                container: 'body',
+                html: true,
+                content: function () {
+                    var clone = $($(this).data('popover-content')).clone(true).removeClass('hide');
+                    return clone;
+                }
+            }).click(function(e) {
+                e.preventDefault();
+            });
+        },
+        
+        hidePopoversOnOutsideClick : function () {
+            $('body').on('click', function (e) {
+                //only buttons
+                if ($(e.target).data('toggle') !== 'popover'
+                    && $(e.target).parents('.popover.in').length === 0) {
+                    $('[data-toggle="popover"]').popover('hide');
+                }
+            });
+        },
 
         monthNames : function (monthNumber) {
             return this.settings.monthNames[monthNumber];
@@ -50,13 +73,15 @@ var Utils = (function () {
             return Utils.settings.currentLowest
         },
 
-        resetLowest : function () {
-            Utils.settings.currentLowest = 0;
-        },
+        
 
-        resetHighest : function () {
-            Utils.settings.currentHighest = 0;
-        }
+        // resetLowest : function () {
+        //     Utils.settings.currentLowest = 0;
+        // },
+        //
+        // resetHighest : function () {
+        //     Utils.settings.currentHighest = 0;
+        // }
     };
 
 })();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Sensors\Fans;
 
+use Illuminate\Support\Facades\Auth;
 use Javascript;
 use App\Sensor;
 use Illuminate\Http\Request;
@@ -14,6 +15,10 @@ class FanController extends Controller
 
     public function index(Request $request)
     {
+        if(!Auth::check()) {
+            return redirect()->to('login');
+        }
+        
         $this->tunnel = $request->segment(3);
         $this->direction = $request->segment(4);
 
@@ -30,15 +35,13 @@ class FanController extends Controller
 
             $fansOverview = $fansOverview->sortBy('fan_number');
 
-
             $fansGraph = Sensor::where('tunnel', '=', $translate['tunnel'])
                 ->where('direction', '=', $translate['direction'])
                 ->orderBy('created_at', 'desc')
                 ->take(7200) //180 per buis, laatste 3 uur
 //                ->orderBy('created_at', 'asc')
                 ->get();
-        } 
-        
+        }
         //Andere buizen = 3 buizen
         else {
             $fansOverview = Sensor::where('tunnel', '=', $translate['tunnel'])
@@ -55,7 +58,7 @@ class FanController extends Controller
 //                ->orderBy('created_at', 'asc')
                 ->get();
         }
-        
+
         Javascript::put([
             'fansOverview' => $fansOverview->sortBy('fan_number'),
             'fansGraph' => $fansGraph,
@@ -65,6 +68,7 @@ class FanController extends Controller
         return view('sensors.fans.fan')
             ->with('tunnel', $this->tunnel)
             ->with('direction', $this->direction)
-            ->with('fansOverview', $fansOverview);
+            ->with('fansOverview', $fansOverview)
+            ->with('mobile', getUserAgent());
     }
 }

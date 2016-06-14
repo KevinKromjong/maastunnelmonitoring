@@ -6,6 +6,27 @@
         <div class="row">
             <div class="col-lg-12">
 
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Modal Header</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Some text in the modal.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div id="segment">
                     <h1>{{ ucfirst($tunnel) }}</h1>
                     <hr/>
@@ -31,7 +52,8 @@
 
                                                 <hr/>
 
-                                                <h2 class="fan-status-heading">stand</h2>
+                                                <h2 class="fan-status-heading">stand <span
+                                                            style="font-size: 14px;">{{$fan->fan_state}}</span></h2>
 
                                                 @if($fan->is_on === true)
                                                     <p class="fan-status green">AAN</p>
@@ -76,8 +98,6 @@
 
                                                     </div>
 
-                                                    <hr/>
-
                                                     <div class="expand-fan-button"
                                                          style="float: right; margin-right: 20px; margin-top: -20px; font-size: 20px">
                                                         <i style="color: grey" class="fa fa-plus-square-o"
@@ -89,93 +109,139 @@
                                     </div>
                                     @endforeach
 
+                                    <div class="fan-information-technical">
+                                        <div class="col-lg-12">
+                                            @if($direction == 'noordzijde')
+                                                <h1 class="fan-name">ventilator <br/> N-0{{$fan->fan_number}}</h1>
+                                            @else
+                                                <h1 class="fan-name">ventilator <br/> Z-0{{$fan->fan_number}}</h1>
+                                            @endif
 
-                                    <div class="col-lg-12">
-                                        <div class="fan-information-technical">
+                                            <div class="col-lg-5">
 
-                                            {{--<div class="spinner-container-container">--}}
-                                            {{--<svg class="spinner-container" viewBox="0 0 44 44">--}}
-                                            {{--<circle class="path" cx="22" cy="22" r="20" fill="none"--}}
-                                            {{--stroke-width="4"></circle>--}}
-                                            {{--</svg>--}}
-                                            {{--</div>--}}
+                                                <table class="table table-sm table-technical-information-left">
+                                                    <tbody>
+                                                    <tr>
+                                                        <th scope="row">Stand</th>
+                                                        @if($fan->is_on === true)
+                                                            <td class="fan-status green">{{$fan->fan_state}} - AAN</td>
+                                                        @else
+                                                            <td class="fan-status blue">{{$fan->fan_state}} - UIT</td>
+                                                        @endif
+                                                        <td><i rel="popover" class="fa fa-info"
+                                                               aria-hidden="true" data-container="body"
+                                                               data-toggle="popover" data-placement="right"
+                                                               data-title="<strong>Advies ventilatorstand</strong>"
+                                                               data-content="Aangeraden wordt om deze ventilator voor de <br/> periode <strong>16:00 tot en met 18:00</strong> op stand <strong>6</strong> te <br/> zetten, vanwege het toenemende verkeer en de <br/> slechte regen die wordt verwacht."></i>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Blaasrichting</th>
+                                                        @if($fan->blow_direction == 'north')
+                                                            <td class="fan-blowing-direction">Noord</td>
+                                                        @else
+                                                            <td class="fan-blowing-direction">Zuid</td>
+                                                        @endif
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Draaiuren</th>
+                                                        @if($fan->is_on === true)
+                                                            <td class="fan-time-on interval">Berekenen...</td>
+                                                        @else
+                                                            <td class="fan-time-on">0</td>
+                                                        @endif
 
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                                @if($direction == 'noordzijde')
-                                                    <h1 class="fan-name">ventilator <br/> N-0{{$fan->fan_number}}</h1>
-                                                @else
-                                                    <h1 class="fan-name">ventilator <br/> Z-0{{$fan->fan_number}}</h1>
-                                                @endif
+                                                        <td><i rel="popover" class="fa fa-info"
+                                                               aria-hidden="true"
+                                                               data-toggle="popover" data-placement="right"
+                                                               data-title="<strong>Voorgaande draaiuren</strong>"
+                                                               data-popover-content="<span>De vorige draaiuren van deze ventilator waren:</span>
+                                                               <table class='table table-bordered table-sm'>
+                                                                <thead>
+                                                                <th scope='row'>Datum</th>
+                                                                <th scope='row'>Tijd</th>
+                                                                <th scope='row'>Duur</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>Woensdag 18 juni</td>
+                                                                    <td>14:23 - 18:54</td>
+                                                                    <td>2:14 uur</td>
+                                                                </tr>
 
-                                                <div class="fan-information-technical-details">
-                                                    <div class="col-lg-6 col-md-5 col-sm-5 col-xs-6">
-                                                        <div class="fan-technical-keys">
-                                                            <p>Stand</p>
-                                                            <hr/>
-                                                            <p>Blaasrichting</p>
-                                                            <hr/>
-                                                            <p>Draaiuren</p>
-                                                            <hr/>
-                                                            <p>Gemiddeld stroomverbruik</p>
-                                                            <hr/>
-                                                            <p>Technische <br/> levensduur</p>
-                                                            <hr/>
-                                                            <p>Theoretische <br/> levensduur</p>
-                                                        </div>
-                                                    </div>
+                                                                <tr>
+                                                                    <td>Donderdag 19 juni</td>
+                                                                    <td>10:45 - 18:23</td>
+                                                                    <td>6:04 uur</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>">
+                                                            </i>
+                                                        </td>
+                                                    </tr>
 
-                                                    <div class="col-lg-6 col-md-5 col-sm-6 col-xs-6">
-                                                        <div class="fan-technical-values">
-                                                            @if($fan->is_on === true)
-                                                                <p class="fan-status green">AAN</p>
-                                                            @else
-                                                                <p class="fan-status red">UIT</p>
-                                                            @endif
+                                                    <span id="apu" class="hide">
+                                                        Dit is content
+                                                    </span>
 
-                                                            <hr/>
+                                                    <span id="tle" class="hide">
+                                                        De technische levensduur is berekend met behulp van onderstaande factoren:
+                                                    <ul>
+                                                    <li>Huidige en voorgaande <i>standen</i></li>
+                                                    <li>Huidige en voorgaande <i>draaiuren</i></li>
+                                                    <li>Huidige en voorgaande <i>stroomverbruik</i></li>
+                                                    </ul>
+                                                    </span>
 
-                                                            @if($fan->blow_direction == 'north')
-                                                                <p class="fan-blowing-direction">Noord</p>
-                                                            @else
-                                                                <p class="fan-blowing-direction">Zuid</p>
-                                                            @endif
+                                                    <tr>
+                                                        <th scope="row">Gemiddeld stroomverbruik</th>
+                                                        <td class="fan-power-usage"> 125.4 Watt <br/>
+                                                            <span>style="font-size: 11px">vanaf 6 uur geleden</span>
+                                                        </td>
+                                                        <td></td>
+                                                        {{--<td><i rel="popover"--}}
+                                                               {{--class="fa fa-info"--}}
+                                                               {{--aria-hidden="true"--}}
+                                                               {{--data-toggle="popover" data-placement="right"--}}
+                                                               {{--data-title="Overzicht gemiddeld stroomverbruik"--}}
+                                                               {{--data-popover-content="#apu"></i>--}}
+                                                        {{--</td>--}}
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Technische levensduur</th>
+                                                        <td class="fan-technical-life-expectancy">Nog {{ rand(2,5) }}
+                                                            jaar <br/> <span style="font-size: 11px">vanaf 2016</span>
+                                                        </td>
+                                                        <td><i rel="popover"
+                                                               class="fa fa-info"
+                                                               aria-hidden="true"
+                                                               data-toggle="popover" data-placement="right"
+                                                               data-title="<strong>Berekening technische levensduur</strong>"
+                                                               data-popover-content="#tle">
 
-                                                            <hr/>
+                                                            </i>
+                                                        </td>
 
-                                                            <div>
 
-                                                            </div>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Theoretische levensduur</th>
+                                                        <td class="fan-theoretical-life-expectancy">{{ rand(4,6) }}
+                                                            jaar <br/> <span
+                                                                    style="font-size: 11px">vanaf aanschaf: {{ rand( 2010, 2012) }}</span>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
 
-                                                            @if($fan->is_on === true)
-                                                                <p class="fan-time-on interval">Berekenen...</p>
-                                                            @else
-                                                                <p class="fan-time-on">0</p>
-                                                            @endif
+                                                    </tbody>
+                                                </table>
 
-                                                            <hr/>
-
-                                                            <p class="fan-power-usage"> 125.4 Watt <br/> <span
-                                                                        style="font-size: 11px">vanaf 6 uur geleden</span>
-                                                            </p>
-                                                            <hr/>
-
-                                                            <p class="fan-technical-life-expectancy">Nog {{ rand(2,5) }}
-                                                                jaar <br/> <span
-                                                                        style="font-size: 11px">vanaf 2016</span></p>
-                                                            <hr/>
-
-                                                            <p class="fan-theoretical-life-expectancy">{{ rand(4,6) }}
-                                                                jaar <br/> <span style="font-size: 11px">vanaf aanschafjaar: {{ rand( 2010, 2012) }}
-                                                                    </span></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
 
-                                            <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
-
-                                                <div class="col-lg-offset-7">
-                                                    <div style="position: absolute">
+                                            <div class="col-lg-6 col-lg-offset-1">
+                                                <div class="col-lg-offset-5">
+                                                    <div class="filter-screen-wrapper">
 
                                                         <div class="input-group">
                                                             <button type="button"
@@ -214,7 +280,8 @@
                                                                        data-tunnel="{{$tunnel}}"
                                                                        data-direction="{{$direction}}"
                                                                        data-fan-number="{{$fan->fan_number}}"
-                                                                       style="background: #27AE60">Filter</a>
+                                                                       style="background: #27AE60">Filter
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -222,12 +289,8 @@
                                                 </div>
 
                                                 <section id="technical-graph">
-                                                    <div class="modal"><!-- Place at bottom of page --></div>
-
                                                 </section>
-
                                             </div>
-
                                         </div>
                                     </div>
                             </div>
@@ -242,16 +305,30 @@
                 </button>
                 <hr/>
 
-                <div id="fan-graph-legend"></div>
-                <section id="fan-graph">
+                <div class="col-lg-11">
+                    <section id="fan-graph">
 
-                </section>
+                    </section>
+                </div>
+
+                <div class="col-lg-1">
+                    <button style=" width: 155px; margin-top: 8px; float:right;"
+                            class="btn-compare hvr-underline-from-left fancybox btn btn-block btn-lg btn-default"
+                            rel="group" href="#limits-table-wrapper">
+                        <p>Overschreden grenswaarden</p>
+                    </button>
+
+                <div id="fan-graph-legend"></div>
+                </div>
             </div>
         </div>
     </div>
+    </div>
 
     @include('includes.compare-fans')
+    @include('includes.limits-table')
+
+    <div class="ajax-modal"><!-- Place at bottom of page --></div>
+
 
 @endsection
-
-

@@ -28,6 +28,7 @@ var FanCompare = (function () {
         init: function () {
             s = this.settings;
 
+            Tooltip.configure();
             this.getCompareInput();
         },
 
@@ -39,7 +40,7 @@ var FanCompare = (function () {
 
             // If the user submits the compared fans..
             $('#compare-chosen-button').on('click', function () {
-
+                
                 var inputFanOne = $('#fan-to-compare-one').val();
                 var inputFanTwo = $('#fan-to-compare-two').val();
                 var inputDateTimePickerOne = $('#datetimepicker1').find('input').val();

@@ -1,5 +1,8 @@
 <?php
 
+use Jenssegers\Agent\Agent;
+
+
 //Translate Dutch tunneltubes and directions into English
 function translateTubeAndDirection($tunnel, $direction)
 {
@@ -27,3 +30,6 @@ function translateTubeAndDirection($tunnel, $direction)
     }
 }
 
+function getUserAgent() {
+    return $agent = new Agent();
+}

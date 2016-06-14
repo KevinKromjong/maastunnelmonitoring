@@ -30,13 +30,13 @@ class Kernel extends ConsoleKernel
         if ($sensor->is_on == true) {
             if ($random >= 5) {
                 $newValue = $sensor['power_usage'] + $powerChange;
-                Sensor::create(['mod_id' => $newId, 'sensor_type' => 'fan', 'tunnel' => $tunnel, 'direction' => $direction, 'fan_number' => $number, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => $newValue]);
+                Sensor::create(['mod_id' => $newId, 'sensor_type' => 'fan', 'tunnel' => $tunnel, 'direction' => $direction, 'fan_number' => $number, 'is_on' => true, 'fan_state' => $sensor->fan_state, 'blow_direction' => 'north', 'power_usage' => $newValue]);
             } else if ($random < 5) {
                 $newValue = $sensor['power_usage'] - $powerChange;
-                Sensor::create(['mod_id' => $newId, 'sensor_type' => 'fan', 'tunnel' => $tunnel, 'direction' => $direction, 'fan_number' => $number, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => $newValue]);
+                Sensor::create(['mod_id' => $newId, 'sensor_type' => 'fan', 'tunnel' => $tunnel, 'direction' => $direction, 'fan_number' => $number, 'is_on' => true, 'fan_state' => $sensor->fan_state, 'blow_direction' => 'north', 'power_usage' => $newValue]);
             }
         } else {
-            Sensor::create(['mod_id' => $newId, 'sensor_type' => 'fan', 'tunnel' => $tunnel, 'direction' => $direction, 'fan_number' => $number, 'is_on' => false, 'blow_direction' => 'south', 'power_usage' => 0]);
+            Sensor::create(['mod_id' => $newId, 'sensor_type' => 'fan', 'tunnel' => $tunnel, 'direction' => $direction, 'fan_number' => $number, 'is_on' => false, 'fan_state' => $sensor->fan_state,  'blow_direction' => 'south', 'power_usage' => 0]);
         }
     }
 
@@ -44,72 +44,72 @@ class Kernel extends ConsoleKernel
     {
         //WESTBUIS
         //Noord 1
-        Sensor::create(['mod_id' => 1, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 1, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 123]);
+        Sensor::create(['mod_id' => 1, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 1, 'is_on' => true, 'fan_state' => 5, 'blow_direction' => 'north', 'power_usage' => 123]);
         //Noord 2
-        Sensor::create(['mod_id' => 2, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 2, 'is_on' => false, 'blow_direction' => 'south', 'power_usage' => 0]);
+        Sensor::create(['mod_id' => 2, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 2, 'is_on' => false, 'fan_state' => 0, 'blow_direction' => 'south', 'power_usage' => 0]);
         //Noord 3
-        Sensor::create(['mod_id' => 3, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 3, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 123]);
+        Sensor::create(['mod_id' => 3, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 3, 'is_on' => true, 'fan_state' => 4, 'blow_direction' => 'north', 'power_usage' => 123]);
         //Zuid 1
-        Sensor::create(['mod_id' => 4, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 1, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 123]);
+        Sensor::create(['mod_id' => 4, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 1, 'is_on' => true, 'fan_state' => 5, 'blow_direction' => 'north', 'power_usage' => 123]);
         //Zuid 2
-        Sensor::create(['mod_id' => 5, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 2, 'is_on' => false, 'blow_direction' => 'south', 'power_usage' => 0]);
+        Sensor::create(['mod_id' => 5, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 2, 'is_on' => false, 'fan_state' => 0, 'blow_direction' => 'south', 'power_usage' => 0]);
         //Zuid3
-        Sensor::create(['mod_id' => 6, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 3, 'is_on' => false, 'blow_direction' => 'south', 'power_usage' => 0]);
+        Sensor::create(['mod_id' => 6, 'sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 3, 'is_on' => false, 'fan_state' => 0, 'blow_direction' => 'south', 'power_usage' => 0]);
 
 
         //OOSTBUIS
         //Noord 1
-        Sensor::create(['mod_id' => 7, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 1, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 123]);
+        Sensor::create(['mod_id' => 7, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 1, 'is_on' => true, 'fan_state' => 6, 'blow_direction' => 'north', 'power_usage' => 123]);
         //Noord 2
-        Sensor::create(['mod_id' => 8, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 2, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 123]);
+        Sensor::create(['mod_id' => 8, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 2, 'is_on' => true, 'fan_state' => 3, 'blow_direction' => 'north', 'power_usage' => 123]);
         //Noord 3
-        Sensor::create(['mod_id' => 9, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 3, 'is_on' => false, 'blow_direction' => 'south', 'power_usage' => 0]);
+        Sensor::create(['mod_id' => 9, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 3, 'is_on' => false, 'fan_state' => 0, 'blow_direction' => 'south', 'power_usage' => 0]);
         //Noord 4
-        Sensor::create(['mod_id' => 10, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 4, 'is_on' => false, 'blow_direction' => 'south', 'power_usage' => 0]);
+        Sensor::create(['mod_id' => 10, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 4, 'is_on' => false, 'fan_state' => 0, 'blow_direction' => 'south', 'power_usage' => 0]);
         //Noord 5
-        Sensor::create(['mod_id' => 11, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 5, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 123]);
+        Sensor::create(['mod_id' => 11, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 5, 'is_on' => true, 'fan_state' => 2, 'blow_direction' => 'north', 'power_usage' => 123]);
         //Zuid 1
-        Sensor::create(['mod_id' => 12, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 1, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 123]);
+        Sensor::create(['mod_id' => 12, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 1, 'is_on' => true, 'fan_state' => 4, 'blow_direction' => 'north', 'power_usage' => 123]);
         //Zuid 2
-        Sensor::create(['mod_id' => 13, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 2, 'is_on' => false, 'blow_direction' => 'south', 'power_usage' => 0]);
+        Sensor::create(['mod_id' => 13, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 2, 'is_on' => false, 'fan_state' => 0, 'blow_direction' => 'south', 'power_usage' => 0]);
         //Zuid 3
-        Sensor::create(['mod_id' => 14, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 3, 'is_on' => false, 'blow_direction' => 'south', 'power_usage' => 0]);
+        Sensor::create(['mod_id' => 14, 'sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 3, 'is_on' => false, 'fan_state' => 0, 'blow_direction' => 'south', 'power_usage' => 0]);
     }
 
     public function fiveColourTest()
     {
         //WESTBUIS
         //Noord 1
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 1, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 120]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 1, 'is_on' => true, 'fan_state' => 5, 'blow_direction' => 'north', 'power_usage' => rand(110, 120)]);
         //Noord 2
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 2, 'is_on' => true, 'blow_direction' => 'south', 'power_usage' => 121]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 2, 'is_on' => true, 'fan_state' => 6, 'blow_direction' => 'south', 'power_usage' => rand(111, 121)]);
         //Noord 3
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 3, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 122]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'north', 'fan_number' => 3, 'is_on' => true, 'fan_state' => 4, 'blow_direction' => 'north', 'power_usage' => rand(121, 122)]);
         //Zuid 1
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 1, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 123]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 1, 'is_on' => true, 'fan_state' => 2, 'blow_direction' => 'north', 'power_usage' => rand(113, 123)]);
         //Zuid 2
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 2, 'is_on' => true, 'blow_direction' => 'south', 'power_usage' => 124]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 2, 'is_on' => true, 'fan_state' => 8, 'blow_direction' => 'south', 'power_usage' => rand(114, 124)]);
         //Zuid3
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 3, 'is_on' => true, 'blow_direction' => 'south', 'power_usage' => 125]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'west', 'direction' => 'south', 'fan_number' => 3, 'is_on' => true, 'fan_state' => 4, 'blow_direction' => 'south', 'power_usage' => rand(115, 125)]);
 
 
         //OOSTBUIS
         //Noord 1
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 1, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 121]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 1, 'is_on' => true, 'fan_state' => 4, 'blow_direction' => 'north', 'power_usage' => rand(111, 121)]);
         //Noord 2
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 2, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 122]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 2, 'is_on' => true, 'fan_state' => 6, 'blow_direction' => 'north', 'power_usage' => rand(112, 122)]);
         //Noord 3
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 3, 'is_on' => true, 'blow_direction' => 'south', 'power_usage' => 123]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 3, 'is_on' => true, 'fan_state' => 1, 'blow_direction' => 'south', 'power_usage' => rand(113, 123)]);
         //Noord 4
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 4, 'is_on' => true, 'blow_direction' => 'south', 'power_usage' => 134]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 4, 'is_on' => true, 'fan_state' => 3, 'blow_direction' => 'south', 'power_usage' => rand(124, 134)]);
         //Noord 5
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 5, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 125]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'north', 'fan_number' => 5, 'is_on' => true, 'fan_state' => 2, 'blow_direction' => 'north', 'power_usage' => rand(115, 125)]);
         //Zuid 1
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 1, 'is_on' => true, 'blow_direction' => 'north', 'power_usage' => 126]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 1, 'is_on' => true, 'fan_state' => 5, 'blow_direction' => 'north', 'power_usage' => rand(116, 126)]);
         //Zuid 2
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 2, 'is_on' => true, 'blow_direction' => 'south', 'power_usage' => 127]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 2, 'is_on' => true, 'fan_state' => 6, 'blow_direction' => 'south', 'power_usage' => rand(117, 127)]);
         //Zuid 3
-        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 3, 'is_on' => true, 'blow_direction' => 'south', 'power_usage' => 129]);
+        Sensor::create(['sensor_type' => 'fan', 'tunnel' => 'east', 'direction' => 'south', 'fan_number' => 3, 'is_on' => true, 'fan_state' => 7, 'blow_direction' => 'south', 'power_usage' => rand(119, 129)]);
     }
 
     public function addFansToDatabase()
@@ -145,6 +145,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
           $this->addFansToDatabase();
 //            $this->firstTimeSetup();
+//            $this->fiveColourTest();
         });
     }
 }
