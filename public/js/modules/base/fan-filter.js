@@ -8,7 +8,7 @@
  */
 
 var FanFilter = (function () {
-
+    
     var s;
 
     return {
@@ -50,14 +50,11 @@ var FanFilter = (function () {
 
                 s.tunnel = $(this).attr('data-tunnel');
                 s.direction = $(this).attr('data-direction');
-                s.fanNumber = $('.fan-name').attr('data-fannumber');
+                s.fanNumber = $('.fan-information-technical .fan-name').attr('data-fannumber');
                 s.filterNumber = $('.filter-number').val();
                 s.filterUnit = $('.filter-unit').find(':selected').val();
                 
-                if(s.filterNumber.length == 0) {
-                    console.log('Yay');
-                } else {
-
+                if(s.filterNumber.length != 0) {
                     // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
                     // console.log(Utils.rootUrl() + '/api/v1/fans?option=filter' + '&fan=' + s.fanNumber + '&tunnel=' + s.tunnel + '&direction=' + s.direction + '&filternumber=' + s.filterNumber + '&filterunit=' + s.filterUnit);
 
@@ -66,7 +63,7 @@ var FanFilter = (function () {
                         format: 'json',
                         async: true,
                         success: function (data) {
-                            // console.log(data);
+                            console.log(data);
 
                             var filteredData = [];
 
@@ -207,16 +204,16 @@ var FanFilter = (function () {
 
             switch (s.filterUnit) {
                 case 'days' :
-                    content = '<span>' + AveragePowerConsumption.calculate(data['fans'], true) + " Kilowatt</span><br/><span style='font-size: 11px'>vanaf " + s.filterNumber + " dag(en) geleden</span>";
+                    content = '<span>' + Utils.calculateAveragePowerConsumption(data['fans'], true) + " Kilowatt</span><br/><span style='font-size: 11px'>vanaf " + s.filterNumber + " dag(en) geleden</span>";
                     break;
                 case 'weeks' :
-                    content = '<span>' + AveragePowerConsumption.calculate(data['fans'], true) + " Kilowatt</span><br/><span style='font-size: 11px'>vanaf " + s.filterNumber + " week/weken geleden</span>";
+                    content = '<span>' + Utils.calculateAveragePowerConsumption(data['fans'], true) + " Kilowatt</span><br/><span style='font-size: 11px'>vanaf " + s.filterNumber + " week/weken geleden</span>";
                     break;
                 case 'months' :
-                    content = '<span>' + AveragePowerConsumption.calculate(data['fans'], true) + " Kilowatt</span><br/><span style='font-size: 11px'>vanaf " + s.filterNumber + " maand(en) geleden</span>";
+                    content = '<span>' + Utils.calculateAveragePowerConsumption(data['fans'], true) + " Kilowatt</span><br/><span style='font-size: 11px'>vanaf " + s.filterNumber + " maand(en) geleden</span>";
                     break;
                 case 'years' :
-                    content = '<span>' + AveragePowerConsumption.calculate(data['fans'], true) + " Kilowatt</span><br/><span style='font-size: 11px'>vanaf " + s.filterNumber + " jaar/jaren geleden</span>";
+                    content = '<span>' + Utils.calculateAveragePowerConsumption(data['fans'], true) + " Kilowatt</span><br/><span style='font-size: 11px'>vanaf " + s.filterNumber + " jaar/jaren geleden</span>";
                     break;
             }
 

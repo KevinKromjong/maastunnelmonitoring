@@ -19,7 +19,7 @@
 
 
     <link rel="stylesheet" href="{{asset('/css/libs/jquery.dataTables.min.css')}}"/>
-    <link rel="stylesheet" href="{{asset('/css/libs/responsive.dataTables.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('/css/libs/dataTables.bootstrap.min.css')}}"/>
 
     <link rel="stylesheet" href="{{asset('/css/main.css')}}"/>
 

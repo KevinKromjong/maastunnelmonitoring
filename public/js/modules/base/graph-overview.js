@@ -36,6 +36,8 @@ var GraphOverview = (function () {
 
             this.onWindowResize(s.mainGraph);
 
+            GraphLimits.init();
+            FanCompare.init();
         },
 
         addFans: function () {
@@ -70,7 +72,7 @@ var GraphOverview = (function () {
 
                     // Pushes the data from the fan to the datasetFanValues variable
                     // This variable holds all the data from all the fans
-                    GraphOverview.settings.datasetFanValues.push({
+                    s.datasetFanValues.push({
                         data: value,
                         label: label,
                         idx: s.i,
@@ -164,16 +166,17 @@ var GraphOverview = (function () {
             return {
                 grid: {
                     hoverable: true,
-                    tooltip: true
+                    tooltip: true,
+                    clickable : true
                 },
                 legend: {
-                    container: $('#fan-graph-legend'), noColumns: 1, labelFormatter: function (label, series) {
-                        return '<a id="toggle-legend" href="#" onClick="TogglePlot.toggle(' + series.idx + '); return false;">' + label + '</a>';
+                    container: $('#fan-graph-legend'), labelFormatter: function (label, series) {
+                        return '<a id="toggle-legend" href="#" onClick="Utils.toggleGraphLegend(' + series.idx + '); return false; ">' + label + '</a>';
                     }
                 },
                 xaxis: {
-                    mode: "time", timeformat: "%H:%M", tickSize: [1, "hour"], timezone: "browser",
-                    min: s.epochT - 10800000, //3 uur
+                    mode: "time", timeformat: "%H:%M", tickSize: [3, "hour"], timezone: "browser",
+                    min: s.epochT - 86400000, //3 uur
                     max: s.epochT
                 },
                 axisLabels: {
@@ -232,7 +235,7 @@ var GraphOverview = (function () {
              * Returns the graph object at the bottom of the fanpage
              */
 
-            return this.settings.mainGraph
+            return s.mainGraph
         }
     }
 })();

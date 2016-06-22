@@ -22,6 +22,7 @@ var Tooltip = (function () {
              * Shows it on hover, removes it on release
              */
 
+            toolTip = this;
             s = this.settings;
 
             $("#technical-graph, #fan-graph, #graph-comparison").bind("plothover", function (event, pos, item) {
@@ -30,13 +31,14 @@ var Tooltip = (function () {
                         s.previousPoint = item.datapoint;
                         $('#tooltip').remove();
                         var time = new Date(item.datapoint[0]);
-                        Tooltip.createToolTip(
+
+                        toolTip.createToolTip(
                             item.pageX,
                             item.pageY,
                             item.datapoint[1].toFixed(2) +
                             ' Kilowatt ' + '<br/>' +
                             time.getDate() + ' ' +
-                            Utils.settings.monthNames[time.getMonth()] + ' ' +
+                            Utils.monthNames([time.getMonth()]) + ' ' +
                             time.getFullYear() + ' ' +
                             '(' +(time.getHours() < 10 ? '0' : '') +
                             time.getHours() + ':' +

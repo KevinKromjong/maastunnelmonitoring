@@ -12,6 +12,7 @@ var StatusIndicator = (function () {
         },
 
         init: function () {
+            StatusIndicator = this;
             s = this.settings;
 
             $('header .dropdown-menu')
@@ -117,12 +118,6 @@ var StatusIndicator = (function () {
 
             scope.show();
         },
-
-        createErrorMessage: function () {
-
-        },
-
-
     }
 
 })();

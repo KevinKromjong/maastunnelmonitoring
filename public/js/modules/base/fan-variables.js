@@ -8,7 +8,6 @@
  |
  */
 
-
 var FanVariables = (function() {
 
     var s;

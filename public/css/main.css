@@ -170,7 +170,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 #fan-graph-container h1 { font-size: 28px; font-weight: lighter; float: left; margin-top: 10px; margin-right: 30px;}
 #fan-graph-container hr { margin-bottom: 50px;}
 
-#fan-graph-legend { clear: both; margin-top: 20px; padding-left: 15px; background: #f7f7f7; float:right; width: 155px; height: 452px;}
+#fan-graph-legend { clear: both; margin-top: 20px; padding-left: 15px; background: #f7f7f7; float: right; width: 155px; height: 452px;}
 
 #fan-graph-legend .legendColorBox > div { border: none !important; margin-top: 20px;}
 #fan-graph-legend .legendColorBox > div div { border-width: 8px !important;}
@@ -199,7 +199,7 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 #datetimepicker1 input, #datetimepicker2 input { color: black; }
 
 #graph-comparison { margin-left: 20px;width: 500px; height: 385px; display: none;}
-.table-compare { margin-top: 76px; margin-left: -50px; font-size: 14px; display: none;}
+.table-compare { margin-top: 48px; margin-left: -50px; font-size: 14px; display: none;}
 .table-compare thead tr { background: #eee; }
 .table-compare tr td:nth-child(3) { border-right: 2px solid #ddd}
 .table-compare tr th:nth-child(3) { border-right: 2px solid #ddd}
@@ -207,19 +207,13 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .table-compare tr th:nth-child(2) { background: #83be3e; }
 .table-compare tr th:nth-child(3) { background: #c4e0a3; }
 
+#limits-table { margin: 20px;}
 #limits-table-wrapper { display: none; }
 #limits-table-wrapper h4 { font-size: 18px; margin: -10px 0 50px 20px; }
 
-/*.table-limits { width: 95%; margin: 0 auto;}*/
-/*.table-limits.sortable th.clickable:hover { background: #2ECC71 !important;}*/
-/*.table-limits thead { background: #26A65B; color: white; font-size: 15px;}*/
-/*.table-limits tbody { font-size: 13px;}*/
-/*.table-limits td,*/
-/*.table-limits tr td{ width:1%; white-space:nowrap; }*/
-
 .fancybox-skin { background: white;}
-.fancybox-inner { min-height: 650px; width: 1070px !important;}
-.fancybox-wrap { width: 1100px !important; left: 90px !important;}
+.fancybox-inner { min-height: 650px; width: 1170px !important;}
+.fancybox-wrap { width: 1200px !important; }
 
 #compare-inputs, #limits-table { margin-top: 40px;}
 #compare-chosen-button { margin-top: 10px; width: 175px !important;}
@@ -227,7 +221,13 @@ footer p { color: #777; font-variant: small-caps; font-size: 15px; margin-top: 1
 .warning-placeholder { font-size: 15px;}
 
 #example, #example_info, #example_length, #example_paginate a { font-size: 15px;}
-/*#example_length, #example_info { display: none; }*/
+
+ul.pagination { background: none;}
+ul.pagination li { padding: 0 !important; border:none !important;}
+ul.pagination li a { color: black !important; background: none !important;}
+ul.pagination li:hover a { color: #BDC3C7 !important;}
+ul.pagination li.disabled:hover a { color: black !important; }
+ul.pagination li:active a { color: #BDC3C7 !important; background: white !important;  }
 
 /**************************
  *     Media queries      *
@@ -245,15 +245,15 @@ and (orientation : landscape) {
     .message-popup { width: 85%;}
 
     /* Technical details */
-    .fan-information-technical { height: 700px;}
-    .fan-information-technical h1 { margin-right: 125px; padding-bottom: 25px;}
+    .table-technical-information-left tr th, .table-technical-information-left tr td { font-size: 20px;}
+    .fan-information-technical { height: 1160px;}
     #technical-graph { width: 100%;}
     .btn-filter-screen { margin: 125px 0 20px 161px}
     .filter-screen { margin: -20px 0 0 161px; }
 
     /* Main graph */
-    #fan-graph {width: 85%;}
-    #fan-graph-legend { width: 140px;}
+    #fan-graph {width: 80%;}
+    #fan-graph-legend { width: 155px; clear: none;}
 
     /* Compare data */
     .fancybox-overlay { margin-top: -200px; }
@@ -327,6 +327,9 @@ and (min-device-width: 320px)
 and (max-device-width: 640px)
 and (orientation: landscape) {
 
+    .login-screen .login-icon { left: 150px !important; }
+    .login-screen .login-form { width: 350px !important; margin-left: 0 !important;}
+
     /* Notification */
     .notification-alert { width: 90%; margin: 0 auto;}
     .notification-alert .message-title { font-size: 20px;}
@@ -394,7 +397,7 @@ and (orientation: landscape) {
     .fan-power-usage p:last-child, .fan-theoretical-life-expectancy p:last-child { font-size: 16px;}
 
     /* Technical graph */
-    #technical-graph { width: 90%; height: 350px; margin: 70px 50px 0 50px;}
+    /*#technical-graph { width: 90%; height: 350px; margin: 70px 50px 0 50px;}*/
     .btn-filter-screen { margin: 0 0 0 250px; font-size: 13px;}
     .filter-screen { margin: 0 0 0 250px;}
 
@@ -433,6 +436,9 @@ and (orientation: landscape) {
 and (min-device-width: 320px)
 and (max-device-width: 640px)
 and (orientation: portrait) {
+
+    .login-screen .login-icon { left: 150px !important; }
+    .login-screen .login-form { width: 300px !important; margin-left: 0 !important;}
 
     /* Header */
     header { margin-bottom: 20px; }

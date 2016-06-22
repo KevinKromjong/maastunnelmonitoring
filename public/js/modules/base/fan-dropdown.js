@@ -8,9 +8,9 @@
  */
 
 var FanDropdown = (function () {
-
-    var s;
     
+    var s;
+
     return {
 
         settings: {
@@ -19,19 +19,14 @@ var FanDropdown = (function () {
             previousTargetFanblock: null,       // The previously clicked fanblock
             previousTargetFilter: null,         // The previously clicked filteroption
             filterGraphOptions : {},
-            // filterTimeBack: '',                // The data-attribute: timeback on the filter button
-            // filterFanNumber: '',               // The data-attribute: fanNumber on the filter button
-            // filterTunnel: '',                  // The data-attribute: tunnel on the filter button
-            // filterDirection: ''                // The data-attribute: direction on the filter button
         },
 
         init: function () {
             s = this.settings;
 
-            Utils.initPopovers();
-            Utils.hidePopoversOnOutsideClick();
-            
             this.onFanClick();
+
+            FanFilter.init();
         },
 
         graphOptions: function () {
@@ -120,9 +115,9 @@ var FanDropdown = (function () {
              */
 
             if (fansOverview[index]['direction'] == 'north') {
-                return $('.fan-name').html('ventilator <br/> N-0' + fansOverview[index]['fan_number']).attr('data-fannumber', fansOverview[index]['fan_number'])
+                return $('.fan-information-technical .fan-name').html('ventilator <br/> N-0' + fansOverview[index]['fan_number']).attr('data-fannumber', fansOverview[index]['fan_number'])
             } else {
-                return $('.fan-name').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']).attr('data-fannumber', fansOverview[index]['fan_number'])
+                return $('.fan-information-technical .fan-name').html('ventilator <br/> Z-0' + fansOverview[index]['fan_number']).attr('data-fannumber', fansOverview[index]['fan_number'])
             }
         },
 
@@ -154,11 +149,12 @@ var FanDropdown = (function () {
             /**
              * Changes the text of the average power consumption in the left column
              */
-
-            if (AveragePowerConsumption.calculate(FanVariables.returnFanVariables()[index]) == 0) {
-                $('.fan-power-usage').html(AveragePowerConsumption.calculate(FanVariables.returnFanVariables()[index]) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds 0 uur geleden) </span>");
+            if (fansOverview[index]['is_on'] == false) {
+                $('.fan-power-usage').html(0 + " Kilowatt <br/> <span style='font-size: 11px'> (fan staat uit) </span>");
+            } else if (Utils.calculateAveragePowerConsumption(FanVariables.returnFanVariables()[index]) == 0) {
+                $('.fan-power-usage').html(Utils.calculateAveragePowerConsumption(FanVariables.returnFanVariables()[index]) + " Kilowatt <br/> <span style='font-size: 11px'> (sinds 0 uur geleden) </span>");
             } else {
-                $('.fan-power-usage').html(AveragePowerConsumption.calculate(FanVariables.returnFanVariables()[index]) + " Kilowatt <br/> <span style='font-size: 12px'> (sinds 6 uur geleden) </span>");
+                $('.fan-power-usage').html(Utils.calculateAveragePowerConsumption(FanVariables.returnFanVariables()[index]) + " Kilowatt <br/> <span style='font-size: 11px'> (sinds 6 uur geleden) </span>");
             }
         },
 
@@ -175,19 +171,19 @@ var FanDropdown = (function () {
 
             if (fansOverview[index]['is_on'] == true) {
                 $('#technical-graph').html('').removeClass('fan-off');
-                $('.filter-buttons').show();
+                $('.btn-filter-screen').show();
 
                 plotTechnicalGraph = $.plot($('#technical-graph'), [{
                     data: FanVariables.returnFanVariables()[index], color: FanVariables.settings.colors[index + 1]
                 }], this.graphOptions());
-                
+
                 plotTechnicalGraph.resize();
                 plotTechnicalGraph.setupGrid();
                 plotTechnicalGraph.draw();
 
             } else {
                 $('#technical-graph').html('<p class="fan-off">Deze ventilator staat uit en kan dus geen data weergeven</p>');
-                $('.filter-buttons').hide();
+                $('.btn-filter-screen').hide();
             }
         }
     }

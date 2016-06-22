@@ -4,7 +4,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-9 col-lg-offset-1">
+            <div class="col-lg-9 col-lg-offset-1 col-md-9 col-md-offset-1 col-sm-12">
                 <div class="login-screen" style="background: none;">
                     <div class="login-icon">
                         <img src="/images/gemeente-rotterdam.png" alt="Gemeente Rotterdam logo">
@@ -31,7 +31,7 @@
 
                         <div class="form-group">
                             {{ Form::label('', '', ['class' => 'login-field-icon fui-user', 'for' => 'login-number']) }}
-                            {{ Form::text('employeeNumber', Request::old('employeeNumber'), array('placeholder' => 'Personeelsnummer', 'class' => 'form-control login-field', 'value' => '', 'id' => 'login-number')) }}
+                            {{ Form::number('employeeNumber', Request::old('employeeNumber'), array('placeholder' => 'Personeelsnummer', 'class' => 'form-control login-field', 'value' => '', 'id' => 'login-number')) }}
                         </div>
 
                         <div class="form-group">
@@ -42,7 +42,7 @@
 
                         <a>{{ Form::submit('Log in', ['class' => 'btn btn-primary btn-lg btn-block', 'href' => '#']) }}</a>
 
-{{--                        {{ Html::linkAction('Auth\LoginController@login', 'Wachtwoord vergeten?', [], ['class' => 'login-link']) }}--}}
+                        {{--                        {{ Html::linkAction('Auth\LoginController@login', 'Wachtwoord vergeten?', [], ['class' => 'login-link']) }}--}}
 
                         {{--<a class="login-link" href="#" name="lost-password-link">Lost your password?</a>--}}
 
@@ -55,4 +55,6 @@
             </div>
         </div>
     </div>
+
+
 @endsection

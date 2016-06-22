@@ -141,6 +141,12 @@
                     <td id="fan-power-difference-hour">220</td>
                 </tr>
                 <tr>
+                    <td>Theoretische kilowatt per uur</td>
+                    <td id="fan-one-power-hour">3 Kilowatt</td>
+                    <td id="fan-two-power-hour">1.25 Kilowatt</td>
+                    <td id="fan-power-difference-hour">220 Kilowatt</td>
+                </tr>
+                <tr>
                     <td>Draaiuren</td>
                     <td id="fan-one-time-on">110</td>
                     <td id="fan-two-time-on">120</td>

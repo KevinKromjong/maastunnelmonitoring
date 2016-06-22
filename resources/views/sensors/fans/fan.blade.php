@@ -200,13 +200,6 @@
                                                             <span>style="font-size: 11px">vanaf 6 uur geleden</span>
                                                         </td>
                                                         <td></td>
-                                                        {{--<td><i rel="popover"--}}
-                                                               {{--class="fa fa-info"--}}
-                                                               {{--aria-hidden="true"--}}
-                                                               {{--data-toggle="popover" data-placement="right"--}}
-                                                               {{--data-title="Overzicht gemiddeld stroomverbruik"--}}
-                                                               {{--data-popover-content="#apu"></i>--}}
-                                                        {{--</td>--}}
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">Technische levensduur</th>

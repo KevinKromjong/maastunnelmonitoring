@@ -8,7 +8,7 @@
  */
 
 var FanCompare = (function () {
-
+    
     // The settings variable
     var s;
 
@@ -124,8 +124,8 @@ var FanCompare = (function () {
              * Calculates the average power consumption differences for the table
              */
 
-            var fanOneAveragePowerConsumption = AveragePowerConsumption.calculate(fanOneData, true);
-            var fanTwoAveragePowerConsumption = AveragePowerConsumption.calculate(fanTwoData, true);
+            var fanOneAveragePowerConsumption = Utils.calculateAveragePowerConsumption(fanOneData, true);
+            var fanTwoAveragePowerConsumption = Utils.calculateAveragePowerConsumption(fanTwoData, true);
             var fanPowerDifference = Math.abs(Math.round((fanOneAveragePowerConsumption - fanTwoAveragePowerConsumption) * 100) / 100);
 
             $('#fan-one-power-total').html(Math.round(fanOneAveragePowerConsumption * 100) / 100 + ' Kilowatt');

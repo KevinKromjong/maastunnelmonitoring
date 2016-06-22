@@ -9,7 +9,7 @@
  */
 
 var Utils = (function () {
-
+    
     return {
         settings: {
             rootUrl: $('meta[name="base_url"]').attr('content'),
@@ -20,14 +20,27 @@ var Utils = (function () {
             currentHighest : 0
         },
 
-        rootUrl: function () {
-            return rootUrl = $('meta[name="base_url"]').attr('content');
+        init : function () {
+            this.initFancyBox();
+            this.initPopovers();
+            this.hidePopoversOnOutsideClick();
+            this.initDateTimePicker();
+            this.loadAjaxGif();
         },
 
         initFancyBox: function () {
             $(".fancybox").fancybox();
+
         },
-        
+
+        initDateTimePicker : function () {
+            $('#datetimepicker1, #datetimepicker2').datetimepicker({
+                locale: 'nl',
+                format: 'DD/MM/YYYY',
+                ignoreReadonly: true
+            });
+        },
+
         initPopovers : function () {
             $('[rel="popover"]').popover({
                 container: 'body',
@@ -40,8 +53,68 @@ var Utils = (function () {
                 e.preventDefault();
             });
         },
+
+        rootUrl: function () {
+            return rootUrl = $('meta[name="base_url"]').attr('content');
+        },
+
+
+        loadAjaxGif: function () {
+            $(document).on({
+                ajaxStart: function () {
+                    $('body').addClass("loading");
+                },
+                ajaxStop: function () {
+                    $('body').removeClass("loading");
+                }
+            });
+        },
+
+        toggleGraphLegend: function (seriesIdx) {
+            if (seriesIdx != 0) {
+                GraphOverview.returnGraph().getData()[seriesIdx].lines.show = !GraphOverview.returnGraph().getData()[seriesIdx].lines.show;
+                GraphOverview.returnGraph().setData(GraphOverview.returnGraph().getData());
+                GraphOverview.returnGraph().draw();
+            }
+        },
+
+        /**
+         * Calculates the average power consumption for te information in the dropdown
+         *
+         * @param dataArray : array
+         * @param filter : boolean
+         * @returns {number}
+         */
+        calculateAveragePowerConsumption: function (dataArray, filter) {
+            /**
+             * Checks if this functions is used for filtering or not
+             * Calculates and returns the average number
+             */
+
+            var averagePowerUsage = 0;
+            var i = 0;
+
+            if (!filter) {
+                $.each(dataArray, function (index, value) {
+                    averagePowerUsage += value[1];
+                    i++;
+                });
+            } else {
+                $.each(dataArray, function (index, value) {
+                    averagePowerUsage += value['power_usage'];
+                    i++;
+                });
+            }
+
+
+            if (isNaN(averagePowerUsage / i)) {
+                return 0;
+            } else {
+                return Math.round((averagePowerUsage / i) * 100) / 100;
+            }
+        },
         
-        hidePopoversOnOutsideClick : function () {
+       hidePopoversOnOutsideClick : function () {
             $('body').on('click', function (e) {
                 //only buttons
                 if ($(e.target).data('toggle') !== 'popover'
@@ -71,17 +144,7 @@ var Utils = (function () {
 
         getLowest : function () {
             return Utils.settings.currentLowest
-        },
-
-        
-
-        // resetLowest : function () {
-        //     Utils.settings.currentLowest = 0;
-        // },
-        //
-        // resetHighest : function () {
-        //     Utils.settings.currentHighest = 0;
-        // }
+        }
     };
 
 })();
