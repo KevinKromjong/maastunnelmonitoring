@@ -8,7 +8,7 @@
  */
 
 var FanCompare = (function () {
-    
+
     // The settings variable
     var s;
 
@@ -28,7 +28,7 @@ var FanCompare = (function () {
         init: function () {
             s = this.settings;
 
-            Tooltip.configure();
+            Utils.configureTooltip('#graph-comparison');
             this.getCompareInput();
         },
 
@@ -40,7 +40,7 @@ var FanCompare = (function () {
 
             // If the user submits the compared fans..
             $('#compare-chosen-button').on('click', function () {
-                
+
                 var inputFanOne = $('#fan-to-compare-one').val();
                 var inputFanTwo = $('#fan-to-compare-two').val();
                 var inputDateTimePickerOne = $('#datetimepicker1').find('input').val();
@@ -61,7 +61,20 @@ var FanCompare = (function () {
                 var fanOneOptionGroup = $('#fan-to-compare-one :selected').parent().attr('label').replace(/ /g, '');
                 var fanTwoOptionGroup = $('#fan-to-compare-two :selected').parent().attr('label').replace(/ /g, '');
 
-                FanCompare.retrieveCompareInputData(inputDateTimePickerOne, inputDateTimePickerTwo, fanOneOptionGroup.split('-')[0], fanTwoOptionGroup.split('-')[0], fanOneOptionGroup.split('-')[1], fanTwoOptionGroup.split('-')[1], inputFanOne.slice(-1), inputFanTwo.slice(-1));
+                var compareResult = Utils.ajaxRequest(
+                    'compare',
+                    inputDateTimePickerOne,
+                    inputDateTimePickerTwo,
+                    fanOneOptionGroup.split('-')[0],
+                    fanTwoOptionGroup.split('-')[0],
+                    fanOneOptionGroup.split('-')[1],
+                    fanTwoOptionGroup.split('-')[1],
+                    inputFanOne.slice(-1),
+                    inputFanTwo.slice(-1)
+                );
+
+
+                FanCompare.retrieveCompareInputDataCallback(compareResult, s.firstTime, s.secondTime);
 
                 // Enter the names of the chosen fans into the table headers.
                 $('#chosen-fan-one').html(inputFanOne + '<span class="compare-fan-one-colour"></span>');
@@ -70,41 +83,9 @@ var FanCompare = (function () {
         },
 
 
-        retrieveCompareInputData: function () {
-            /**
-             * Makes an AJAX-call to retrieve the input from the database
-             */
-
-            //Fill the settings object with the corresponding data
-            var i = 0;
-            for (var key in this.settings) {
-                this.settings[key] = arguments[i];
-                i++;
-            }
-
-            $.ajax({
-                url: Utils.rootUrl() + '/api/v1/fans?compare=1' +
-                '&firstTime=' + s.firstTime +
-                '&secondTime=' + s.secondTime +
-                '&tunnelOne=' + s.tunnelOne +
-                '&tunnelTwo=' + s.tunnelTwo +
-                '&directionOne=' + s.directionOne +
-                '&directionTwo=' + s.directionTwo +
-                '&fanOne=' + s.fanOne +
-                '&fanTwo=' + s.fanTwo,
-                type: 'get',
-                format: 'json',
-                async: true,
-                success: function (data) {
-
-                    FanCompare.retrieveCompareInputDataCallback(data, s.firstTime, s.secondTime);
-                }
-            });
-        },
-
         retrieveCompareInputDataCallback: function (data, firstTime, secondTime) {
             /**
-             * Handles the text in the table after the call to the database has been made
+             * Handles the text in the table after an Ajax call to the database has been made
              */
 
             var fanOneData = data['fanOne'];
@@ -136,9 +117,9 @@ var FanCompare = (function () {
             this.calculateAveragePowerDifferenceHour(fanOneAveragePowerConsumption, fanTwoAveragePowerConsumption);
         },
 
-        calculateAveragePowerDifferenceHour : function (fanOne, fanTwo) {
-            var fanOneTimeOn = ($('#fan-one-time-on').html()).substring(0,2);
-            var fanTwoTimeOn = ($('#fan-two-time-on').html()).substring(0,2);
+        calculateAveragePowerDifferenceHour: function (fanOne, fanTwo) {
+            var fanOneTimeOn = ($('#fan-one-time-on').html()).substring(0, 2);
+            var fanTwoTimeOn = ($('#fan-two-time-on').html()).substring(0, 2);
 
             var fanOneHourlyPower = Math.round(fanOne / fanOneTimeOn) * 100 / 100;
             var fanTwoHourlyPower = Math.round(fanTwo / fanTwoTimeOn) * 100 / 100;
@@ -321,7 +302,7 @@ var FanCompare = (function () {
                     return $('.warning-placeholder').html(this.createWarningMessage(' De eerste datum moet eerder zijn dan de tweede datum!')).show();
                 } else if (convertedDateOne.getTime() == convertedDateTwo.getTime()) {
                     return $('.warning-placeholder').html(this.createWarningMessage(' De twee datums moeten wel van dag verschillen!')).show();
-                } else if ( convertedDateTwo.getTime() > new Date()) {
+                } else if (convertedDateTwo.getTime() > new Date()) {
                     return $('.warning-placeholder').html(this.createWarningMessage(' Je kan niet in de toekomst zoeken!')).show();
                 }
             }

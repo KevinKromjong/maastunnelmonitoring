@@ -29,7 +29,7 @@ var GraphOverview = (function () {
             // Make a shortcut for the settings variable
             s = this.settings;
 
-            Tooltip.configure();
+            Utils.configureTooltip('#fan-graph');
 
             this.addFans();
             this.plot();
@@ -62,13 +62,12 @@ var GraphOverview = (function () {
 
                     // Save the highest and lowest value for the y-axis
                     $.each(value, function (index2, value2) {
-                        if (value2[1] < s.lowest)
-                            s.lowest = value2[1];
+                        Utils.calculateHighest(value2[1]);
+                        Utils.calculateLowest(value2[1]);
 
-                        if (value2[1] > s.highest)
-                            s.highest = value2[1];
+                        s.lowest = Utils.getLowest();
+                        s.highest = Utils.getHighest();
                     });
-
 
                     // Pushes the data from the fan to the datasetFanValues variable
                     // This variable holds all the data from all the fans
@@ -82,6 +81,9 @@ var GraphOverview = (function () {
                     s.i++
                 }
             });
+
+            Utils.resetHighestandLowest();
+
 
             // GraphOverview.settings.datasetFanValues.push(
             //     {
@@ -171,7 +173,7 @@ var GraphOverview = (function () {
                 },
                 legend: {
                     container: $('#fan-graph-legend'), labelFormatter: function (label, series) {
-                        return '<a id="toggle-legend" href="#" onClick="Utils.toggleGraphLegend(' + series.idx + '); return false; ">' + label + '</a>';
+                        return '<a id="toggle-legend" href="#" onClick="GraphOverview.toggleGraphLegend(' + series.idx + '); return false; ">' + label + '</a>';
                     }
                 },
                 xaxis: {
@@ -236,6 +238,14 @@ var GraphOverview = (function () {
              */
 
             return s.mainGraph
-        }
+        },
+
+        toggleGraphLegend: function (seriesIdx) {
+            if (seriesIdx != 0) {
+                GraphOverview.returnGraph().getData()[seriesIdx].lines.show = !GraphOverview.returnGraph().getData()[seriesIdx].lines.show;
+                GraphOverview.returnGraph().setData(GraphOverview.returnGraph().getData());
+                GraphOverview.returnGraph().draw();
+            }
+        },
     }
 })();

@@ -34,21 +34,16 @@
 
 <!--Modules-->
 {{--<script src="{{asset('/js/modules/base/websocket.js')}}" rel="script"></script>--}}
-<script src="{{asset('/js/modules/helpers/utils.js')}}" rel="script"></script>
+<script src="{{asset('/js/modules/utils.js')}}" rel="script"></script>
 
-<script src="{{asset('/js/modules/base/status-indicator.js')}}" rel="script"></script>
-<script src="{{asset('/js/modules/base/fan-variables.js')}}" rel="script"></script>
-<script src="{{asset('/js/modules/base/graph-overview.js')}}" rel="script"></script>
-<script src="{{asset('/js/modules/base/fan-dropdown.js')}}" rel="script"></script>
-<script src="{{asset('/js/modules/base/fan-compare.js')}}" rel="script"></script>
-<script src="{{asset('/js/modules/base/fan-filter.js')}}" rel="script"></script>
-<script src="{{asset('/js/modules/base/graph-limits.js')}}" rel="script"></script>
+<script src="{{asset('/js/modules/status-indicator.js')}}" rel="script"></script>
+<script src="{{asset('/js/modules/fan-variables.js')}}" rel="script"></script>
+<script src="{{asset('/js/modules/graph-overview.js')}}" rel="script"></script>
+<script src="{{asset('/js/modules/fan-dropdown.js')}}" rel="script"></script>
+<script src="{{asset('/js/modules/fan-compare.js')}}" rel="script"></script>
+<script src="{{asset('/js/modules/fan-filter.js')}}" rel="script"></script>
+<script src="{{asset('/js/modules/graph-limits.js')}}" rel="script"></script>
 
-{{--<script src="{{asset('/js/modules/helpers/toggle-plot.js')}}" rel="script"></script>--}}
-<script src="{{asset('/js/modules/helpers/tooltip.js')}}" rel="script"></script>
-{{--<script src="{{asset('/js/modules/helpers/average-power-consumption.js')}}" rel="script"></script>--}}
-{{--<script src="{{asset('/js/modules/helpers/ajax-loading-gif.js')}}" rel="script"></script>--}}
-{{--<script src="{{asset('/js/modules/helpers/datetime-calendar.js')}}" rel="script"></script>--}}
 
 <script src="{{asset('/js/app.js')}}" rel="script"></script>
 

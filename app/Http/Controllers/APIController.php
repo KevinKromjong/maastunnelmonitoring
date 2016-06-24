@@ -32,6 +32,9 @@ class APIController extends Controller
             case 'filter' :
                 return $this->filterFans(Input::get('fan'), Input::get('tunnel'), Input::get('direction'), Input::get('filternumber'), Input::get('filterunit'));
                 break;
+            case 'compare' :
+                return $this->getFilteredData(Input::get('firstTime'), Input::get('secondTime'), Input::get('tunnelOne'), Input::get('tunnelTwo'), Input::get('directionOne'), Input::get('directionTwo'), Input::get('fanOne'), Input::get('fanTwo'));
+                break;
         }
 
         if (!empty(Input::get('filter'))) {

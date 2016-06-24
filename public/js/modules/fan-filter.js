@@ -8,7 +8,7 @@
  */
 
 var FanFilter = (function () {
-    
+
     var s;
 
     return {
@@ -53,51 +53,45 @@ var FanFilter = (function () {
                 s.fanNumber = $('.fan-information-technical .fan-name').attr('data-fannumber');
                 s.filterNumber = $('.filter-number').val();
                 s.filterUnit = $('.filter-unit').find(':selected').val();
-                
-                if(s.filterNumber.length != 0) {
+
+                var filteredData = [];
+
+                if (s.filterNumber.length != 0) {
                     // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
-                    // console.log(Utils.rootUrl() + '/api/v1/fans?option=filter' + '&fan=' + s.fanNumber + '&tunnel=' + s.tunnel + '&direction=' + s.direction + '&filternumber=' + s.filterNumber + '&filterunit=' + s.filterUnit);
 
-                    $.ajax({
-                        url: Utils.rootUrl() + '/api/v1/fans?option=filter' + '&fan=' + s.fanNumber + '&tunnel=' + s.tunnel + '&direction=' + s.direction + '&filternumber=' + s.filterNumber + '&filterunit=' + s.filterUnit,
-                        format: 'json',
-                        async: true,
-                        success: function (data) {
-                            console.log(data);
+                    var filterResult = Utils.ajaxRequest(
+                        'filter',
+                        s.fanNumber,
+                        s.tunnel,
+                        s.direction,
+                        s.filterNumber,
+                        s.filterUnit
+                    );
+                    
+                    $.each(filterResult['fans'], function (index, value) {
 
-                            var filteredData = [];
+                        Utils.calculateHighest(value['power_usage']);
+                        Utils.calculateLowest(value['power_usage']);
 
-                            $.each(data['fans'], function (index, value) {
-
-                                Utils.calculateHighest(value['power_usage']);
-                                Utils.calculateLowest(value['power_usage']);
-
-                                var date = new Date(value['created_at'].replace(/-/g, "/"));
-                                filteredData.push([date, value['power_usage'], parseInt(s.fanNumber)]);
-                            });
-
-                            s.lowest = Utils.getLowest();
-                            s.highest = Utils.getHighest();
-
-                            FanFilter.filterGraphOptions();
-                            FanFilter.filterChangeAveragePowerConsumptionHoursAgo(data);
-
-                            plotTechnicalGraph = $.plot($('#technical-graph'), [{
-                                data: filteredData,
-                                color: FanVariables.settings.colors[s.fanNumber]
-                            }], s.filterGraphOptions);
-                            plotTechnicalGraph.resize();
-                            plotTechnicalGraph.setupGrid();
-                            plotTechnicalGraph.draw();
-
-                            $('.filter-screen').slideUp('slow');
-
-                        },
-                        error: function () {
-                            alert("Er is een time-out opgetreden!")
-                        }
-
+                        var date = new Date(value['created_at'].replace(/-/g, "/"));
+                        filteredData.push([date, value['power_usage'], parseInt(s.fanNumber)]);
                     });
+
+                    s.lowest = Utils.getLowest();
+                    s.highest = Utils.getHighest();
+
+                    FanFilter.filterGraphOptions();
+                    FanFilter.filterChangeAveragePowerConsumptionHoursAgo(filterResult);
+
+                    plotTechnicalGraph = $.plot($('#technical-graph'), [{
+                        data: filteredData,
+                        color: FanVariables.settings.colors[s.fanNumber]
+                    }], s.filterGraphOptions);
+                    plotTechnicalGraph.resize();
+                    plotTechnicalGraph.setupGrid();
+                    plotTechnicalGraph.draw();
+
+                    $('.filter-screen').slideUp('slow');
                 }
             });
         },

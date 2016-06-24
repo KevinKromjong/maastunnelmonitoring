@@ -25,6 +25,7 @@ var FanDropdown = (function () {
             s = this.settings;
 
             this.onFanClick();
+            Utils.configureTooltip('#technical-graph');
 
             FanFilter.init();
         },
@@ -150,7 +151,7 @@ var FanDropdown = (function () {
              * Changes the text of the average power consumption in the left column
              */
             if (fansOverview[index]['is_on'] == false) {
-                $('.fan-power-usage').html(0 + " Kilowatt <br/> <span style='font-size: 11px'> (fan staat uit) </span>");
+                $('.fan-power-usage').html(0 + " Kilowatt <br/> <span style='font-size: 11px'> (ventilator staat uit) </span>");
             } else if (Utils.calculateAveragePowerConsumption(FanVariables.returnFanVariables()[index]) == 0) {
                 $('.fan-power-usage').html(Utils.calculateAveragePowerConsumption(FanVariables.returnFanVariables()[index]) + " Kilowatt <br/> <span style='font-size: 11px'> (sinds 0 uur geleden) </span>");
             } else {
