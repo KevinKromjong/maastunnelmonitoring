@@ -19,7 +19,8 @@ var Utils = (function () {
                 "Juli", "Augustus", "September", "Oktober", "November", "December"],
             arrayCompare: ['firstTime', 'secondTime', 'tunnelOne', 'tunnelTwo', 'directionOne', 'directionTwo', 'fanOne', 'fanTwo'],
             arrayFilter: ['fan', 'tunnel', 'direction', 'filternumber', 'filterunit'],
-
+            dataResult: null,
+            done: false,
             currentLowest: 1000,
             currentHighest: 0,
             previousPoint: null
@@ -30,12 +31,13 @@ var Utils = (function () {
          */
         init: function () {
             s = this.settings;
-
+            console.log(Utils.getRootUrl() + '/api/v1/fans?');
             this.initFancyBox();
             this.initPopovers();
             this.hidePopoversOnOutsideClick();
             this.initDateTimePicker();
             this.loadAjaxGif();
+
         },
 
         initFancyBox: function () {
@@ -237,26 +239,29 @@ var Utils = (function () {
             }).appendTo("body").fadeIn(200);
         },
 
-        ajaxRequest: function () {
+        createAjaxRequest: function () {
             /**
              * Because the arguments are send from another function, the array with data is wrapped in another data
              * so the values in the arguments object must be retrieved via arguments[0][x].
              */
 
+            var option;
             var paramKeys = null;
-            var dataResult = null;
             var url = Utils.getRootUrl() + '/api/v1/fans?';
             var args = Array.prototype.slice.call(arguments);
 
+
             switch (args[0]) {
-                case 'compare' : 
+                case 'compare' :
                     paramKeys = s.arrayCompare;
                     url += 'option=compare';
+                    option = 'compare';
                     args.shift();
                     break;
                 case 'filter' :
                     paramKeys = s.arrayFilter;
                     url += 'option=filter';
+                    option = 'filter';
                     args.shift();
                     break;
             }
@@ -264,20 +269,27 @@ var Utils = (function () {
             for (var key in args) {
                 url += '&' + paramKeys[key] + '=' + args[key];
             }
-            
+
+
             $.ajax({
                 url: url,
                 type: 'get',
-                format: 'json',
-                async: true,
-                success: function (data) {
-                    console.log(data);
-                    dataResult = data;
-                }
+                format: 'json'
+            }).done(function (response1) {
+               if (option == 'filter') {
+                   Utils.returnFilterData(response1);
+               } else {
+                   Utils.returnCompareData(response1);
+               }
             });
-            
-            
-            return dataResult;
+        },
+
+        returnCompareData : function (dataResult) {
+            FanCompare.retrieveCompareInputDataCallback(dataResult)
+        },
+        
+        returnFilterData : function (dataResult) {
+            FanFilter.filterCallback(dataResult);
         }
     };
 

@@ -54,12 +54,10 @@ var FanFilter = (function () {
                 s.filterNumber = $('.filter-number').val();
                 s.filterUnit = $('.filter-unit').find(':selected').val();
 
-                var filteredData = [];
-
                 if (s.filterNumber.length != 0) {
                     // When the user wants to filter data, send an AJAX-request to the API, fetch the data and update the graph accordingly
 
-                    var filterResult = Utils.ajaxRequest(
+                    Utils.createAjaxRequest(
                         'filter',
                         s.fanNumber,
                         s.tunnel,
@@ -67,33 +65,37 @@ var FanFilter = (function () {
                         s.filterNumber,
                         s.filterUnit
                     );
-                    
-                    $.each(filterResult['fans'], function (index, value) {
-
-                        Utils.calculateHighest(value['power_usage']);
-                        Utils.calculateLowest(value['power_usage']);
-
-                        var date = new Date(value['created_at'].replace(/-/g, "/"));
-                        filteredData.push([date, value['power_usage'], parseInt(s.fanNumber)]);
-                    });
-
-                    s.lowest = Utils.getLowest();
-                    s.highest = Utils.getHighest();
-
-                    FanFilter.filterGraphOptions();
-                    FanFilter.filterChangeAveragePowerConsumptionHoursAgo(filterResult);
-
-                    plotTechnicalGraph = $.plot($('#technical-graph'), [{
-                        data: filteredData,
-                        color: FanVariables.settings.colors[s.fanNumber]
-                    }], s.filterGraphOptions);
-                    plotTechnicalGraph.resize();
-                    plotTechnicalGraph.setupGrid();
-                    plotTechnicalGraph.draw();
-
-                    $('.filter-screen').slideUp('slow');
                 }
             });
+        },
+        
+        filterCallback : function (filterResult) {
+            var filteredData = [];
+
+            $.each(filterResult['fans'], function (index, value) {
+
+                Utils.calculateHighest(value['power_usage']);
+                Utils.calculateLowest(value['power_usage']);
+
+                var date = new Date(value['created_at'].replace(/-/g, "/"));
+                filteredData.push([date, value['power_usage'], parseInt(s.fanNumber)]);
+            });
+
+            s.lowest = Utils.getLowest();
+            s.highest = Utils.getHighest();
+
+            FanFilter.filterGraphOptions();
+            FanFilter.filterChangeAveragePowerConsumptionHoursAgo(filterResult);
+
+            plotTechnicalGraph = $.plot($('#technical-graph'), [{
+                data: filteredData,
+                color: FanVariables.settings.colors[s.fanNumber]
+            }], s.filterGraphOptions);
+            plotTechnicalGraph.resize();
+            plotTechnicalGraph.setupGrid();
+            plotTechnicalGraph.draw();
+
+            $('.filter-screen').slideUp('slow');
         },
 
         filterGraphOptions: function () {

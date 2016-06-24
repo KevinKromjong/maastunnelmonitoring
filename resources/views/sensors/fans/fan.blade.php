@@ -322,7 +322,5 @@
     @include('includes.compare-fans')
     @include('includes.limits-table')
 
-    <div class="ajax-modal"><!-- Place at bottom of page --></div>
-
 
 @endsection

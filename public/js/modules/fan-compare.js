@@ -15,8 +15,8 @@ var FanCompare = (function () {
     return {
         // The settings of the chosen fans
         settings: {
-            firstTime: null,
-            secondTime: null,
+            timeOne: null,
+            timeTwo: null,
             tunnelOne: null,
             tunnelTwo: null,
             directionOne: null,
@@ -41,13 +41,13 @@ var FanCompare = (function () {
             // If the user submits the compared fans..
             $('#compare-chosen-button').on('click', function () {
 
-                var inputFanOne = $('#fan-to-compare-one').val();
-                var inputFanTwo = $('#fan-to-compare-two').val();
-                var inputDateTimePickerOne = $('#datetimepicker1').find('input').val();
-                var inputDateTimePickerTwo = $('#datetimepicker2').find('input').val();
+                s.fanOne = $('#fan-to-compare-one').val();
+                s.fanTwo = $('#fan-to-compare-two').val();
+                s.timeOne = $('#datetimepicker1').find('input').val();
+                s.timeTwo = $('#datetimepicker2').find('input').val();
 
                 // Check if the user entered all information before continuing.
-                if (inputDateTimePickerOne == '' || inputDateTimePickerTwo == '') {
+                if (s.timeOne == '' || s.timeTwo == '') {
                     $('.warning-placeholder').html(FanCompare.createWarningMessage(' Je moet een datum kiezen om de ventilatoren te vergelijken!')).show();
                     return false;
                 } else if (FanCompare.checkCalendarDate()) {
@@ -61,29 +61,30 @@ var FanCompare = (function () {
                 var fanOneOptionGroup = $('#fan-to-compare-one :selected').parent().attr('label').replace(/ /g, '');
                 var fanTwoOptionGroup = $('#fan-to-compare-two :selected').parent().attr('label').replace(/ /g, '');
 
-                var compareResult = Utils.ajaxRequest(
+                Utils.createAjaxRequest(
                     'compare',
-                    inputDateTimePickerOne,
-                    inputDateTimePickerTwo,
+                    s.timeOne,
+                    s.timeTwo,
                     fanOneOptionGroup.split('-')[0],
                     fanTwoOptionGroup.split('-')[0],
                     fanOneOptionGroup.split('-')[1],
                     fanTwoOptionGroup.split('-')[1],
-                    inputFanOne.slice(-1),
-                    inputFanTwo.slice(-1)
+                    s.fanOne.slice(-1),
+                    s.fanTwo.slice(-1)
                 );
 
+                // FanCompare.retrieveCompareInputDataCallback(yay);
 
-                FanCompare.retrieveCompareInputDataCallback(compareResult, s.firstTime, s.secondTime);
+
 
                 // Enter the names of the chosen fans into the table headers.
-                $('#chosen-fan-one').html(inputFanOne + '<span class="compare-fan-one-colour"></span>');
-                $('#chosen-fan-two').html(inputFanTwo + '<span class="compare-fan-two-colour"></span>');
+                $('#chosen-fan-one').html(s.fanOne + '<span class="compare-fan-one-colour"></span>');
+                $('#chosen-fan-two').html(s.fanTwo + '<span class="compare-fan-two-colour"></span>');
             });
         },
 
 
-        retrieveCompareInputDataCallback: function (data, firstTime, secondTime) {
+        retrieveCompareInputDataCallback: function (data) {
             /**
              * Handles the text in the table after an Ajax call to the database has been made
              */
@@ -91,13 +92,14 @@ var FanCompare = (function () {
             var fanOneData = data['fanOne'];
             var fanTwoData = data['fanTwo'];
 
-            this.calculateTotalFanTime(firstTime, secondTime);
+            this.calculateTotalFanTime();
 
             this.calculateAveragePowerDifferencesTotal(fanOneData, fanTwoData);
 
             this.calculateTechnicalLifeExpectancy();
 
             this.plotCompareGraph(fanOneData, fanTwoData);
+
         },
 
         calculateAveragePowerDifferencesTotal: function (fanOneData, fanTwoData) {
@@ -131,13 +133,13 @@ var FanCompare = (function () {
 
         },
 
-        calculateTotalFanTime: function (firstTime, secondTime) {
+        calculateTotalFanTime: function () {
             /**
              * Calculates the total fantime differences for the table
              */
 
-            var fanOneDateSplit = firstTime.split('/');
-            var fanTwoDateSplit = secondTime.split('/');
+            var fanOneDateSplit = s.timeOne.split('/');
+            var fanTwoDateSplit = s.timeTwo.split('/');
             var fanOneDate = new Date(fanOneDateSplit[2], fanOneDateSplit[1], fanOneDateSplit[0] - 1);
             var fanTwoDate = new Date(fanTwoDateSplit[2], fanTwoDateSplit[1], fanTwoDateSplit[0] - 1);
             var dayOrDaysFanOne = ' dagen';
