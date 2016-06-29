@@ -22,7 +22,9 @@ var GraphOverview = (function () {
             lowest: 1000,                       // Placeholder for the lowest value for determing the length of the y-axis
             highest: 0,                         // Placeholder for the lowest value for determing the length of the y-axis
             minimalCriticalValue: 0,            // The value of the lowest critical line
-            maximalCriticalValue: 0            // The value of the highest critical line
+            maximalCriticalValue: 0,            // The value of the highest critical line
+
+            newAxisValues : [],
         },
 
         init: function () {
@@ -31,7 +33,7 @@ var GraphOverview = (function () {
 
             Utils.configureTooltip('#fan-graph');
 
-            this.addFans();
+            this.addFans(FanVariables.returnFanVariables());
             this.plot();
 
             this.onWindowResize(s.mainGraph);
@@ -40,14 +42,17 @@ var GraphOverview = (function () {
             FanCompare.init();
         },
 
-        addFans: function () {
+        addFans: function (fans) {
             /**
              * Formats and add the data from the fans to a datasetFanValues
              * so that the fans can be displayed in the main graph at the bottom of the fanpage
              */
 
+            s.datasetFanValues = [];
+            s.i = 1;
+
             // For each fan..
-            $.each(FanVariables.returnFanVariables(), function (index, value) {
+            $.each(fans, function (index, value) {
                 var label;
 
                 // If the fan has more than one entry (= if the fan is on)
@@ -169,7 +174,7 @@ var GraphOverview = (function () {
                 grid: {
                     hoverable: true,
                     tooltip: true,
-                    clickable : true
+                    clickable: true
                 },
                 legend: {
                     container: $('#fan-graph-legend'), labelFormatter: function (label, series) {
@@ -194,8 +199,29 @@ var GraphOverview = (function () {
                 yaxis: {
                     min: s.minimalCriticalValue - 5,
                     max: s.maximalCriticalValue + 5
+                },
+                pan: {
+                    interactive: true
                 }
             }
+        },
+
+        resetValues : function () {
+            s.datasetTotal = [];
+
+        },
+
+        addFanData : function () {
+            s.datasetTotal = [];
+
+            // Add each line of the fan blocks to the datasetTotal array
+            $.each(s.datasetFanValues, function (index, value) {
+                s.datasetTotal.push(value);
+            });
+
+            // Add the minimal and maximal lines to the array with data
+            s.datasetTotal.unshift(this.configureMaximalCriticalLine());
+            s.datasetTotal.push(this.configureMinimalCriticalLine());
         },
 
         plot: function () {
@@ -208,17 +234,33 @@ var GraphOverview = (function () {
                 this.graphOptions().xaxis.tickSize = [2, 'hour'];
             }
 
-            // Add each line of the fan blocks to the datasetTotal array
-            $.each(s.datasetFanValues, function (index, value) {
-                s.datasetTotal.push(value);
-            });
-
-            // Add the minimal and maximal lines to the array with data
-            s.datasetTotal.unshift(this.configureMaximalCriticalLine());
-            s.datasetTotal.push(this.configureMinimalCriticalLine());
+            GraphOverview.addFanData();
 
             // Plot the graph
             s.mainGraph = $.plot(s.graph, s.datasetTotal, this.graphOptions());
+
+            this.dragPlot();
+        },
+
+        dragPlot : function () {
+            s.graph.bind("plotpan", function (event, plot) {
+                s.newAxisValues = [
+                    Math.round(plot.getAxes().xaxis.min),
+                    Math.round(plot.getAxes().xaxis.max)
+                ];
+            });
+
+            // $(s.graph).dblclick(function () {
+            //     FanVariables.fillFanVariables(fansGraph);
+            //     GraphOverview.addFans(FanVariables.returnFanVariables());
+            //     GraphOverview.addFanData();
+            //     s.mainGraph = $.plot(s.graph, s.datasetTotal, GraphOverview.graphOptions());
+            // });
+
+            $(s.graph).mouseup(function () {
+                Utils.createAjaxRequest('updateMainGraph', s.newAxisValues[0], s.newAxisValues[1], fanTunnel, fanDirection);
+            })
+
         },
 
         onWindowResize: function (mainGraph) {
@@ -247,5 +289,20 @@ var GraphOverview = (function () {
                 GraphOverview.returnGraph().draw();
             }
         },
+
+        updateCallback : function (data) {
+
+            var oldGraphOptions = GraphOverview.graphOptions();
+
+            FanVariables.fillFanVariables(data);
+
+            GraphOverview.addFans(FanVariables.returnFanVariables());
+            GraphOverview.addFanData();
+
+            oldGraphOptions.xaxis.min = s.newAxisValues[0];
+            oldGraphOptions.xaxis.max = s.newAxisValues[1];
+
+            s.mainGraph = $.plot(s.graph, s.datasetTotal, oldGraphOptions);
+        }
     }
 })();

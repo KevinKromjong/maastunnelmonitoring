@@ -22,7 +22,7 @@
 <script src="{{asset('/js/libs/flot/jquery.flot.time.min.js')}}" rel="script"></script>
 <script src="{{asset('/js/libs/flot/jquery.flot.axislabels.js')}}" rel="script"></script>
 <script src="{{asset('/js/libs/flot/jquery.flot.resize.min.js')}}" rel="script"></script>
-<script src="{{asset('/js/libs/flot/jquery.flot.symbol.min.js')}}" rel="script"></script>
+<script src="{{asset('/js/libs/flot/jquery.flot.navigate.min.js')}}" rel="script"></script>
 <script src="{{asset('/js/libs/jquery.fancybox.js')}}" rel="script"></script>
 <script src="{{asset('/js/libs/moment-with-locales.min.js')}}" rel="script"></script>
 <script src="{{asset('/js/libs/bootstrap-datetimepicker.min.js')}}" rel="script"></script>

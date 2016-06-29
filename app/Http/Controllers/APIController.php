@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Sensor;
 use Carbon\Carbon;
+use Faker\Provider\DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
@@ -33,21 +34,16 @@ class APIController extends Controller
                 return $this->filterFans(Input::get('fan'), Input::get('tunnel'), Input::get('direction'), Input::get('filternumber'), Input::get('filterunit'));
                 break;
             case 'compare' :
-                return $this->getFilteredData(Input::get('firstTime'), Input::get('secondTime'), Input::get('tunnelOne'), Input::get('tunnelTwo'), Input::get('directionOne'), Input::get('directionTwo'), Input::get('fanOne'), Input::get('fanTwo'));
+                return $this->compareFans(Input::get('timeOne'), Input::get('timeTwo'), Input::get('tunnelOne'), Input::get('tunnelTwo'), Input::get('directionOne'), Input::get('directionTwo'), Input::get('fanOne'), Input::get('fanTwo'));
+                break;
+            case 'updateMainGraph' :
+                return $this->updateMainGraph(Input::get('dateOne'), Input::get('dateTwo'), Input::get('tunnel'), Input::get('direction'));
+                break;
+            default :
+                $fans = Sensor::paginate(30);
+                return Response(['fans' => $fans]);
                 break;
         }
-
-        if (!empty(Input::get('filter'))) {
-            return $this->filterFans(Input::get('filter'), Input::get('fan'), Input::get('tunnel'), Input::get('direction'));
-        } else if (!empty(Input::get('translate'))) {
-            return $this->translate(Input::get('tunnel'), Input::get('direction'));
-        } else if (!empty(Input::get('compare'))) {
-            return $this->getFilteredData(Input::get('firstTime'), Input::get('secondTime'), Input::get('tunnelOne'), Input::get('tunnelTwo'), Input::get('directionOne'), Input::get('directionTwo'), Input::get('fanOne'), Input::get('fanTwo'));
-        }
-
-
-        $fans = Sensor::paginate(30);
-        return Response(['fans' => $fans]);
     }
 
     /**
@@ -85,10 +81,10 @@ class APIController extends Controller
     }
 
     /**
-     * Get the filtered data from the choices on the popup menu screen
+     * Get the data for the comparison from the choices on the popup menu screen
      *
-     * @param $firstTime : the first time to compare
-     * @param $secondTime : the second time to compare
+     * @param $timeOne : the first time to compare
+     * @param $timeTwo : the second time to compare
      * @param $tunnelOne : the first tunnel to compare
      * @param $tunnelTwo : the second tunnel to compare
      * @param $directionOne : the first direction to compare
@@ -97,18 +93,30 @@ class APIController extends Controller
      * @param $fanTwo : the second function to compare
      * @return : the datasetFanValues of the first and the second fan
      */
-    public function getFilteredData($firstTime, $secondTime, $tunnelOne, $tunnelTwo, $directionOne, $directionTwo, $fanOne, $fanTwo)
+    public function compareFans($timeOne, $timeTwo, $tunnelOne, $tunnelTwo, $directionOne, $directionTwo, $fanOne, $fanTwo)
     {
         $translationOne = translateTubeAndDirection($tunnelOne, $directionOne);
         $translationTwo = translateTubeAndDirection($tunnelTwo, $directionTwo);
 
-        $dateFanOne = Carbon::createFromFormat('d/m/Y', $firstTime);
-        $dateFanTwo = Carbon::createFromFormat('d/m/Y', $secondTime);
+        $dateFanOne = Carbon::createFromFormat('d/m/Y', $timeOne);
+        $dateFanTwo = Carbon::createFromFormat('d/m/Y', $timeTwo);
 
         //where('mod_id', 'mod', [2, 0])
         $fanOne = Sensor::where('created_at', '>', $dateFanOne)->where('created_at', '<', $dateFanTwo)->where('tunnel', $translationOne['tunnel'])->where('direction', $translationOne['direction'])->where('fan_number', '=', intval($fanOne))->where('mod_id', 'mod', [15, 0])->get();
         $fanTwo = Sensor::where('created_at', '>', $dateFanOne)->where('created_at', '<', $dateFanTwo)->where('tunnel', $translationTwo['tunnel'])->where('direction', $translationTwo['direction'])->where('fan_number', '=', intval($fanTwo))->where('mod_id', 'mod', [15, 0])->get();
 
         return Response(['fanOne' => $fanOne, 'fanTwo' => $fanTwo]);
+    }
+
+    public function updateMainGraph($dateOne, $dateTwo, $tunnel, $direction)
+    {
+        $translation = translateTubeAndDirection($tunnel, $direction);
+        
+        $dateTimeOne = Carbon::createFromTimestamp(floor($dateOne / 1000));
+        $dateTimeTwo = Carbon::createFromTimestamp(floor($dateTwo / 1000));
+
+        $newMainGraphData = Sensor::where('created_at', '>', $dateTimeOne)->where('created_at', '<', $dateTimeTwo)->where('tunnel', $translation['tunnel'])->where('direction', $translation['direction'])->get();
+
+        return Response($newMainGraphData);
     }
 }

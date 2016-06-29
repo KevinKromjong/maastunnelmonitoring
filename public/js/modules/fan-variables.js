@@ -8,7 +8,7 @@
  |
  */
 
-var FanVariables = (function() {
+var FanVariables = (function () {
 
     var s;
 
@@ -22,27 +22,27 @@ var FanVariables = (function() {
             fanFive: [],            // The data for the fifth fan
             fansToCheck: [],        // The data containing fans one to five from above
             date: new Date(),       // The current data
-            colors: [],             // The array with the colours of the lines
-            fansGraph: null         // The data which will fill the fan variables
+            colors: []              // The array with the colours of the lines
 
         },
 
         init: function (fansGraph) {
             // Make a shortcut for the settings variable
             s = this.settings;
-            s.fansGraph = fansGraph;
             s.colors = ['#E74C3C', '#00441b', '#238b45', '#66c2a4', '#ccece6', '#e5f5f9', '#C0392B'];
 
-            this.fillFanVariables();
+            this.fillFanVariables(fansGraph);
         },
 
-        fillFanVariables: function () {
+        fillFanVariables: function (fanData) {
             /**
              * Gets the data from the database and fills the fan variables
              * so that the fanblocks and the graphs can use it to display the fans
              */
 
-            $.each(s.fansGraph, function (key, value) {
+            this.resetVariables();
+
+            $.each(fanData, function (key, value) {
 
                 // Format the display so the graph can display the data correctly
                 // If the fan is on, fill the fan variable according to the number of the fan
@@ -70,6 +70,15 @@ var FanVariables = (function() {
             });
 
             s.fansToCheck = [s.fanOne, s.fanTwo, s.fanThree, s.fanFour, s.fanFive];
+        },
+
+        resetVariables: function () {
+            s.fanOne = [];
+            s.fanTwo = [];
+            s.fanThree = [];
+            s.fanFour = [];
+            s.fanFive = [];
+            s.fansToCheck = [];
         },
 
         returnFanVariables: function () {

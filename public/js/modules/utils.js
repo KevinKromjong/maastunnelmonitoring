@@ -17,8 +17,9 @@ var Utils = (function () {
             getRootUrl: $('meta[name="base_url"]').attr('content'),
             monthNames: ["Januari", "Februari", "Maart", "April", "Mei", "Juni",
                 "Juli", "Augustus", "September", "Oktober", "November", "December"],
-            arrayCompare: ['firstTime', 'secondTime', 'tunnelOne', 'tunnelTwo', 'directionOne', 'directionTwo', 'fanOne', 'fanTwo'],
+            arrayCompare: ['timeOne', 'timeTwo', 'tunnelOne', 'tunnelTwo', 'directionOne', 'directionTwo', 'fanOne', 'fanTwo'],
             arrayFilter: ['fan', 'tunnel', 'direction', 'filternumber', 'filterunit'],
+            arrayUpdateMainGraph : ['dateOne', 'dateTwo', 'tunnel', 'direction'],
             dataResult: null,
             done: false,
             currentLowest: 1000,
@@ -31,7 +32,6 @@ var Utils = (function () {
          */
         init: function () {
             s = this.settings;
-            console.log(Utils.getRootUrl() + '/api/v1/fans?');
             this.initFancyBox();
             this.initPopovers();
             this.hidePopoversOnOutsideClick();
@@ -264,22 +264,31 @@ var Utils = (function () {
                     option = 'filter';
                     args.shift();
                     break;
+                case 'updateMainGraph' :
+                    paramKeys = s.arrayUpdateMainGraph;
+                    url += 'option=updateMainGraph';
+                    option = 'updateMainGraph';
+                    args.shift();
+                    break;
             }
 
             for (var key in args) {
                 url += '&' + paramKeys[key] + '=' + args[key];
             }
 
-
+            console.log(url);
+            
             $.ajax({
                 url: url,
                 type: 'get',
                 format: 'json'
-            }).done(function (response1) {
+            }).done(function (response) {
                if (option == 'filter') {
-                   Utils.returnFilterData(response1);
+                   Utils.returnFilterData(response);
+               } else if (option == 'compare') {
+                   Utils.returnCompareData(response);
                } else {
-                   Utils.returnCompareData(response1);
+                   Utils.returnUpdateData(response);
                }
             });
         },
@@ -290,6 +299,11 @@ var Utils = (function () {
         
         returnFilterData : function (dataResult) {
             FanFilter.filterCallback(dataResult);
+        },
+
+        returnUpdateData : function (dataResult) {
+            GraphOverview.updateCallback(dataResult);
+
         }
     };
 
