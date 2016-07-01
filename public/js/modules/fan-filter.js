@@ -158,36 +158,36 @@ var FanFilter = (function () {
                     }
                     break;
                 case 'weeks' :
-                    if (s.filterNumber > 1) {
-                        s.filterGraphOptions.xaxis.tickSize = [7, 'day'];
-                    } else if (s.filterNumber > 2) {
-                        s.filterGraphOptions.xaxis.tickSize = [14, 'day'];
+                    if (s.filterNumber == 1) {
+                        s.filterGraphOptions.xaxis.tickSize = [1, 'day'];
+                    } else if (s.filterNumber == 2) {
+                        s.filterGraphOptions.xaxis.tickSize = [3, 'day'];
+                    } else if (s.filterNumber == 3) {
+                        s.filterGraphOptions.xaxis.tickSize = [4, 'day'];
                     } else if (s.filterNumber > 3) {
-                        s.filterGraphOptions.xaxis.tickSize = [30, 'day'];
-                    } else {
-                        s.filterGraphOptions.xaxis.tickSize = [2, 'day'];
+                        s.filterGraphOptions.xaxis.tickSize = [7, 'day'];
                     }
                     break;
                 case 'months' :
-                    if (s.filterNumber > 1) {
-                        s.filterGraphOptions.xaxis.tickSize = [30, 'day'];
-                    } else if (s.filterNumber > 3) {
-                        s.filterGraphOptions.xaxis.tickSize = [60, 'day'];
-                    } else if (s.filterNumber > 6) {
-                        s.filterGraphOptions.xaxis.tickSize = [180, 'day'];
-                    } else {
+                    if (s.filterNumber == 1) {
+                        s.filterGraphOptions.xaxis.tickSize = [7, 'day'];
+                    } else if (s.filterNumber == 2) {
+                        s.filterGraphOptions.xaxis.tickSize = [10, 'day'];
+                    } else if (s.filterNumber == 3) {
                         s.filterGraphOptions.xaxis.tickSize = [15, 'day'];
+                    } else if (s.filterNumber > 3) {
+                        s.filterGraphOptions.xaxis.tickSize = [30, 'day'];
                     }
                     break;
                 case 'years' :
-                    if (s.filterNumber > 1) {
-                        s.filterGraphOptions.xaxis.tickSize = [180, 'day'];
-                    } else if (s.filterNumber > 5) {
-                        s.filterGraphOptions.xaxis.tickSize = [540, 'day'];
-                    } else if (s.filterNumber > 10) {
-                        s.filterGraphOptions.xaxis.tickSize = [1080, 'day'];
-                    } else {
+                    if (s.filterNumber == 1) {
                         s.filterGraphOptions.xaxis.tickSize = [60, 'day'];
+                    } else if (s.filterNumber == 2) {
+                        s.filterGraphOptions.xaxis.tickSize = [180, 'day'];
+                    } else if (s.filterNumber == 3) {
+                        s.filterGraphOptions.xaxis.tickSize = [540, 'day'];
+                    } else if (s.filterNumber > 3) {
+                        s.filterGraphOptions.xaxis.tickSize = [1080, 'day'];
                     }
                     break;
             }

@@ -46,7 +46,7 @@ var FanDropdown = (function () {
                     }
                 },
                 xaxis: {
-                    mode: "time", timeformat: "%H:%M %d %b", tickSize: [3, "hour"], timezone: "browser",
+                    mode: "time", timeformat: "%H:%M <br/> <span style='font-size: 10px;'>%d %b</span>", tickSize: [3, "hour"], timezone: "browser",
                     min: s.epochT - 86400000, //24 uur
                     max: s.epochT
                 },
