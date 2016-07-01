@@ -26,7 +26,7 @@ Deze map bevat alle HTML-, CSS-, Javascript-bestanden, lettertypen en afbeelding
 
 Deze map bevat alle Views en language-bestanden
 
-Voor de volledige beschrijving van alle mappen en eventueel niet genoemde en/of aanwezige bestanden, wordt verwezen naar [deze Laravelpagina](https://laravel.com/docs/master/structure).
+Voor de volledige beschrijving van alle mappen en eventueel niet genoemde en/of aanwezige bestanden, wordt verwezen naar [deze pagina](https://laravel.com/docs/master/structure).
 
 
 ####MongoDB####
@@ -91,11 +91,13 @@ Als er naar onder wordt gescrold kan de grootte van de server gekozen worden. De
 
 Vervolgens moet er voor een datacenter gekozen worden. Aangeraden wordt om voor Amsterdam te kiezen, aangezien de snelheid van de server hierdoor het best is.
 
-Daarnaast hoeven er geen extra opties geselecteerd te worden. Wel moet er een SSH-key worden aangemaakt. Hoe dit gedaan kan worden is [!hier](https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-digitalocean-droplets) te lezen voor Mac/Ubuntu-gebruikers en [!hier](https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-putty-on-digitalocean-droplets-windows-users) voor Windows-gebruikers
+Daarnaast hoeven er geen extra opties geselecteerd te worden. Wel moet er een SSH-key worden aangemaakt. Hoe dit gedaan kan worden is [hier](https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-digitalocean-droplets) te lezen voor Mac/Ubuntu-gebruikers en [hier](https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-putty-on-digitalocean-droplets-windows-users) voor Windows-gebruikers
 
 Tenslotte hoeft er maar 1 `droplet` aangemaakt te worden en mag er een naam aan gegeven worden. De naam mag van alles zijn. Daarna kan de droplet aangemaakt worden.
 
 ####Nginx & Laravel####
-Nu de server op is gezet, kan de software voor de server worden geinstalleerd. Nadat deze is geinstalleerd kan de Laravel-installatie op de server worden gezet. Hoe dit gedaan moet worden is [!hier](https://www.digitalocean.com/community/tutorials/how-to-install-laravel-with-an-nginx-web-server-on-ubuntu-14-04) te vinden.
+Nu de server op is gezet, kan de software voor de server worden geinstalleerd. Nadat deze is geinstalleerd kan de Laravel-installatie op de server worden gezet. Hoe dit gedaan moet worden is [hier](https://www.digitalocean.com/community/tutorials/how-to-install-laravel-with-an-nginx-web-server-on-ubuntu-14-04) te vinden.
 
 
+##Contact##
+Mocht bepaalde informatie niet duidelijk zijn of mocht het installeren niet lukken, dan kan er contact worden opgenomen via kkromjong@gmail.com

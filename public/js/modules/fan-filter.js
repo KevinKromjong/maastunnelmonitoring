@@ -145,14 +145,16 @@ var FanFilter = (function () {
 
             switch (s.filterUnit) {
                 case 'days' :
-                    if (s.filterNumber > 10) {
-                        s.filterGraphOptions.xaxis.tickSize = [7, 'day'];
-                    } else if (s.filterNumber > 20) {
-                        s.filterGraphOptions.xaxis.tickSize = [14, 'day'];
-                    } else if (s.filterNumber > 30) {
-                        s.filterGraphOptions.xaxis.tickSize = [30, 'day'];
-                    } else {
+                    if (s.filterNumber <= 7) {
                         s.filterGraphOptions.xaxis.tickSize = [1, 'day'];
+                    } else if (s.filterNumber > 7) {
+                        s.filterGraphOptions.xaxis.tickSize = [3, 'day'];
+                    } else if (s.filterNumber > 14) {
+                        s.filterGraphOptions.xaxis.tickSize = [4, 'day'];
+                    } else if (s.filterNumber > 21) {
+                        s.filterGraphOptions.xaxis.tickSize = [5, 'day'];
+                    } else if ( s.filterNumber > 28) {
+                        s.filterGraphOptions.xaxis.tickSize = [7, 'day']
                     }
                     break;
                 case 'weeks' :

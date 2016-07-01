@@ -148,9 +148,9 @@
                                                     <tr>
                                                         <th scope="row">Draaiuren</th>
                                                         @if($fan->is_on === true)
-                                                            <td class="fan-time-on interval">Berekenen...</td>
+                                                            <td class="fan-time-on on">12:34:56</td>
                                                         @else
-                                                            <td class="fan-time-on">0</td>
+                                                            <td class="fan-time-on off">0</td>
                                                         @endif
 
                                                         <td><i rel="popover" class="fa fa-info"

@@ -182,7 +182,7 @@ var GraphOverview = (function () {
                     }
                 },
                 xaxis: {
-                    mode: "time", timeformat: "%H:%M", tickSize: [3, "hour"], timezone: "browser",
+                    mode: "time", timeformat: "%H:%M <br/> %d %b", tickSize: [3, "hour"], timezone: "browser",
                     min: s.epochT - 86400000, //3 uur
                     max: s.epochT
                 },
@@ -190,7 +190,7 @@ var GraphOverview = (function () {
                     show: true
                 },
                 xaxes: [{
-                    axisLabel: 'Tijd in hele uren'
+                    axisLabel: 'Dag en tijd in hele uren'
                 }],
                 yaxes: [{
                     position: 'left',

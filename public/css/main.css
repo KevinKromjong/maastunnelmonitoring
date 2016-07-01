@@ -246,9 +246,10 @@ and (orientation : landscape) {
 
     /* Technical details */
     .table-technical-information-left tr th, .table-technical-information-left tr td { font-size: 20px;}
-    .fan-information-technical { height: 1160px;}
-    #technical-graph { width: 100%;}
+    .fan-information-technical { height: 1270px;}
+    #technical-graph { width: 100%; margin-top: 100px;}
     .btn-filter-screen { margin: 125px 0 20px 161px}
+    .filter-screen-wrapper { margin-top: -175px; margin-left: 445px;}
     .filter-screen { margin: -20px 0 0 161px; }
 
     /* Main graph */
@@ -291,15 +292,16 @@ and (orientation : portrait) {
     .expand-fan-button { margin-right: 15px; margin-top: -10px !important;}
 
     /* Technical details */
-    .fan-information-technical { padding: 50px 20px 50px 20px; }
+    .fan-information-technical { padding: 50px 20px 50px 20px; height: 1180px;}
     .fan-information-technical h1 { padding-bottom: 25px;}
     .fan-technical-keys, .fan-technical-values { font-size: 15px;}
 
     /* Technical graph */
-    #technical-graph { width: 100%; }
+    #technical-graph { width: 100%; margin-top: 100px;}
     #technical-graph.fan-off { font-size: 18px;}
     #technical-graph .axisLabels { display: none;}
     .btn-filter-screen { margin: 125px 0 20px 79px; }
+    .filter-screen-wrapper { margin-top: -175px; margin-left: 345px;}
     .filter-screen { margin: -20px 0 0 79px; }
 
     /* Main graph */

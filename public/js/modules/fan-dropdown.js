@@ -8,7 +8,7 @@
  */
 
 var FanDropdown = (function () {
-    
+
     var s;
 
     return {
@@ -18,7 +18,7 @@ var FanDropdown = (function () {
             dataAttributeIndex: '',             // The value of the data-attribute: index
             previousTargetFanblock: null,       // The previously clicked fanblock
             previousTargetFilter: null,         // The previously clicked filteroption
-            filterGraphOptions : {},
+            filterGraphOptions: {},
         },
 
         init: function () {
@@ -46,8 +46,8 @@ var FanDropdown = (function () {
                     }
                 },
                 xaxis: {
-                    mode: "time", timeformat: "%H:%M", tickSize: [3, "hour"], timezone: "browser",
-                    min: s.epochT - 86400000, //3 uur
+                    mode: "time", timeformat: "%H:%M %d %b", tickSize: [3, "hour"], timezone: "browser",
+                    min: s.epochT - 86400000, //24 uur
                     max: s.epochT
                 },
                 axisLabels: {
@@ -103,6 +103,10 @@ var FanDropdown = (function () {
                 if (index == s.dataAttributeIndex) {
                     FanDropdown.changeFanTitle(index);
                     FanDropdown.changeFanBlowDirection(index);
+                    setInterval(function(){
+                        FanDropdown.changeFanTimeOn();
+                    }, 1000);
+
                     FanDropdown.changeFanStatus(index);
                     FanDropdown.changeFanAveragePower(index);
                     FanDropdown.plotOrMessage(index);
@@ -132,6 +136,23 @@ var FanDropdown = (function () {
             } else {
                 $('.fan-information-technical .fan-blowing-direction').html('Zuid');
             }
+        },
+
+        changeFanTimeOn: function () {
+            /**
+             * Changes the text of the amount of hours the fan has blown till now
+             */
+
+            var d = new Date();
+
+            if ($('.fan-time-on').hasClass('on')) {
+                $('.fan-time-on').text(
+                    (d.getHours() < 10 ? '0' : '') + d.getHours() + ':' +
+                    (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + ':' +
+                    (d.getSeconds() < 10 ? '0' : '') + d.getSeconds()
+                )
+            }
+
         },
 
         changeFanStatus: function (index) {
@@ -175,7 +196,8 @@ var FanDropdown = (function () {
                 $('.btn-filter-screen').show();
 
                 plotTechnicalGraph = $.plot($('#technical-graph'), [{
-                    data: FanVariables.returnFanVariables()[index], color: FanVariables.settings.colors[index + 1]
+                    data: FanVariables.returnFanVariables()[index],
+                    color: FanVariables.settings.colors[index + 1]
                 }], this.graphOptions());
 
                 plotTechnicalGraph.resize();
