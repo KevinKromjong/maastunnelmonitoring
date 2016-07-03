@@ -296,7 +296,13 @@ var GraphOverview = (function () {
             oldGraphOptions.xaxis.min = s.newAxisValues[0] + 20;
             oldGraphOptions.xaxis.max = s.newAxisValues[1] - 5;
 
+            console.log(s.newAxisValues[0] + 20)
+            console.log(s.newAxisValues[1] - 5)
+
             s.mainGraph = $.plot(s.graph, s.datasetTotal, oldGraphOptions);
+            s.mainGraph.resize();
+            s.mainGraph.setupGrid();
+            s.mainGraph.draw();
         }
     }
 })();
