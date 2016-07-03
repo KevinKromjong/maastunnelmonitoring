@@ -295,9 +295,9 @@ var GraphOverview = (function () {
 
             oldGraphOptions.xaxis.min = s.newAxisValues[0];
             oldGraphOptions.xaxis.max = s.newAxisValues[1];
-
+            
             oldGraphOptions.yaxis.min = s.minimalCriticalValue - 5;
-            oldGraphOptions.yaxis.max = s.minimalCriticalValue + 5;
+            oldGraphOptions.yaxis.max = s.maximalCriticalValue + 5;
 
 
             s.mainGraph = $.plot(s.graph, s.datasetTotal, oldGraphOptions);
