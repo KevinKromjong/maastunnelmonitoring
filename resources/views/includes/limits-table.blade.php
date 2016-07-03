@@ -13,6 +13,7 @@
                     <tr>
                         <th>#</th>
                         <th>Ventilator</th>
+                        <th>Type overschrijding</th>
                         <th>Begin Overschrijding</th>
                         <th>Einde Overschrijding</th>
                         <th>Duur</th>

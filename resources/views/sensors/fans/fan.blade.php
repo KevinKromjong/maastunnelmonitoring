@@ -129,7 +129,7 @@
                                                                    aria-hidden="true" data-container="body"
                                                                    data-toggle="popover" data-placement="right"
                                                                    data-title="<strong>Advies ventilatorstand</strong>"
-                                                                   data-content="Aangeraden wordt om deze ventilator voor de <br/> periode <strong>16:00 tot en met 18:00</strong> op stand <strong>6</strong> te <br/> zetten, vanwege het toenemende verkeer en de <br/> slechte regen die wordt verwacht."></i>
+                                                                   data-content="Aangeraden wordt om deze ventilator voor de <br/> periode <strong>16:00 tot en met 18:00</strong> op stand <strong>4</strong> te <br/> zetten, vanwege het toenemende verkeer en de <br/> slechte regen die wordt verwacht."></i>
                                                             </td>
                                                         @else
                                                             <td class="fan-status blue">{{$fan->fan_state}} - UIT</td>
@@ -166,15 +166,21 @@
                                                                 </thead>
                                                                 <tbody>
                                                                 <tr>
-                                                                    <td>Woensdag 18 juni</td>
+                                                                    <td>Zondag 3 juli</td>
                                                                     <td>14:23 - 18:54</td>
                                                                     <td>2:14 uur</td>
                                                                 </tr>
 
                                                                 <tr>
-                                                                    <td>Donderdag 19 juni</td>
+                                                                    <td>Zaterdag 2 juli</td>
                                                                     <td>10:45 - 18:23</td>
                                                                     <td>6:04 uur</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Vrijdag 1 juli</td>
+                                                                    <td>16:32 - 18:02</td>
+                                                                    <td>1:30 uur</td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>">

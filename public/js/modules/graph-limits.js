@@ -18,10 +18,10 @@ var GraphLimits = (function () {
 
         fillDataset: function () {
             s.dataSet = [
-                ['1', '5', 'Donderdag 2 juni 2016 16:50:23', 'Donderdag 2 juni 2016  17:01:44', '00:11:21', '', 'Ja', 'Ja', '<ul><li>Verkeersdrukte in de Maastunnel</li><li>Ventilator stond lang op stand 8</li></ul>', 'Chef van de wacht Bert Bakker heeft de melding ingezien maar niet gereageerd'],
-                ['2', '2', 'Dinsdag 7 juni 2016 12:36:25', 'Dinsdag 7 juni 2016 13:54:09', '01:18:16', '', 'Ja', 'Ja', '<ul><li>Defect motoronderdeel</li></ul>', 'Defect motoronderdeel is vervangen'],
-                ['3', '2', 'Zaterdag 11 juni 2016 22:02:56', 'Zaterdag 11 juni 2016 22:04:33', '00:01:37', '', 'Ja', 'Ja', '<ul><li>Geen mogelijke oorzaak gevonden</li></ul>', '-'],
-                ['4', '1', 'Maandag 13 juni 2016 17:20:19', 'Maandag 13 juni 2016 18:01:22', '00:41:03', '', 'Ja', 'Ja', '<ul><li>Verkeersdrukte in de Maastunnel</li><li>Ventilator stond lang op stand 8</li></ul>', 'Chef van de wacht W. Acht heeft de melding ingezien maar te laat gereageerd op de melding']
+                ['1', '5', 'Minimale grenswaarde', 'Donderdag 2 juni 2016 16:50:23', 'Donderdag 2 juni 2016  17:01:44', '00:11:21', '', 'Ja', 'Ja', '<ul><li>Verkeersdrukte in de Maastunnel</li><li>Ventilator stond lang op stand 8</li></ul>', 'Chef van de wacht Robert Bauman heeft de melding ingezien maar niet gereageerd'],
+                ['2', '2', 'Minimale grenswaarde', 'Dinsdag 7 juni 2016 12:36:25', 'Dinsdag 7 juni 2016 13:54:09', '01:18:16', '', 'Ja', 'Ja', '<ul><li>Defect motoronderdeel</li></ul>', 'Defect motoronderdeel is vervangen'],
+                ['3', '2', 'Maximale grenswaarde', 'Zaterdag 11 juni 2016 22:02:56', 'Zaterdag 11 juni 2016 22:04:33', '00:01:37', '', 'Ja', 'Ja', '<ul><li>Geen mogelijke oorzaak gevonden</li></ul>', '-'],
+                ['4', '1', 'Minimale grenswaarde', 'Maandag 13 juni 2016 17:20:19', 'Maandag 13 juni 2016 18:01:22', '00:41:03', '', 'Ja', 'Ja', '<ul><li>Verkeersdrukte in de Maastunnel</li><li>Ventilator stond lang op stand 8</li></ul>', 'Chef van de wacht W. Acht heeft de melding ingezien maar te laat gereageerd op de melding']
             ];
         },
 
@@ -30,20 +30,20 @@ var GraphLimits = (function () {
             // `d` is the original data object for the row
             return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
                 '<tr>' +
-                '<td><strong>Overschrijding vroegtijdig opgemerkt</strong></td>' +
-                '<td>' + d[6] + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td><strong>Melding gegeven</strong></td>' +
+                '<td><strong>Overschrijding voorspeld</strong></td>' +
                 '<td>' + d[7] + '</td>' +
                 '</tr>' +
                 '<tr>' +
-                '<td><strong>Mogelijke reden</strong></td>' +
+                '<td><strong>Melding gegeven</strong></td>' +
                 '<td>' + d[8] + '</td>' +
                 '</tr>' +
                 '<tr>' +
-                '<td><strong>Opmerking</strong></td>' +
+                '<td><strong>Mogelijke reden</strong></td>' +
                 '<td>' + d[9] + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td><strong>Opmerking</strong></td>' +
+                '<td>' + d[10] + '</td>' +
                 '</tr>' +
                 '</table>';
 
@@ -59,6 +59,7 @@ var GraphLimits = (function () {
                 columns: [
                     {title: "#"},
                     {title: "Ventilator"},
+                    {title : 'Type overschrijding'},
                     {
                         title: "Begin Overschrijding.",
                         type: "date-dd-MMM-yyyy"
