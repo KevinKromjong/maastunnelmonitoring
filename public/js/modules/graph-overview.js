@@ -293,7 +293,7 @@ var GraphOverview = (function () {
             GraphOverview.addFanData();
 
 
-            oldGraphOptions.xaxis.min = s.newAxisValues[0] - 10;
+            oldGraphOptions.xaxis.min = s.newAxisValues[0] + 20;
             oldGraphOptions.xaxis.max = s.newAxisValues[1] - 5;
 
             s.mainGraph = $.plot(s.graph, s.datasetTotal, oldGraphOptions);
