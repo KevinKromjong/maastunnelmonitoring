@@ -250,13 +250,6 @@ var GraphOverview = (function () {
                 ];
             });
 
-            // $(s.graph).dblclick(function () {
-            //     FanVariables.fillFanVariables(fansGraph);
-            //     GraphOverview.addFans(FanVariables.returnFanVariables());
-            //     GraphOverview.addFanData();
-            //     s.mainGraph = $.plot(s.graph, s.datasetTotal, GraphOverview.graphOptions());
-            // });
-
             $(s.graph).mouseup(function () {
                 Utils.createAjaxRequest('updateMainGraph', s.newAxisValues[0], s.newAxisValues[1], fanTunnel, fanDirection);
             })
@@ -299,8 +292,9 @@ var GraphOverview = (function () {
             GraphOverview.addFans(FanVariables.returnFanVariables());
             GraphOverview.addFanData();
 
-            oldGraphOptions.xaxis.min = s.newAxisValues[0];
-            oldGraphOptions.xaxis.max = s.newAxisValues[1];
+
+            oldGraphOptions.xaxis.min = s.newAxisValues[0] - 10;
+            oldGraphOptions.xaxis.max = s.newAxisValues[1] - 5;
 
             s.mainGraph = $.plot(s.graph, s.datasetTotal, oldGraphOptions);
         }
