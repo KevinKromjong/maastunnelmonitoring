@@ -129,7 +129,7 @@
                                                                    aria-hidden="true" data-container="body"
                                                                    data-toggle="popover" data-placement="right"
                                                                    data-title="<strong>Advies ventilatorstand</strong>"
-                                                                   data-content="Aangeraden wordt om deze ventilator voor de <br/> periode <strong>16:00 tot en met 18:00</strong> op stand <strong>4</strong> te <br/> zetten, vanwege het toenemende verkeer en de <br/> slechte regen die wordt verwacht."></i>
+                                                                   data-content="Aangeraden wordt om deze ventilator voor de <br/> periode <strong>14:00 tot en met 16:00</strong> op stand <strong>4</strong> te <br/> zetten, vanwege het toenemende verkeer en de <br/> slechte regen die wordt verwacht."></i>
                                                             </td>
                                                         @else
                                                             <td class="fan-status blue">{{$fan->fan_state}} - UIT</td>
