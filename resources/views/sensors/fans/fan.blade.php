@@ -324,7 +324,7 @@
         </div>
     </div>
     </div>
-    <div class="ajax-modal"><!-- Place at bottom of page --></div>
+    <div class="ajax-modal"></div>
 
 
     @include('includes.compare-fans')

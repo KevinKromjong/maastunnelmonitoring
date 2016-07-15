@@ -1,18 +1,5 @@
-{{--<footer>--}}
-    {{--<div class="container">--}}
-        {{--<div class="row">--}}
-            {{--<div class="col-lg-12">--}}
-                {{--<p>© gemeente rotterdam</p>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-{{--</footer>--}}
-
-
+<!--Libs-->
 <script src="{{asset('/js/libs/jquery-1.12.1.min.js')}}" rel="script"></script>
-
-{{--<script src="{{asset('/js/libs/jquery.dataTables.min.js')}}" rel="script"></script>--}}
-{{--<script src="{{asset('/js/libs/dataTables.responsive.min.js')}}" rel="script"></script>--}}
 
 <script src="{{asset('/js/libs/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('/js/libs/datatables/dataTables.bootstrap.min.js')}}"></script>
@@ -29,11 +16,7 @@
 <script src="{{asset('/js/libs/flat-ui.js')}}" rel="script"></script>
 <script src="{{asset('/js/libs/application.js')}}" rel="script"></script>
 
-{{--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>--}}
-{{--<script src="{{asset('/js/server.js')}}" rel="script"></script>--}}
-
 <!--Modules-->
-{{--<script src="{{asset('/js/modules/base/websocket.js')}}" rel="script"></script>--}}
 <script src="{{asset('/js/modules/utils.js')}}" rel="script"></script>
 
 <script src="{{asset('/js/modules/status-indicator.js')}}" rel="script"></script>

@@ -42,12 +42,6 @@
 
                         <a>{{ Form::submit('Log in', ['class' => 'btn btn-primary btn-lg btn-block', 'href' => '#']) }}</a>
 
-                        {{--                        {{ Html::linkAction('Auth\LoginController@login', 'Wachtwoord vergeten?', [], ['class' => 'login-link']) }}--}}
-
-                        {{--<a class="login-link" href="#" name="lost-password-link">Lost your password?</a>--}}
-
-                        {{--<p data-toggle="tooltip" class="forget-password-tooltip" title="Tooltip copy" data-placement="bottom"></p>--}}
-
                         {{Form::close()}}
 
                     </div>

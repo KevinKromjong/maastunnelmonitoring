@@ -296,7 +296,7 @@ var FanCompare = (function () {
 
             var convertedDateOne = new Date(dateOne[2], dateOne[1] - 1, dateOne[0]);
             var convertedDateTwo = new Date(dateTwo[2], dateTwo[1] - 1, dateTwo[0]);
-
+            
             if (xaxis) {
                 return [convertedDateOne, convertedDateTwo];
             } else {

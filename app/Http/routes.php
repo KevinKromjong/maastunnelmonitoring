@@ -13,19 +13,13 @@
 
 
 //API
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-
 Route::group(array('prefix' => 'api/v1'), function()
 {
     Route::get('fans', 'APIController@index');
 });
 
 //Login
-//Route::get('/reset', 'Auth\LoginController@login');
-
 Route::post('geo-info-response', 'HomeController@getFanURL');
-
 
 /*
 |--------------------------------------------------------------------------
